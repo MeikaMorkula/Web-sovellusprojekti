@@ -1,3 +1,7 @@
+
+<img width="726" height="711" alt="ERKaavio_ryhmä15" src="https://github.com/user-attachments/assets/d1cda0f1-0933-4b22-b087-2b818967a80d" />
+
+
 <h1>Docker Fullstack esimerkki</h1>
 
 Tässä esimerkissä rakennetaan sovellus, jossa on Express.js REST API + Postgres tietokanta + React sovellus, joita ajetaan Dockerissa. Sekä API, että React sovellus päivittyvät heti kun muutoksia tehdään.
