@@ -1,6 +1,5 @@
 
-<img width="726" height="711" alt="ERKaavio_ryhmä15" src="https://github.com/user-attachments/assets/d1cda0f1-0933-4b22-b087-2b818967a80d" />
-
+<img width="726" height="711" alt="ERKaavio" src="https://github.com/user-attachments/assets/d41b6773-eb37-4905-88a5-407af5a699bc" />
 
 <h1>Docker Fullstack esimerkki</h1>
 
