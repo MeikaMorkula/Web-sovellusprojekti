@@ -12,14 +12,14 @@ services:
     container_name: postgres_db
     restart: unless-stopped
     environment:
-      POSTGRES_USER: netuser
-      POSTGRES_PASSWORD: netpass
-      POSTGRES_DB: netdb
+      POSTGRES_USER: devUser
+      POSTGRES_PASSWORD: devPass
+      POSTGRES_DB: absolute_cinema
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - ./book.sql:/docker-entrypoint-initdb.d/book.sql:ro
+      - ./app_db.sql:/docker-entrypoint-initdb.d/app_db.sql:ro
 
   frontend:
     build: ./frontend
