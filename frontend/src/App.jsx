@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
 
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+
+import LoginPage from "./pages/LoginPage.jsx";
+import ProfilePage from "./pages/ProfilePage.jsx";
+
 function App() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -26,7 +32,14 @@ function App() {
     <div style={{ maxWidth: 600, margin: "2rem auto", fontFamily: "sans-serif" }}>
 
       <p>Hello world 1</p>
-      {/* <h1>Minun Kirjat tietokannassa</h1>
+      {
+      <Router>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+        </Routes>
+      </Router>
+      /* <h1>Minun Kirjat tietokannassa</h1>
       {books.length === 0 ? (
         <p>Ei kirjoja löytynyt.</p>
       ) : (

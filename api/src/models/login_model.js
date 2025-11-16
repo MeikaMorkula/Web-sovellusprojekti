@@ -13,6 +13,8 @@ export async function authenticateUser(username, password) {
   const user = result.rows[0];
   const isValid = await bcrypt.compare(password, user.password);
 
+  console.log("COMPARE:", password, "|", user.password);
+
   if (isValid) {
     return { username: user.username };
   }

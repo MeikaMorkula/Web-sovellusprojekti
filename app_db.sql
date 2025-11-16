@@ -60,5 +60,5 @@ CREATE table Group_Request(
 
 INSERT INTO "User" (username, password, refresh_token, profile_picture, profile_description, favourite_movie)
 VALUES 
-('testuser1', 'testpwd1', 'testing', 'profile_pic', 'This is test user 1.', 1),
+('testuser1', '$2b$10$KeIUNJGhjwu/KqWlT0kUX.o85DvJqzbtWEo2Cnd7g5rEQ2xEfC9ku', 'testing', 'profile_pic', 'This is test user 1.', 1),
 ('testuser2', 'testpwd2', 'testint2', 'profile_pic2', 'This is test user 2.', 2);
