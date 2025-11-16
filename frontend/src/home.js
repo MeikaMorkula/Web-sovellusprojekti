@@ -6,7 +6,6 @@ const Home = () => {
     { id: 2, title: 'movie' },
     { id: 3, title: 'movie' },
   ]);
-
   return (
     <div>
       <main style={styles.main}>
