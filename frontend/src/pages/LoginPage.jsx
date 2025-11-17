@@ -10,8 +10,8 @@ export default function LoginPage() {
     const res = await fetch(`http://localhost:3001/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      credentials: "include", 
-      body: JSON.stringify({ username, password })
+      credentials: "include",
+      body: JSON.stringify({ username, password }),
     });
 
     const data = await res.json();
@@ -32,14 +32,16 @@ export default function LoginPage() {
         placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
-      /><br/>
+      />
+      <br />
 
       <input
         type="password"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-      /><br/>
+      />
+      <br />
 
       <button type="submit">Login</button>
     </form>
