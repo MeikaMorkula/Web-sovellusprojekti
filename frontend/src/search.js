@@ -54,8 +54,8 @@ export default function MovieSearch() {
           value={selectedYear}
           onChange={(e) => setSelectedYear(e.target.value)}
           style={styles.dropdown}>
-          <option value="">Year of release</option>
-          {Array.from({ length: 50 }, (_, i) => 2024 - i).map((year) => (
+            <option value="">Year</option>
+          {Array.from({ length: 50 }, (_, i) => 2025 - i).map((year) => (
             <option key={year} value={year}>
               {year}
             </option>
@@ -111,6 +111,7 @@ const styles = {
   },
   filters: {
     position: "absolute",
+    float: "left",
     left: "30px",
     top: "230px",
     display: "flex",

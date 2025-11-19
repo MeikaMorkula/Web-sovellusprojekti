@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import "./App.css";
 import Home from './home';
 import Search from './search';
 import LoginPage from "./pages/LoginPage.jsx";
@@ -12,9 +13,9 @@ function App() {
   }, []);
   
   return (
-    <div style={{ maxWidth: 600, margin: "2rem auto", fontFamily: "sans-serif" }}>
+    <div>
     <Router>
-      <nav>
+      <nav class="navbar">
         <ul>
           <li><Link to="/home">Home</Link></li>
           <li><Link to="/search">Search</Link></li>
