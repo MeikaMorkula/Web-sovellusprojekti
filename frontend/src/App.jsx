@@ -1,10 +1,18 @@
-import React from 'react';
+
+import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './home';
 import Search from './search';
+import LoginPage from "./pages/LoginPage.jsx";
+import ProfilePage from "./pages/ProfilePage.jsx";
 
 function App() {
+  
+    useEffect(() => {
+  }, []);
+  
   return (
+    <div style={{ maxWidth: 600, margin: "2rem auto", fontFamily: "sans-serif" }}>
     <Router>
       <nav>
         <ul>
@@ -20,11 +28,15 @@ function App() {
       <Routes>
         <Route path="/home" element={<Home />} />
         <Route path="/search" element={<Search />} />
-      
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
+
     </Router>
-  ); //toiset route path pitää laittaa myöhemmin kun tällä hetkellä heittää muuten virhettä.
-  //päätin nyt toistaseksi vielä käyttämään browserouter voi vaihtaa useNavigate tai navigate, Link.
+  </div>
+  ); 
+//toiset route path pitää laittaa myöhemmin kun tällä hetkellä heittää muuten virhettä.
+//päätin nyt toistaseksi vielä käyttämään browserouter voi vaihtaa useNavigate tai navigate, Link.
 }
 
 export default App;

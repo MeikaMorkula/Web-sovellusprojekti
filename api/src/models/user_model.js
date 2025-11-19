@@ -18,10 +18,10 @@ export async function addOneUser(user) {
     const hashedPassword = await bcrypt.hash(user.password, SALT_ROUNDS);
     const result = await pool.query(
     `INSERT INTO "User" (username, password, refresh_token, profile_picture, profile_description, favourite_movie)
-    VALUES($1, $2, $3, $4, $5, $6)`,
+    VALUES($1, $2, $3, $4, $5, $6) RETURNING *;`,
     [user.username, hashedPassword, user.refresh_token, user.profile_picture, user.profile_description, user.favourite_movie]
   );
-    return result.rows;
+    return result.rows[0];
 }
 
 export async function updateOneUser(id,user) {
