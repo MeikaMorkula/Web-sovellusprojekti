@@ -81,7 +81,6 @@ function App() {
       <input className={styles.searchInput} type="text" id="input_title"></input>
       <input className={styles.searchInput}type="text" id="input_language" defaultValue="en-US"></input>
       <input className={styles.searchInput} type="text" id="input_year"></input>
-
       <select value={selectedGenre}
           onChange={(e) => setSelectedGenre(e.target.value)}
           className={styles.dropdown} id="input_genre">
