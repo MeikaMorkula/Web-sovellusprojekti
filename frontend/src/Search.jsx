@@ -1,19 +1,17 @@
 import { useEffect, useState } from "react";
 import { searchMovies } from "./TMDB_api_calls.js";
-import "./App.css";
 import ReactPaginate from "react-paginate";
 
-const BASE_URL = "https://image.tmdb.org/t/p/w185";
-// you can search up posters with "https://image.tmdb.org/t/p/w185/POSTER_PATH
-let title = "";
-let language = "";
-let year = "";
-
-function App() {
+export default function MovieSearch() {
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
 
+  const BASE_URL = "https://image.tmdb.org/t/p/w185";
+  // you can search up posters with "https://image.tmdb.org/t/p/w185/POSTER_PATH
+  let title = "";
+  let language = "";
+  let year = "";
   const Movies = () => {
     return (
       <table>
@@ -30,11 +28,13 @@ function App() {
               <td>{movie.id}</td>
               <td>{movie.release_date}</td>
               <td>
-                <img
-                  src={`${BASE_URL}${movie.poster_path}`}
-                  width="100"
-                  height="140"
-                ></img>
+                <a href={`movie/${movie.id}`}>
+                  <img
+                    src={`${BASE_URL}${movie.poster_path}`}
+                    width="100"
+                    height="140"
+                  ></img>
+                </a>
               </td>
             </tr>
           ))}
@@ -49,14 +49,12 @@ function App() {
     const tempPage = "&page=" + page;
     searchMovies(tempTitle, tempLanguage, tempYear, tempPage)
       .then((json) => {
-        setMovies(json.results), setPageCount(json.total_pages);
+        setMovies(json), setPageCount(json.total_pages);
       })
       .catch((error) => console.error(error));
   };
 
-  useEffect(() => {
-    Search(title, language, year);
-  }, [page]);
+  useEffect(() => {}, [page]);
 
   return (
     <div>
@@ -89,5 +87,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
