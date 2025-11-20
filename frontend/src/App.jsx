@@ -1,27 +1,45 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import LoginPage from "./pages/LoginPage.jsx"
-import ProfilePage from ".pages/ProfilePage.jsx";
-import Home from './home.js';
-import Search from './search.js';
+
+import { useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import "./App.css";
+import Home from './home';
+import LoginPage from "./pages/LoginPage.jsx";
+import ProfilePage from "./pages/ProfilePage.jsx";
+import MoviesSearch from "./search.jsx";
+import Movie from "./movie.jsx";
 
 function App() {
-  useEffect(() => {
-
+  
+    useEffect(() => {
   }, []);
-
-
+  
   return (
-    <div style={{madWidth: 600, margin: "2rem auto", fontFamily: "sans-serif" }}>
-      {
-        <router>
-          <route path="/login" element={<LoginPage />}/>
-          <route path="/profile" element={<ProfilePage />}/>
-          <route path="/home" element={<Home />}/>
-          <route path="/search" element={<Search />}/>
-        </router>
-      }
-    </div>
-  )
+    <div>
+    <Router>
+      <nav className="navbar">
+        <ul>
+          <li><Link to="/home">Home</Link></li>
+          <li><Link to="/search">Search</Link></li>
+          <li><Link to="/groups">Groups</Link></li>
+          <li><Link to="/ratings">Ratings</Link></li>
+          <li><Link to="/newReleases">New releases</Link></li>
+          <li><Link to="/login">Login</Link></li>
+          <li><Link to="/moviesSearch">Movies search</Link></li>
+        </ul>
+      </nav>
+
+      <Routes>
+        <Route path="/home" element={<Home />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/moviesSearch" element={<MoviesSearch />} />
+        <Route path="/movie/:id" element={<Movie />} />
+      </Routes>
+
+    </Router>
+  </div>
+  ); 
 }
 
 export default App;
