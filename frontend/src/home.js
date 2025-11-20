@@ -1,67 +1,69 @@
-import { useState } from 'react';
+import { useEffect, useState } from "react";
+import { fetchMovies } from "./TMBD_api_calls.js"; //en tiedä sisältääkö pyyntö poster_path ja onko fetchMovies oikea.
+import styles from "./home.modules.css";
 
-const Home = () => {
-  const [movies] = useState([
-    { id: 1, title: 'movie' },
-    { id: 2, title: 'movie' },
-    { id: 3, title: 'movie' },
-  ]);
+const BASE_URL = "https://image.tmdb.org/t/p/w200"; //postereille
+
+export default function Home() {
+  const [movies, setMovies] = useState([]);
+
+  //mahdollinen auth puuttuu ehkä.
+  
+  useEffect(() => {
+    fetchMovies()
+      .then((data) => {
+        setMovies(data.results.slice(0, 3)); //näyttää kolme elokuvaa.
+      })
+      .catch((err) => console.error("Error fetching movies:", err));
+  }, []);
+
   return (
-    <div>
-      <main style={styles.main}>
+    <div className={styles.container}>
+      <main className={styles.main}>
         <h1>Home</h1>
         <p>Welcome to the page</p>
-
-        <h3>Recommended for you:</h3>
-        <div style={styles.movieContainer}>
-          {movies.length === 0 ? (
-            <p>No movies</p>
-          ) : (
-            movies.map((movie) => (
-              <div key={movie.id} style={styles.movieBox}>
-                <img
-                  src=""
-                  alt={movie.title}
-                  style={styles.poster}/>
-                <p>{movie.title}</p>
-              </div>
-            ))
-          )}
+        <h2>Recommended for you:</h2>
+        <div className={styles.movieBox}>
+          {movies.map((
+            movie) => (
+            <div key={movie.id} className={styles.movieCard}>
+              <img src={`${BASE_URL}${movie.poster_path}`} alt={movie.title} className={styles.poster}/>
+              <p>{movie.title}</p>
+              <p>{movie.release_date}</p>
+            </div>
+          ))}
         </div>
       </main>
-
-      <footer style={styles.footerBox}>&copy; 2025.</footer>
     </div>
-  );
-};
-//Tyylit voi laittaa erilliseen tiedostoon sitten.
+  ); //tällä hetkellä käytän <p> (paragraph) teksteissä.
+  //key={movie.id} sillä se on uniikki ja voi muuttua uusilla movie.id. HUOM. Ei ole pääsyä komponentin sisällä.
+}
+//Voi siirtää erilliseen styles.css tiedostoon.
+//paremman tyylin kaikille sivuille vois tehdä, sillä alhaalla on vain tietyille objekteille tyylit.
+//Yritin parhaani saada jotain säätelyä.
+//Myös tällä hetkellä kaikkissa on käytetty style= ja joutuu sitten vaihtamaan className= sitten kun siirretään erilliseen css-tiedostoon.
 const styles = {
-  main: {
-    padding: '20px',
-    textAlign: 'center',
+  container: {
+    fontFamily: "Arial, sans-serif",
+    backgroundColor: "white",
+    minHeight: "100vh",
   },
-  movieContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    gap: '20px',
-    marginTop: '20px',
+  main: {
+    textAlign: "center",
+    marginTop: "50px",
   },
   movieBox: {
-    width: '200px',
-    padding: '10px',
-    borderRadius: '10px',
-    textAlign: 'center',
+    display: "flex",
+    justifyContent: "center",
+    gap: "30px",
+    marginTop: "30px",
+  },
+  movieCard: {
+    width: "180px",
+    textAlign: "center",
   },
   poster: {
-    width: '100%',
-    borderRadius: '5px',
-  },
-  footerBox: {
-    marginTop: '40px',
-    padding: '10px',
-    backgroundColor: 'white',
-    textAlign: 'center',
+    width: "100%",
+    borderRadius: "6px",
   },
 };
-
-export default Home;
