@@ -38,32 +38,3 @@ export default function Home() {
   ); //tällä hetkellä käytän <p> (paragraph) teksteissä.
   //key={movie.id} sillä se on uniikki ja voi muuttua uusilla movie.id. HUOM. Ei ole pääsyä komponentin sisällä.
 }
-//Voi siirtää erilliseen styles.css tiedostoon.
-//paremman tyylin kaikille sivuille vois tehdä, sillä alhaalla on vain tietyille objekteille tyylit.
-//Yritin parhaani saada jotain säätelyä.
-//Myös tällä hetkellä kaikkissa on käytetty style= ja joutuu sitten vaihtamaan className= sitten kun siirretään erilliseen css-tiedostoon.
-const styles = {
-  container: {
-    fontFamily: "Arial, sans-serif",
-    backgroundColor: "white",
-    minHeight: "100vh",
-  },
-  main: {
-    textAlign: "center",
-    marginTop: "50px",
-  },
-  movieBox: {
-    display: "flex",
-    justifyContent: "center",
-    gap: "30px",
-    marginTop: "30px",
-  },
-  movieCard: {
-    width: "180px",
-    textAlign: "center",
-  },
-  poster: {
-    width: "100%",
-    borderRadius: "6px",
-  },
-};
