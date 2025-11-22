@@ -56,10 +56,16 @@ export async function updateOneUser(id, user) {
 }
 
 export async function deleteOneUser(id) {
-  const result = await pool.query(`DELETE FROM "User" WHERE user_id = $1;`, [
+
+  //poistetaan käyttäjän omistamat ryhmät kun käyttäjä poistetaan
+  await pool.query(`DELETE FROM "Group" WHERE group_owner = $1;`, 
+      [id]
+    );
+
+  const result = await pool.query(`DELETE FROM "User" WHERE user_id = $1 RETURNING *;`, [
     id,
   ]);
-  return result.rows;
+  return result.rows[0];;
 }
 
 export async function addUserProfilePicture(id, pfpPath) {
