@@ -66,7 +66,7 @@ export async function deleteUser(req, res, next) {
   try {
     const user = await deleteOneUser(req.params.id);
     if (!user) {
-      return res.status(404).json({ error: "Book not found" });
+      return res.status(404).json({ error: "User not found" });
     }
     res.json(user);
   } catch (err) {
