@@ -12,6 +12,7 @@ export default function MovieSearch() {
   let title = "";
   let language = "";
   let year = "";
+
   const Movies = () => {
     return (
       <table>
@@ -49,7 +50,7 @@ export default function MovieSearch() {
     const tempPage = "&page=" + page;
     searchMovies(tempTitle, tempLanguage, tempYear, tempPage)
       .then((json) => {
-        setMovies(json), setPageCount(json.total_pages);
+        setMovies(json.results), setPageCount(json.total_pages);
       })
       .catch((error) => console.error(error));
   };
