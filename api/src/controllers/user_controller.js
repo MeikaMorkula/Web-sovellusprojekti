@@ -4,7 +4,11 @@ import {
   addOneUser,
   updateOneUser,
   deleteOneUser,
+  addUserProfilePicture,
+  getUserProfilePicture,
 } from "../models/user_model.js";
+
+import { upload } from "../middleware/upload.js";
 
 export async function getUsers(req, res, next) {
   try {
@@ -63,6 +67,38 @@ export async function deleteUser(req, res, next) {
     const user = await deleteOneUser(req.params.id);
     if (!user) {
       return res.status(404).json({ error: "Book not found" });
+    }
+    res.json(user);
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function updateUserPfp(req, res, next) {
+  upload(req, res, async (err) => {
+    if (err) {
+      return res.status(400).json({ error: err.message });
+    }
+
+    try {
+      const pfpPath = req.file.filename;
+      const result = await addUserProfilePicture(req.params.id, pfpPath);
+
+      res.json({
+        message: "File upload successfull",
+        file: req.file,
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+}
+
+export async function getUserPfp(req, res, next) {
+  try {
+    const user = await getUserProfilePicture(req.params.id);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
     }
     res.json(user);
   } catch (err) {
