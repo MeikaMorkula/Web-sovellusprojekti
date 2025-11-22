@@ -11,10 +11,9 @@ import {
 import { authenticateToken } from "../middleware/auth.js";
 const userRouter = Router();
 
+userRouter.post("/register/", addUser);
 //Tämän alle suojatut routet
-userRouter.get("/", authenticateToken, getUsers);
 userRouter.get("/:id", authenticateToken, getUser);
-userRouter.post("/register/", authenticateToken, addUser);
 userRouter.put("/:id", authenticateToken, updateUser);
 userRouter.delete("/:id", authenticateToken, deleteUser);
 userRouter.put("/:id/uploads", authenticateToken, updateUserPfp);

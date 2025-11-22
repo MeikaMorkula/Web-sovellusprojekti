@@ -29,7 +29,7 @@ app.use(
 //app.use("/book", bookRouter);
 
 app.use("", loginRouter);
-app.use("/user", authenticateToken, userRouter);
+app.use("/user", userRouter);
 
 app.listen(port, () => {
   console.log(`Server is listening port ${port}`);

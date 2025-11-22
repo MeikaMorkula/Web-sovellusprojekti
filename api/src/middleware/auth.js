@@ -4,6 +4,7 @@ export function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1]; // "Bearer TOKEN"
 
+
   if (!token) {
     return res.status(401).json({ error: "Access token required" });
   }
@@ -14,6 +15,14 @@ export function authenticateToken(req, res, next) {
     return res.status(403).json({ error: "Invalid or expired access token" });
   }
 
-  req.user = decoded; // { username: "..." }
+  req.user = decoded;
+
+  const Identity = req.params.id;
+
+  //muutetaan molemmat stringeiksi vertailua varten
+  if (String(req.user.id) !== String(Identity)) {
+    return res.status(403).json({ error:"Unauthorized" });
+  }
+
   next();
 }
