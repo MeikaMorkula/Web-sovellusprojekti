@@ -5,5 +5,3 @@ frontend/node_modules
 .env
 frontend/.env
 frontend/package-lock.json
-package-lock.json
-node_modules/
