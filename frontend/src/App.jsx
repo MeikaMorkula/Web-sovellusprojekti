@@ -4,8 +4,8 @@ import "./App.css";
 import Home from './home';
 import LoginPage from "./pages/LoginPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
-import MoviesSearch from "./search.jsx";
 import Movie from "./movie.jsx";
+import MoviesSearch from "./Search.jsx";
 
 function App() {
   

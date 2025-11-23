@@ -9,7 +9,7 @@ let title = "";
 let language = "";
 let year = "";
 
-function Search() {
+function App() {
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
@@ -90,4 +90,4 @@ function Search() {
   );
 }
 
-export default Search;
+export default App;
