@@ -1,21 +1,21 @@
+
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import "./App.css";
 import Home from './home';
+import Search from './search';
 import LoginPage from "./pages/LoginPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
-import MoviesSearch from "./search.jsx";
-import Movie from "./movie.jsx";
 
 function App() {
   
     useEffect(() => {
-
   }, []);
-
+  
   return (
+    <div>
     <Router>
-      <nav className="navbar">
+      <nav class="navbar">
         <ul>
           <li><Link to="/home">Home</Link></li>
           <li><Link to="/search">Search</Link></li>
@@ -23,7 +23,6 @@ function App() {
           <li><Link to="/ratings">Ratings</Link></li>
           <li><Link to="/newReleases">New releases</Link></li>
           <li><Link to="/login">Login</Link></li>
-          <li><Link to="/moviesSearch">Movies search</Link></li>
         </ul>
       </nav>
 
@@ -32,13 +31,13 @@ function App() {
         <Route path="/search" element={<Search />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/moviesSearch" element={<MoviesSearch />} />
-        <Route path="/movie/:id" element={<Movie />} />
       </Routes>
 
-
     </Router>
+  </div>
   ); 
+//toiset route path pitää laittaa myöhemmin kun tällä hetkellä heittää muuten virhettä.
+//päätin nyt toistaseksi vielä käyttämään browserouter voi vaihtaa useNavigate tai navigate, Link.
 }
 
 export default App;
