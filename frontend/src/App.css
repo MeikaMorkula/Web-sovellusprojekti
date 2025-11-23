@@ -1,0 +1,13 @@
+  
+         .navbar {
+              
+              align-items: center;
+              display: flex;
+              font-family: sans-serif;
+          }
+         nav li {
+            display: flex;
+            margin: 8px;
+            padding: 0;
+            float: left;
+            }

@@ -1,6 +1,9 @@
 
 import { useEffect, useState } from "react";
+
+import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import "./App.css";
 import "./App.css";
 import Home from './home';
 import LoginPage from "./pages/LoginPage.jsx";
@@ -13,7 +16,12 @@ function App() {
     useEffect(() => {
   }, []);
   
+  
+    useEffect(() => {
+  }, []);
+  
   return (
+    <div>
     <div>
     <Router>
       <nav className="navbar">
@@ -36,6 +44,7 @@ function App() {
         <Route path="/moviesSearch" element={<MoviesSearch />} />
         <Route path="/movie/:id" element={<Movie />} />
       </Routes>
+
 
     </Router>
   </div>
