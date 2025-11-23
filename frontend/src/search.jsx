@@ -18,32 +18,30 @@ function App() {
 
   const Movies = () => {
     return (
-      <table className={styles.grid}>
-        <tr>
-          <th>Title</th>
-          <th>Movie id</th>
-          <th>Release date</th>
-          <th>Poster</th>
-          <th>Genre</th>
-        </tr>
+      <div className={styles.grid}>
+        <div>Title</div>
+        <div>Movie id</div>
+        <div>Release date</div>
+        <div>Poster</div>
+        <div>Genre</div>
         {movies &&
           movies.map((movie) => (
-            <tr>
-              <td>{movie.title}</td>
-              <td>{movie.id}</td>
-              <td>{movie.release_date}</td>
-              <td>{movie.genre}</td>
-              <td>
+            <>
+              <div>{movie.title}</div>
+              <div>{movie.id}</div>
+              <div>{movie.release_date}</div>
+              <div>{movie.genre}</div>
+              <div>
                 <img
-                  style={styles.poster}
+                  className={styles.poster}
                   src={`${BASE_URL}${movie.poster_path}`}
                   width="100"
                   height="140"
                 ></img >
-              </td>
-            </tr>
+              </div>
+            </>
           ))}
-      </table>
+      </div>
     );
   };
 
