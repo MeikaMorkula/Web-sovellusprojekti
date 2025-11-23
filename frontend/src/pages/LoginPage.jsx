@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
+import CustomButton from "../components/CustomButton.js";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
+  const navigate = useNavigate();
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -19,8 +21,11 @@ export default function LoginPage() {
 
     if (res.ok) {
       alert("Login successful");
+      //kun kirjautuminen onnistuu mennään kotisivulle
+      navigate("/home") 
+      
     } else {
-      alert("login failed. rwrong username or pw");
+      alert("login failed. wrong username or pwd");
     }
   };
 
@@ -43,7 +48,8 @@ export default function LoginPage() {
       />
       <br />
 
-      <button type="submit">Login</button>
+      <CustomButton text="LogIn" type="submit" color='success'></CustomButton>
+
     </form>
   );
 }
