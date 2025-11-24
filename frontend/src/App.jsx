@@ -6,6 +6,8 @@ import Home from './home';
 import Search from './search';
 import LoginPage from "./pages/LoginPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
+import SettingsPage from "./pages/SettingsPage.jsx"
+import ProfileTest from "./pages/ProfileTest.jsx"
 
 function App() {
   
@@ -31,6 +33,10 @@ function App() {
         <Route path="/search" element={<Search />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/settings" element={<SettingsPage />} />
+
+        <Route path="/profiletest" element={<ProfileTest />} />
+
       </Routes>
 
     </Router>

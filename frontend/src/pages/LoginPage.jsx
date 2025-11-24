@@ -20,6 +20,8 @@ export default function LoginPage() {
     console.log("login response:", data);
 
     if (res.ok) {
+      localStorage.setItem("accessToken", data.accessToken);
+
       alert("Login successful");
       //kun kirjautuminen onnistuu mennään kotisivulle
       navigate("/home") 
