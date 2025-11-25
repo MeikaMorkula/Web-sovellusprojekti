@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { newMovies } from "./TMDB_api_calls.js";
 import styles from "./home.module.css";
+import { useNavigate } from "react-router-dom"
 
 const BASE_URL = "https://image.tmdb.org/t/p/w200"; //postereille
 
 export default function Home() {
   const [movies, setMovies] = useState([]);
+  const navigate = useNavigate();
 
   //mahdollinen auth puuttuu ehkä.
   
@@ -27,7 +29,7 @@ export default function Home() {
           {movies.map((
             movie) => (
             <div key={movie.id} className={styles.movieCard}>
-              <img src={`${BASE_URL}${movie.poster_path}`} alt={movie.title} className={styles.poster}/>
+              <img src={`${BASE_URL}${movie.poster_path}`} onClick={() => navigate(`/movies/${movie.id}`)} alt={movie.title} className={styles.poster}/>
               <p>{movie.title}</p>
               <p>{movie.release_date}</p>
             </div>

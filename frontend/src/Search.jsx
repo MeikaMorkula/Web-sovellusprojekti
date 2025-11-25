@@ -3,9 +3,10 @@ import { searchMovies, searchGenres } from "./TMDB_api_calls.js";
 import "./App.css";
 import ReactPaginate from "react-paginate";
 import styles from "./search.module.css"
+import { useNavigate } from "react-router-dom"
 
-const BASE_URL = "https://image.tmdb.org/t/p/w185";
-// you can search up posters with "https://image.tmdb.org/t/p/w185/POSTER_PATH
+const BASE_URL = "https://image.tmdb.org/t/p/w200";
+// you can search up posters with "https://image.tmdb.org/t/p/w200/POSTER_PATH
 let title = "";
 let language = "";
 let year = "";
@@ -17,34 +18,29 @@ function Search() {
   const [pageCount, setPageCount] = useState(0);
   const [genres, ] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState("");
+  
 
 
   const Movies = () => {
-    return (
-      <div className={styles.grid}>
-        <div>Poster</div>
-        <div>Title</div>
-        <div>Movie id</div>
-        <div>Release date</div>
-        <div>Genre</div>
-        {movies &&
-          movies.map((movie) => (
-            <>
-            <div>
-                <img
-                  className={styles.poster}
-                  src={`${BASE_URL}${movie.poster_path}`}
-                  width="100"
-                  height="140"
-                ></img >
+    const navigate = useNavigate();
+      return (
+        <div className={styles.Container}>
+        <main className={styles.main}>
+          <h1>Movies</h1>
+          <div className={styles.movieBox}>
+            {movies && movies.map(movie => (
+              <div key={movie.id} className={styles.movieCard}
+                onClick={() => navigate(`/movies/${movie.id}`)}>
+                <img className={styles.poster}
+                  src={`${BASE_URL}${movie.poster_path}`} width="100" height="140" alt={movie.title}/>
+                <p>Title: {movie.title}</p>
+                <p>ID: {movie.id}</p>
+                <p>Release: {movie.release_date}</p>
+                <p>Genre: {movie.genre}</p>
               </div>
-              <div>{movie.title}</div>
-              <div>{movie.id}</div>
-              <div>{movie.release_date}</div>
-              <div>{movie.genre}</div>
-              
-            </>
-          ))}
+            ))}
+          </div>
+        </main>
       </div>
     );
   };
