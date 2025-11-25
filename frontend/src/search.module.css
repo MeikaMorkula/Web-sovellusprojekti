@@ -1,0 +1,48 @@
+.Container {
+    font-family: Arial, sans-serif;
+    background-color: white;
+    min-height: 100vh;
+    position: relative;
+}
+.searchSection {
+    text-align: center;
+    margin-top: 45px;
+}
+.searchInput {
+    width: 450px;
+    padding: 10px;
+    font-size: 16px;
+}
+.searchButton {
+    padding: 10px 20px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.filters {
+    position: absolute;
+    left: 30px;
+    top: 230px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.dropdown {
+    padding: 10px;
+    width: 170px;
+    border: 1px solid black;
+}
+.tags {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 16px;
+}
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 200px);
+    justify-content: center;
+    gap: 40px;
+    margin-top: 40px;
+}
+.movieCard {
+    text-align: center;
+}

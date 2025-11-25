@@ -1,53 +1,61 @@
 import { useEffect, useState } from "react";
-import { searchMovies } from "./TMDB_api_calls.js";
+import { searchMovies, searchGenres } from "./TMDB_api_calls.js";
 import "./App.css";
 import ReactPaginate from "react-paginate";
+import styles from "./search.module.css"
 
 const BASE_URL = "https://image.tmdb.org/t/p/w185";
 // you can search up posters with "https://image.tmdb.org/t/p/w185/POSTER_PATH
 let title = "";
 let language = "";
 let year = "";
+let genre ="";
 
-function App() {
+function Search() {
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
+  const [genres, ] = useState([]);
+  const [selectedGenre, setSelectedGenre] = useState("");
+
 
   const Movies = () => {
     return (
-      <table>
-        <tr>
-          <th>Title</th>
-          <th>Movie id</th>
-          <th>Release date</th>
-          <th>Poster</th>
-        </tr>
+      <div className={styles.grid}>
+        <div>Poster</div>
+        <div>Title</div>
+        <div>Movie id</div>
+        <div>Release date</div>
+        <div>Genre</div>
         {movies &&
           movies.map((movie) => (
-            <tr>
-              <td>{movie.title}</td>
-              <td>{movie.id}</td>
-              <td>{movie.release_date}</td>
-              <td>
+            <>
+            <div>
                 <img
+                  className={styles.poster}
                   src={`${BASE_URL}${movie.poster_path}`}
                   width="100"
                   height="140"
-                ></img>
-              </td>
-            </tr>
+                ></img >
+              </div>
+              <div>{movie.title}</div>
+              <div>{movie.id}</div>
+              <div>{movie.release_date}</div>
+              <div>{movie.genre}</div>
+              
+            </>
           ))}
-      </table>
+      </div>
     );
   };
 
-  const Search = (title, language, year) => {
+  const Search = (title, language, year, genre) => {
     const tempTitle = "" + title;
     const tempLanguage = "&language=" + language;
     const tempYear = "&primary_release_year=" + year;
     const tempPage = "&page=" + page;
-    searchMovies(tempTitle, tempLanguage, tempYear, tempPage)
+    const tempGenre = "&genre=" + genre;
+    searchMovies(tempTitle, tempLanguage, tempYear, tempGenre, tempPage)
       .then((json) => {
         setMovies(json.results), setPageCount(json.total_pages);
       })
@@ -55,11 +63,11 @@ function App() {
   };
 
   useEffect(() => {
-    Search(title, language, year);
+    Search();
   }, [page]);
 
   return (
-    <div>
+    <div className={styles.Container}>
       <h1>Movies</h1>
       <ReactPaginate
         breakLabel="..."
@@ -72,15 +80,26 @@ function App() {
         previousLabel="<<"
         renderOnZeroPageCount={null}
       />
-      <input type="text" id="input_title"></input>
-      <input type="text" id="input_language" defaultValue="en-US"></input>
-      <input type="text" id="input_year"></input>
+      <input className={styles.searchInput} type="text" id="input_title"></input>
+      <input className={styles.searchInput}type="text" id="input_language" defaultValue="en-US"></input>
+      <input className={styles.searchInput} type="text" id="input_year"></input>
+      <select value={selectedGenre}
+          onChange={(e) => setSelectedGenre(e.target.value)}
+          className={styles.dropdown} id="input_genre">
+          <option value="">Genre</option>
+          {genres &&
+              genres.map((genre) => (
+                <option value={genre.id}>{genre.name}</option>
+              ))}
+        </select> 
       <button
+        className={styles.searchButton}
         onClick={(event) => {
           (title = input_title.value),
             (language = input_language.value),
             (year = input_year.value);
-          Search(title, language, year, page);
+            (genre = input_genre.value);
+          Search(title, language, year, genre, page);
         }}
       >
         Search
@@ -90,4 +109,4 @@ function App() {
   );
 }
 
-export default App;
+export default Search;
