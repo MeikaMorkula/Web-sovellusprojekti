@@ -6,32 +6,29 @@ export default function ProfileTest() {
 
   useEffect(() => {
     async function loadProfile() {
-      const token = localStorage.getItem("accessToken");
-
-      if (!token) {
-        setError("You must be logged in to view this page.");
-        return;
-      }
-
-      const response = await fetch("http://localhost:3001/user/1", {
-        headers: { Authorization: `Bearer ${token}` },
+      const meRes = await fetch("http://localhost:3001/user/me", {
         credentials: "include",
       });
-
-      if (response.status === 401) {
+  
+      if (meRes.status === 401) {
         setError("You must be logged in to view this page.");
         return;
       }
-
-      if (!response.ok) {
+  
+      const meData = await meRes.json(); 
+      const profileRes = await fetch(`http://localhost:3001/user/${meData.id}`, {
+        credentials: "include",
+      });
+  
+      if (!profileRes.ok) {
         setError("Could not load profile.");
         return;
       }
-
-      const data = await response.json();
-      setProfile(data);
+  
+      const profileData = await profileRes.json();
+      setProfile(profileData);
     }
-
+  
     loadProfile();
   }, []);
 

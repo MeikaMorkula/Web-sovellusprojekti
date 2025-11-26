@@ -29,7 +29,8 @@ app.use(
 //app.use("/book", bookRouter);
 
 app.use("", loginRouter);
-app.use("/user", userRouter);
+//muut ei pääse nyt muuttatmaan dataa toisilta käyttäjiltä
+app.use("/user", authenticateToken, userRouter);
 
 app.listen(port, () => {
   console.log(`Server is listening port ${port}`);

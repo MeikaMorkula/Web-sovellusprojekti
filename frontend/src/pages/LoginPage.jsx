@@ -16,11 +16,10 @@ export default function LoginPage() {
       body: JSON.stringify({ username, password }),
     });
 
-    const data = await res.json();
-    console.log("login response:", data);
 
     if (res.ok) {
-      localStorage.setItem("accessToken", data.accessToken);
+      //todo: muuta turvallisemmaksi
+      //localStorage.setItem("accessToken", data.accessToken);
 
       alert("Login successful");
       //kun kirjautuminen onnistuu mennään kotisivulle
