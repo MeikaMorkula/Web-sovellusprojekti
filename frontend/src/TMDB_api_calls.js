@@ -44,4 +44,21 @@ const searchGenres = async () => {
   return response;
 };
 
-export { searchMovieById, searchMovies, searchGenres };
+const newMovies = async () => {
+  const response = await fetch(
+    BASE_URL + "/trending/movie/week",
+    options
+  )
+    .then((response) => response.json(), console.log("api request"))
+    .then((data) => {
+      return data.results.map((movie) => ({
+        id: movie.id,
+        title: movie.title,
+        poster_path: movie.poster_path,
+      }));
+    })
+    .catch((error) => console.error(error));
+  return response;
+};
+
+export { searchMovieById, searchMovies, searchGenres, newMovies };

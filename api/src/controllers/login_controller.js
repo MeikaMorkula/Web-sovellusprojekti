@@ -19,17 +19,15 @@ export async function login(req, res, next) {
     }
 
     const user = await authenticateUser(username, password);
-
     if (!user) {
       return res.status(401).json({ error: "Invalid username or password" });
     }
-
     // Luo tokenit
-    const accessToken = generateAccessToken(user.username);
-    const refreshToken = generateRefreshToken(user.username);
+    const accessToken = generateAccessToken(user.id);
+    const refreshToken = generateRefreshToken(user.id);
 
     // Tallenna refresh token tietokantaan
-    await saveRefreshToken(user.username, refreshToken);
+    await saveRefreshToken(user.id, refreshToken);
 
     // Aseta refresh token HTTP-only cookieen
     res.cookie("refreshToken", refreshToken, {
@@ -41,7 +39,6 @@ export async function login(req, res, next) {
 
     res.json({
       message: "Login successful",
-      username: user.username,
       accessToken,
     });
   } catch (err) {
@@ -75,7 +72,7 @@ export async function refreshAccessToken(req, res, next) {
     }
 
     // Luo uusi access token
-    const accessToken = generateAccessToken(user.username);
+    const accessToken = generateAccessToken(user.id);
 
     res.json({ accessToken });
   } catch (err) {
@@ -93,7 +90,7 @@ export async function logout(req, res, next) {
 
       if (user) {
         // Poista refresh token tietokannasta
-        await clearRefreshToken(user.username);
+        await clearRefreshToken(user.id);
       }
     }
 

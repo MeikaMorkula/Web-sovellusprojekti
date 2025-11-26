@@ -1,11 +1,25 @@
 import { useEffect, useState } from "react";
-import { searchMovies } from "./TMDB_api_calls.js";
+import { searchMovies, searchGenres } from "./TMDB_api_calls.js";
+import "./App.css";
 import ReactPaginate from "react-paginate";
+import styles from "./search.module.css"
+import { useNavigate } from "react-router-dom"
 
-export default function MovieSearch() {
+const BASE_URL = "https://image.tmdb.org/t/p/w200";
+// you can search up posters with "https://image.tmdb.org/t/p/w200/POSTER_PATH
+let title = "";
+let language = "";
+let year = "";
+let genre ="";
+
+function Search() {
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
+  const [genres, setGenres] = useState([]);
+  const [selectedGenre, setSelectedGenre] = useState("");
+  
+
 
   const BASE_URL = "https://image.tmdb.org/t/p/w185";
   // you can search up posters with "https://image.tmdb.org/t/p/w185/POSTER_PATH
@@ -14,51 +28,48 @@ export default function MovieSearch() {
   let year = "";
 
   const Movies = () => {
-    return (
-      <table>
-        <tr>
-          <th>Title</th>
-          <th>Movie id</th>
-          <th>Release date</th>
-          <th>Poster</th>
-        </tr>
-        {movies &&
-          movies.map((movie) => (
-            <tr>
-              <td>{movie.title}</td>
-              <td>{movie.id}</td>
-              <td>{movie.release_date}</td>
-              <td>
-                <a href={`movie/${movie.id}`}>
-                  <img
-                    src={`${BASE_URL}${movie.poster_path}`}
-                    width="100"
-                    height="140"
-                  ></img>
-                </a>
-              </td>
-            </tr>
-          ))}
-      </table>
+    const navigate = useNavigate();
+      return (
+        <div className={styles.Container}>
+        <main className={styles.main}>
+          <h1>Movies</h1>
+          <div className={styles.movieBox}>
+            {movies && movies.map(movie => (
+              <div key={movie.id} className={styles.movieCard}
+                onClick={() => navigate(`/movie/${movie.id}`)}>
+                <img className={styles.poster}
+                  src={`${BASE_URL}${movie.poster_path}`} width="100" height="140" alt={movie.title}/>
+                <p>Title: {movie.title}</p>
+                <p>ID: {movie.id}</p>
+                <p>Release: {movie.release_date}</p>
+                <p>Genre: {movie.genre}</p>
+              </div>
+            ))}
+          </div>
+        </main>
+      </div>
     );
   };
 
-  const Search = (title, language, year) => {
+  const Search = (title, language, year, genre) => {
     const tempTitle = "" + title;
     const tempLanguage = "&language=" + language;
     const tempYear = "&primary_release_year=" + year;
     const tempPage = "&page=" + page;
-    searchMovies(tempTitle, tempLanguage, tempYear, tempPage)
+    const tempGenre = "&genre=" + genre;
+    searchMovies(tempTitle, tempLanguage, tempYear, tempGenre, tempPage)
       .then((json) => {
         setMovies(json.results), setPageCount(json.total_pages);
       })
       .catch((error) => console.error(error));
   };
 
-  useEffect(() => {}, [page]);
+  useEffect(() => {
+    Search();
+  }, [page]);
 
   return (
-    <div>
+    <div className={styles.Container}>
       <h1>Movies</h1>
       <ReactPaginate
         breakLabel="..."
@@ -71,15 +82,26 @@ export default function MovieSearch() {
         previousLabel="<<"
         renderOnZeroPageCount={null}
       />
-      <input type="text" id="input_title"></input>
-      <input type="text" id="input_language" defaultValue="en-US"></input>
-      <input type="text" id="input_year"></input>
+      <input className={styles.searchInput} type="text" id="input_title"></input>
+      <input className={styles.searchInput}type="text" id="input_language" defaultValue="en-US"></input>
+      <input className={styles.searchInput} type="text" id="input_year"></input>
+      <select value={selectedGenre}
+          onChange={(e) => setSelectedGenre(e.target.value)}
+          className={styles.dropdown} id="input_genre">
+          <option value="">Genre</option>
+          {genres &&
+              genres.map((genre) => (
+                <option value={genre.id}>{genre.name}</option>
+              ))}
+        </select> 
       <button
+        className={styles.searchButton}
         onClick={(event) => {
           (title = input_title.value),
             (language = input_language.value),
             (year = input_year.value);
-          Search(title, language, year, page);
+            (genre = input_genre.value);
+          Search(title, language, year, genre, page);
         }}
       >
         Search
@@ -88,3 +110,5 @@ export default function MovieSearch() {
     </div>
   );
 }
+
+export default Search;
