@@ -5,12 +5,13 @@ import ReactPaginate from "react-paginate";
 import styles from "./search.module.css";
 import { useNavigate } from "react-router-dom";
 
-const BASE_URL = "https://image.tmdb.org/t/p/w200";
+
 // you can search up posters with "https://image.tmdb.org/t/p/w200/POSTER_PATH
-let title = "";
-let language = "";
-let year = "";
-let genre = "";
+ let title = "";
+  let language = "";
+  let year = "";
+  let genre = "";
+  const BASE_URL = "https://image.tmdb.org/t/p/w200";
 
 function Search() {
   const [movies, setMovies] = useState([]);
@@ -18,6 +19,8 @@ function Search() {
   const [pageCount, setPageCount] = useState(0);
   const [genres, setGenres] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState("");
+ 
+
 
   const Movies = () => {
     const navigate = useNavigate();
@@ -52,13 +55,12 @@ function Search() {
     );
   };
 
-  const SearchMovies = (title, language, year, genre) => {
+  const SearchMovies = (title, language, year, page) => {
     const tempTitle = "" + title;
     const tempLanguage = "&language=" + language;
     const tempYear = "&primary_release_year=" + year;
     const tempPage = "&page=" + page;
-    const tempGenre = "&genre=" + genre;
-    searchMovies(tempTitle, tempLanguage, tempYear, tempGenre, tempPage)
+    searchMovies(tempTitle, tempLanguage, tempYear, tempPage)
       .then((json) => {
         setMovies(json.results), setPageCount(json.total_pages);
       })
@@ -80,8 +82,8 @@ function Search() {
         breakLabel="..."
         nextLabel=">>"
         onPageChange={(event) => {
+          SearchMovies(title, language, year, page);
           setPage(event.selected + 1);
-          SearchMovies(title, language, year, genre);
         }}
         pageRangeDisplayed={5}
         pageCount={pageCount}
@@ -116,8 +118,8 @@ function Search() {
           (title = input_title.value),
             (language = input_language.value),
             (year = input_year.value);
-          genre = input_genre.value;
-          Search(title, language, year, genre, page);
+          (genre = input_genre.value);
+          SearchMovies(title, language, year, page);
         }}
       >
         Search

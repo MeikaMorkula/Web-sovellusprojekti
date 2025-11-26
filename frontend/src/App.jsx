@@ -6,7 +6,6 @@ import Home from './home.js';
 import Search from './Search.jsx';
 import LoginPage from "./pages/LoginPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
-import MoviesSearch from "./Search.jsx";
 import Movie from "./movie.jsx";
 
 function App() {
@@ -25,7 +24,6 @@ function App() {
           <li><Link to="/ratings">Ratings</Link></li>
           <li><Link to="/newReleases">New releases</Link></li>
           <li><Link to="/login">Login</Link></li>
-          <li><Link to="/moviesSearch">Movies search</Link></li>
         </ul>
       </nav>
 
@@ -34,7 +32,6 @@ function App() {
         <Route path="/search" element={<Search />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/moviesSearch" element={<MoviesSearch />} />
         <Route path="/movie/:id" element={<Movie />} />
       </Routes>
 

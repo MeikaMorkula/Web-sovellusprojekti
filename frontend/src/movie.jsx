@@ -31,7 +31,7 @@ export default function Movie() {
 
   const Movies = () => {
     return (
-      <div style={styles.container}>
+      <div style={styles.container} key={movie.id}>
         <div style={styles.side}>
           <p>user rating</p>
           <li>{movie.vote_average} / 10</li>
@@ -51,7 +51,7 @@ export default function Movie() {
           <p>{movie.release_date}</p>
           {movie.spoken_languages &&
             movie.spoken_languages.map((language) => (
-              <div>
+              <div key={language.iso_639_1}>
                 <p>{language.english_name}</p>
               </div>
             ))}
@@ -61,15 +61,14 @@ export default function Movie() {
           <h2>{movie.title}</h2>
           <p>{movie.overview}</p>
           <br></br>
-            <p>reviews</p>
-            {/* 
+          <p>reviews</p>
+          {/* 
             Yritin kirjoittaa itse mutta copilot ajatteli samaa ¯\_(ツ)_/¯
             Search the favourites table by the movie id to get user reviews for this movie
             make <Reviews /> component to show the reviews
             and const Reviews = () => { ... } function here to fetch and display reviews
             */}
         </div>
-        
       </div>
     );
   };
@@ -88,7 +87,7 @@ export default function Movie() {
 
   return (
     <div>
-      <Movies/>
+      <Movies />
     </div>
   );
 }
