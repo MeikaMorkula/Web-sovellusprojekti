@@ -29,7 +29,7 @@ export default function Home() {
           {movies.map((
             movie) => (
             <div key={movie.id} className={styles.movieCard}>
-              <img src={`${BASE_URL}${movie.poster_path}`} onClick={() => navigate(`/movies/${movie.id}`)} alt={movie.title} className={styles.poster}/>
+              <img src={`${BASE_URL}${movie.poster_path}`} onClick={() => navigate(`/movie/${movie.id}`)} alt={movie.title} className={styles.poster}/>
               <p>{movie.title}</p>
               <p>{movie.release_date}</p>
             </div>
