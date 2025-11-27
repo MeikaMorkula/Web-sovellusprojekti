@@ -8,6 +8,7 @@ import LoginPage from "./pages/LoginPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import MoviesSearch from "./Search.jsx";
 import Movie from "./movie.jsx";
+import NewReleases from "./newReleases.jsx"
 
 function App() {
   
@@ -34,6 +35,7 @@ function App() {
         <Route path="/search" element={<Search />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/newReleases" element={<NewReleases />} />
         <Route path="/moviesSearch" element={<MoviesSearch />} />
         <Route path="/movie/:id" element={<Movie />} />
       </Routes>

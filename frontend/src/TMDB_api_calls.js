@@ -44,7 +44,7 @@ const searchGenres = async () => {
   return response;
 };
 
-const newMovies = async () => {
+const trendingMovies = async () => {
   const response = await fetch(
     BASE_URL + "/trending/movie/week",
     options
@@ -61,4 +61,22 @@ const newMovies = async () => {
   return response;
 };
 
-export { searchMovieById, searchMovies, searchGenres, newMovies };
+const newMovies = async () => {
+  const response = await fetch(
+    BASE_URL + "/movie/now_playing",
+    options
+  )
+    .then((response) => response.json(), console.log("api request"))
+    .then((data) => {
+      return data.results.map((movie) => ({
+        id: movie.id,
+        title: movie.title,
+        poster_path: movie.poster_path,
+        release_date: movie.release_date
+      }));
+    })
+    .catch((error) => console.error(error));
+  return response;
+};
+
+export { searchMovieById, searchMovies, searchGenres, trendingMovies, newMovies };
