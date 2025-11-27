@@ -4,7 +4,7 @@ import { getFavourites, getFavourite, addFavourite, deleteFavourite } from "../c
 const favouriteRouter = Router();
 
 favouriteRouter.get("/getFavourites", getFavourites);
-favouriteRouter.get("/getFavourite:id", getFavourite);
+favouriteRouter.post("/getFavourite:id", getFavourite);
 favouriteRouter.post("/addFavourite", addFavourite);
 favouriteRouter.delete("/deleteFavourite:id", deleteFavourite);
 

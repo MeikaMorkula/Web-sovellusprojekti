@@ -62,3 +62,8 @@ INSERT INTO "User" (username, password, refresh_token, profile_picture, profile_
 VALUES 
 ('testuser1', '$2b$10$KeIUNJGhjwu/KqWlT0kUX.o85DvJqzbtWEo2Cnd7g5rEQ2xEfC9ku', 'testing', 'profile_pic', 'This is test user 1.', 1),
 ('testuser2', 'testpwd2', 'testint2', 'profile_pic2', 'This is test user 2.', 2);
+
+INSERT INTO Favourites (user_id, username, movie_id)
+VALUES 
+(1, 'testuser1', 293660),
+(1, 'testuser1', 533535);

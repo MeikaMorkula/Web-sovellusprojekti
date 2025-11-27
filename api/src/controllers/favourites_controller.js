@@ -11,7 +11,8 @@ export async function getFavourites(req, res, next) {
 
 export async function getFavourite(req, res, next) {
   try {
-    const favourite = await getOne(req.params.id);
+    const favourite = await getOne(req.params.id, req.body);
+   
     if (!favourite) {
       return res.status(404).json({ error: "favourite not found" });
     }

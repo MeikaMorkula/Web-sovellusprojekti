@@ -5,6 +5,9 @@ import { searchMovieById } from "./TMDB_api_calls.js";
 export default function Movie() {
   const POSTER_URL = "https://image.tmdb.org/t/p/w500";
   const [movie, setMovies] = useState([]);
+  const [reviews, setReviews] = useState([]);
+  const [favouriteStatus, setFavouriteStatus] = useState([]);
+  let favourite = null;
   let urlInfo = useParams();
 
   // could be a seperate component but easier to change in here for now
@@ -29,13 +32,23 @@ export default function Movie() {
     },
   };
 
+  const Favourite = () => { 
+     if (favouriteStatus.movie_id === parseInt(urlInfo.id)) {
+      return <button>Remove from favourites</button>;
+    } else {
+      return <button>Add to favourites</button>;
+    }
+  };
+
   const Movies = () => {
     return (
       <div style={styles.container} key={movie.id}>
         <div style={styles.side}>
-          <p>user rating</p>
-          <li>{movie.vote_average} / 10</li>
-
+          <p>Star rating component</p>
+          <p>{movie.vote_average} / 10</p>
+          <div>
+            <Favourite />
+          </div>
           <div>
             <img
               style={styles.img}
@@ -62,16 +75,35 @@ export default function Movie() {
           <p>{movie.overview}</p>
           <br></br>
           <p>reviews</p>
-          {/* 
-            Yritin kirjoittaa itse mutta copilot ajatteli samaa ¯\_(ツ)_/¯
-            Search the favourites table by the movie id to get user reviews for this movie
-            make <Reviews /> component to show the reviews
-            and const Reviews = () => { ... } function here to fetch and display reviews
-            */}
+
+          {/*reviews && reviews.results.length > 0 ? (
+            reviews.results.map((review) => 
+              <div key={review.id}></div>)
+            ) : (
+              <p>No reviews available.</p>
+          )*/}
         </div>
       </div>
     );
   };
+
+  async function fetchFavourite() {
+    try {
+      const res = await fetch(
+        `http://localhost:3001/favourite/getFavourite${urlInfo.id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ user_id: 1, username: "Simo" }),
+        }
+      );
+      const data = await res.json();
+      console.log(data);
+      //setFavouriteStatus(data);
+    } catch (error) {};
+  }
 
   const Search = (movie_id) => {
     searchMovieById(movie_id)
@@ -82,7 +114,8 @@ export default function Movie() {
   };
 
   useEffect(() => {
-    Search(urlInfo.id);
+    //Search(urlInfo.id);
+    fetchFavourite();
   }, []);
 
   return (
