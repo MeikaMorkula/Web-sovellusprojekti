@@ -16,16 +16,8 @@ function Search() {
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
-  const [genres, setGenres] = useState([]);
+  const [genres, ] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState("");
-  
-
-
-  const BASE_URL = "https://image.tmdb.org/t/p/w185";
-  // you can search up posters with "https://image.tmdb.org/t/p/w185/POSTER_PATH
-  let title = "";
-  let language = "";
-  let year = "";
 
   const Movies = () => {
     const navigate = useNavigate();
@@ -38,7 +30,7 @@ function Search() {
               <div key={movie.id} className={styles.movieCard}
                 onClick={() => navigate(`/movie/${movie.id}`)}>
                 <img className={styles.poster}
-                  src={`${BASE_URL}${movie.poster_path}`} width="100" height="140" alt={movie.title}/>
+                  src={`${BASE_URL}${movie.poster_path}`} alt={movie.title}/> {/*Koko pitää jotenkin saada jokaiselle posterille sama, tuli aika stretched kuva.*/}
                 <p>Title: {movie.title}</p>
                 <p>ID: {movie.id}</p>
                 <p>Release: {movie.release_date}</p>

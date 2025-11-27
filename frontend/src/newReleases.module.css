@@ -8,10 +8,10 @@
     margin-top: 50px;
 }
 .movieBox {
-    display: flex;
-    justify-content: center;
+    display: grid;
     gap: 30px;
     margin-top: 30px;
+    grid-template-columns: repeat(6, 1fr);
 }
 .movieCard {
     width: 180px;

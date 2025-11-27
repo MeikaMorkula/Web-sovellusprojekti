@@ -56,3 +56,10 @@
     text-align: center;
     margin-top: 50px;
 }
+.poster {
+    transition: transform 0.2 ease;
+}
+.poster:hover {
+    transform: scale(1.1);
+    cursor:pointer;
+}
