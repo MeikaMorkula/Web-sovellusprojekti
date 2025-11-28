@@ -12,11 +12,19 @@ import { authenticateToken } from "../middleware/auth.js";
 const userRouter = Router();
 
 userRouter.post("/register/", addUser);
+
+//saa sen käyttäjän käyttämättä "id"
+userRouter.get("/me", authenticateToken, async (req, res) => {
+  res.json({ id: req.user.id });
+});
+
 //Tämän alle suojatut routet
 userRouter.get("/:id", authenticateToken, getUser);
 userRouter.put("/:id", authenticateToken, updateUser);
 userRouter.delete("/:id", authenticateToken, deleteUser);
 userRouter.put("/:id/uploads", authenticateToken, updateUserPfp);
 userRouter.get("/:id/uploads", authenticateToken, getUserPfp);
+
+
 
 export default userRouter;

@@ -2,10 +2,12 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import "./App.css";
-import Home from './home';
-import Search from './search';
+import Home from './home.js';
+import Search from './Search.jsx';
 import LoginPage from "./pages/LoginPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
+import Movie from "./movie.jsx";
+import NewReleases from "./newReleases.jsx"
 
 function App() {
   
@@ -15,7 +17,7 @@ function App() {
   return (
     <div>
     <Router>
-      <nav class="navbar">
+      <nav className="navbar">
         <ul>
           <li><Link to="/home">Home</Link></li>
           <li><Link to="/search">Search</Link></li>
@@ -31,13 +33,13 @@ function App() {
         <Route path="/search" element={<Search />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/newReleases" element={<NewReleases />} />
+        <Route path="/movie/:id" element={<Movie />} />
       </Routes>
 
     </Router>
   </div>
-  ); 
-//toiset route path pitää laittaa myöhemmin kun tällä hetkellä heittää muuten virhettä.
-//päätin nyt toistaseksi vielä käyttämään browserouter voi vaihtaa useNavigate tai navigate, Link.
+  );
 }
 
 export default App;
