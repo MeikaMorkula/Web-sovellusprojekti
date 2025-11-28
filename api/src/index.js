@@ -8,6 +8,7 @@ import userRouter from "./routers/user_router.js";
 import { authenticateToken } from "./middleware/auth.js";
 import loginRouter from "./routers/login_router.js";
 import favouriteRouter from "./routers/favourites_router.js";
+import reviewRouter from "./routers/reviews_router.js";
 
 const app = express();
 const port = process.env.PORT;
@@ -32,6 +33,7 @@ app.use(
 app.use("", loginRouter);
 app.use("/user", userRouter);
 app.use("/favourite", favouriteRouter);
+app.use("/review", reviewRouter);
 
 app.listen(port, () => {
   console.log(`Server is listening port ${port}`);

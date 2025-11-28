@@ -5,10 +5,10 @@ export async function getAll() {
   return result.rows;
 }
 
-export async function getOne(id,favourite) {
+export async function getOne(favourite) {
   const result = await pool.query(
     `SELECT * FROM Favourites WHERE (movie_id = $1 AND user_id = $2);`,
-    [id, favourite.user_id]
+    [favourite.movie_id, favourite.user_id]
   );
   return result.rows.length > 0 ? result.rows[0] : null;
 }

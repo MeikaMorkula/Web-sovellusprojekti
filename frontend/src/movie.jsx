@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { searchMovieById } from "./TMDB_api_calls.js";
+import  { fetchFavourite } from "./database_api_calls.js";
 
 export default function Movie() {
   const POSTER_URL = "https://image.tmdb.org/t/p/w500";
   const [movie, setMovies] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [favouriteStatus, setFavouriteStatus] = useState([]);
-  let favourite = null;
   let urlInfo = useParams();
 
   // could be a seperate component but easier to change in here for now
@@ -87,23 +87,7 @@ export default function Movie() {
     );
   };
 
-  async function fetchFavourite() {
-    try {
-      const res = await fetch(
-        `http://localhost:3001/favourite/getFavourite${urlInfo.id}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ user_id: 1, username: "Simo" }),
-        }
-      );
-      const data = await res.json();
-      console.log(data);
-      //setFavouriteStatus(data);
-    } catch (error) {};
-  }
+ 
 
   const Search = (movie_id) => {
     searchMovieById(movie_id)
@@ -115,7 +99,12 @@ export default function Movie() {
 
   useEffect(() => {
     //Search(urlInfo.id);
-    fetchFavourite();
+    fetchFavourite(urlInfo.id, 1)
+      .then((data) => {
+        console.log(data);
+        setFavouriteStatus(data);
+      })
+      .catch((error) => console.error(error));
   }, []);
 
   return (
