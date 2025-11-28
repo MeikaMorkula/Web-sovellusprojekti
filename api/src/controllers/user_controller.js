@@ -55,6 +55,9 @@ export async function addUser(req, res, next) {
 
 export async function updateUser(req, res, next) {
   try {
+    if (req.user.id !== Number(req.params.id)) {
+      return res.status(403).json({ error: "You cant modify another users data"})
+    }
     const response = await updateOneUser(req.params.id, req.body);
     res.json(response);
   } catch (err) {
@@ -64,6 +67,10 @@ export async function updateUser(req, res, next) {
 
 export async function deleteUser(req, res, next) {
   try {
+
+    if (req.user.id !== Number(req.params.id)) {
+      return res.status(403).json({ error: "You cant delete someone elses account"});
+    }
     const user = await deleteOneUser(req.params.id);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -80,6 +87,10 @@ export async function updateUserPfp(req, res, next) {
       return res.status(400).json({ error: err.message });
     }
 
+    if (req.user.id !== Number(req.params.id)) {
+      return res.status(403).json({ error: "You cant change someone elses profile picture"});
+    }
+
     try {
       const pfpPath = req.file.filename;
       const result = await addUserProfilePicture(req.params.id, pfpPath);
@@ -87,7 +98,7 @@ export async function updateUserPfp(req, res, next) {
       res.json({
         message: "File upload successfull",
         file: req.file,
-      });
+      })
     } catch (err) {
       next(err);
     }
