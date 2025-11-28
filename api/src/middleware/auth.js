@@ -16,13 +16,12 @@ export function authenticateToken(req, res, next) {
 
   req.user = decoded;
 
-  //const Identity = req.params.id;
-
-  //muutetaan molemmat stringeiksi vertailua varten
-  /* ei tarvita enään?
-  if (String(req.user.id) !== String(Identity)) {
+  if (
+    req.baseUrl.startsWith("/user") &&
+    req.params.id !== undefined && 
+    Number(req.user.id) !== Number(req.params.id)
+  ) {
     return res.status(403).json({ error:"Unauthorized" });
-  }*/
-
+  }
   next();
 }
