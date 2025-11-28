@@ -98,7 +98,7 @@ export async function updateUserPfp(req, res, next) {
       res.json({
         message: "File upload successfull",
         file: req.file,
-      })
+      });
     } catch (err) {
       next(err);
     }
