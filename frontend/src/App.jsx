@@ -8,25 +8,14 @@ import LoginPage from "./pages/LoginPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import Movie from "./movie.jsx";
 import NewReleases from "./newReleases.jsx"
+import AbsoluteNavBar from "./components/AbsoluteNavBar.js";
 
 function App() {
-  
-    useEffect(() => {
-  }, []);
   
   return (
     <div>
     <Router>
-      <nav className="navbar">
-        <ul>
-          <li><Link to="/home">Home</Link></li>
-          <li><Link to="/search">Search</Link></li>
-          <li><Link to="/groups">Groups</Link></li>
-          <li><Link to="/ratings">Ratings</Link></li>
-          <li><Link to="/newReleases">New releases</Link></li>
-          <li><Link to="/login">Login</Link></li>
-        </ul>
-      </nav>
+      <AbsoluteNavBar />
 
       <Routes>
         <Route path="/home" element={<Home />} />

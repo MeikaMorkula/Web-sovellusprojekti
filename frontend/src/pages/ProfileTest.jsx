@@ -6,7 +6,7 @@ export default function ProfileTest() {
 
   useEffect(() => {
     async function loadProfile() {
-      const meRes = await fetch("http://localhost:3001/user/me", {
+      const meRes = await fetch(`${process.env.REACT_APP_API_URL}http://localhost:3001/user/me`, {
         credentials: "include",
       });
   
@@ -16,7 +16,7 @@ export default function ProfileTest() {
       }
   
       const meData = await meRes.json(); 
-      const profileRes = await fetch(`http://localhost:3001/user/${meData.id}`, {
+      const profileRes = await fetch(`${process.env.REACT_APP_API_URL}/user/${meData.id}`, {
         credentials: "include",
       });
   
@@ -53,7 +53,7 @@ export default function ProfileTest() {
       >
         {profile.profile_picture ? (
           <img
-            src={`http://localhost:3001/profile-pictures/${profile.profile_picture}`}
+            src={`${process.env.REACT_APP_API_URL}/profile-pictures/${profile.profile_picture}`}
             alt="Profile"
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
