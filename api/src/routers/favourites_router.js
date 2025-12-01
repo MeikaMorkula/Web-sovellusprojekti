@@ -6,7 +6,7 @@ const favouriteRouter = Router();
 
 favouriteRouter.get("/getFavourites", authenticateToken, getFavourites);
 favouriteRouter.post("/getFavourite", getFavourite);
-favouriteRouter.post("/addFavourite", authenticateToken, addFavourite);
-favouriteRouter.delete("/deleteFavourite:id", authenticateToken, deleteFavourite);
+favouriteRouter.post("/addFavourite", addFavourite);
+favouriteRouter.delete("/deleteFavourite:id", deleteFavourite);
 
 export default favouriteRouter;

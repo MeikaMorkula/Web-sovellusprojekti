@@ -67,3 +67,8 @@ INSERT INTO Favourites (user_id, username, movie_id)
 VALUES 
 (1, 'testuser1', 293660),
 (1, 'testuser1', 533535);
+
+INSERT INTO Reviews (user_id, review_rating, review_description, review_date, movie_id)
+VALUES 
+(1, 4, 'Great movie!', NOW(), 293660),
+(1, 5, 'Amazing!', NOW(), 533535);

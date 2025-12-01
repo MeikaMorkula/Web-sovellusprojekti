@@ -1,7 +1,9 @@
 import pool from "../database.js";
 
 export async function getAll(id) {
-  const result = await pool.query("SELECT * FROM Reviews WHERE movie_id=$1;", [id]);
+  const result = await pool.query("SELECT * FROM Reviews WHERE movie_id = $1", 
+    [id]
+  );
   return result.rows;
 }
 

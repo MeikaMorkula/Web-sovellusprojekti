@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { searchMovieById } from "./TMDB_api_calls.js";
-import  { fetchFavourite } from "./database_api_calls.js";
+import  { fetchFavourite, fetchReviews, addReview, deleteFavourite } from "./database_api_calls.js";
 
 export default function Movie() {
   const POSTER_URL = "https://image.tmdb.org/t/p/w500";
@@ -34,11 +34,56 @@ export default function Movie() {
 
   const Favourite = () => { 
      if (favouriteStatus.movie_id === parseInt(urlInfo.id)) {
-      return <button>Remove from favourites</button>;
+      return <button onClick={() => {
+        console.log(favouriteStatus.favourite_id);
+        deleteFavourite(favouriteStatus.favourite_id);
+      }}>Remove from favourites</button>;
     } else {
       return <button>Add to favourites</button>;
     }
   };
+
+  const Reviews = () => {
+    
+    return (
+      <div>
+        <h3>Add your review!</h3>
+        <label for="review_description">Review text</label>
+        <input
+          name="review_description"
+          type="text"
+          id="review_description"
+        ></input>
+        <label for="review_rating">Review rating</label>
+        <input
+          type="text"
+          id="review_rating"
+        ></input>
+        <button onClick={() => {
+          const review = {
+            review_description: review_description.value,
+            review_rating: review_rating.value,
+            user_id: 1,
+            movie_id: parseInt(urlInfo.id),
+          };
+          addReview(review);
+        }}>Submit Review</button>
+        
+        <h3>Reviews Section</h3>
+        {reviews.length > 0 ? (
+            reviews.map((review) => 
+              <div key={review.review_id}>
+                <p>{review.user_id}</p>
+                <p>{review.review_description}</p>
+                <p>{review.review_rating}</p>
+              </div>)
+            ) : (
+              <p>No reviews available.</p>
+          )
+        }
+      </div>
+    );
+  }
 
   const Movies = () => {
     return (
@@ -74,14 +119,7 @@ export default function Movie() {
           <h2>{movie.title}</h2>
           <p>{movie.overview}</p>
           <br></br>
-          <p>reviews</p>
-
-          {/*reviews && reviews.results.length > 0 ? (
-            reviews.results.map((review) => 
-              <div key={review.id}></div>)
-            ) : (
-              <p>No reviews available.</p>
-          )*/}
+          <Reviews />
         </div>
       </div>
     );
@@ -98,11 +136,18 @@ export default function Movie() {
   };
 
   useEffect(() => {
-    //Search(urlInfo.id);
+    Search(urlInfo.id);
     fetchFavourite(urlInfo.id, 1)
       .then((data) => {
         console.log(data);
         setFavouriteStatus(data);
+      })
+      .catch((error) => console.error(error));
+
+    fetchReviews(urlInfo.id)
+      .then((data) => {
+        console.log(data);
+        setReviews(data);
       })
       .catch((error) => console.error(error));
   }, []);

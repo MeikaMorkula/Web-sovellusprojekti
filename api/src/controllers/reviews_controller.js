@@ -2,7 +2,7 @@ import { getAll, addOne, deleteOne } from "../models/reviews_model.js";
 
 export async function getReviews(req, res, next) {
   try {
-    const review= await getAll();
+    const review = await getAll(req.params.id);
     res.json(review);
   } catch (err) {
     next(err);
