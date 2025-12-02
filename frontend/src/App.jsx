@@ -7,6 +7,7 @@ import Search from './Search.jsx';
 import LoginPage from "./pages/LoginPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import Movie from "./movie.jsx";
+import Groups from "./pages/Groups.jsx";
 import NewReleases from "./newReleases.jsx"
 import AbsoluteNavBar from "./components/AbsoluteNavBar.js";
 
@@ -24,6 +25,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/newReleases" element={<NewReleases />} />
         <Route path="/movie/:id" element={<Movie />} />
+         <Route path="/groups" element={<Groups />} />
       </Routes>
 
     </Router>

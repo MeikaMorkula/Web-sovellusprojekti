@@ -2,15 +2,16 @@ import { useEffect, useState } from "react";
 import { searchMovies, searchGenres } from "./TMDB_api_calls.js";
 import "./App.css";
 import ReactPaginate from "react-paginate";
-import styles from "./search.module.css"
-import { useNavigate } from "react-router-dom"
+import styles from "./search.module.css";
+import { useNavigate } from "react-router-dom";
 
-const BASE_URL = "https://image.tmdb.org/t/p/w200";
+
 // you can search up posters with "https://image.tmdb.org/t/p/w200/POSTER_PATH
-let title = "";
-let language = "";
-let year = "";
-let genre ="";
+ let title = "";
+  let language = "";
+  let year = "";
+  let genre = "";
+  const BASE_URL = "https://image.tmdb.org/t/p/w200";
 
 function Search() {
   const [movies, setMovies] = useState([]);
@@ -21,8 +22,8 @@ function Search() {
 
   const Movies = () => {
     const navigate = useNavigate();
-      return (
-        <div className={styles.Container}>
+    return (
+      <div className={styles.Container}>
         <main className={styles.main}>
           <h1>Movies</h1>
           <div className={styles.movieBox}>
@@ -43,13 +44,12 @@ function Search() {
     );
   };
 
-  const Search = (title, language, year, genre) => {
+  const SearchMovies = (title, language, year, page) => {
     const tempTitle = "" + title;
     const tempLanguage = "&language=" + language;
     const tempYear = "&primary_release_year=" + year;
     const tempPage = "&page=" + page;
-    const tempGenre = "&genre=" + genre;
-    searchMovies(tempTitle, tempLanguage, tempYear, tempGenre, tempPage)
+    searchMovies(tempTitle, tempLanguage, tempYear, tempPage)
       .then((json) => {
         setMovies(json.results), setPageCount(json.total_pages);
       })
@@ -57,8 +57,12 @@ function Search() {
   };
 
   useEffect(() => {
-    Search();
-  }, [page]);
+    searchGenres()
+      .then((genreData) => {
+        setGenres(genreData.genres);
+      })
+      .catch((error) => console.error(error));
+  }, []);
 
   return (
     <div className={styles.Container}>
@@ -67,6 +71,7 @@ function Search() {
         breakLabel="..."
         nextLabel=">>"
         onPageChange={(event) => {
+          SearchMovies(title, language, year, page);
           setPage(event.selected + 1);
         }}
         pageRangeDisplayed={5}
@@ -74,26 +79,36 @@ function Search() {
         previousLabel="<<"
         renderOnZeroPageCount={null}
       />
-      <input className={styles.searchInput} type="text" id="input_title"></input>
-      <input className={styles.searchInput}type="text" id="input_language" defaultValue="en-US"></input>
+      <input
+        className={styles.searchInput}
+        type="text"
+        id="input_title"
+      ></input>
+      <input
+        className={styles.searchInput}
+        type="text"
+        id="input_language"
+        defaultValue="en-US"
+      ></input>
       <input className={styles.searchInput} type="text" id="input_year"></input>
-      <select value={selectedGenre}
-          onChange={(e) => setSelectedGenre(e.target.value)}
-          className={styles.dropdown} id="input_genre">
-          <option value="">Genre</option>
-          {genres &&
-              genres.map((genre) => (
-                <option value={genre.id}>{genre.name}</option>
-              ))}
-        </select> 
+      <select
+        value={selectedGenre}
+        onChange={(e) => setSelectedGenre(e.target.value)}
+        className={styles.dropdown}
+        id="input_genre"
+      >
+        <option value="">Genre</option>
+        {genres &&
+          genres.map((genre) => <option value={genre.id}>{genre.name}</option>)}
+      </select>
       <button
         className={styles.searchButton}
         onClick={(event) => {
           (title = input_title.value),
             (language = input_language.value),
             (year = input_year.value);
-            (genre = input_genre.value);
-          Search(title, language, year, genre, page);
+          (genre = input_genre.value);
+          SearchMovies(title, language, year, page);
         }}
       >
         Search

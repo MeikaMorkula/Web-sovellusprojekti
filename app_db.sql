@@ -62,3 +62,18 @@ INSERT INTO "User" (username, password, refresh_token, profile_picture, profile_
 VALUES 
 ('testuser1', '$2b$10$KeIUNJGhjwu/KqWlT0kUX.o85DvJqzbtWEo2Cnd7g5rEQ2xEfC9ku', 'testing', 'profile_pic', 'This is test user 1.', 1),
 ('testuser2', 'testpwd2', 'testint2', 'profile_pic2', 'This is test user 2.', 2);
+
+INSERT INTO Favourites (user_id, username, movie_id)
+VALUES 
+(1, 'testuser1', 293660),
+(1, 'testuser1', 533535);
+
+INSERT INTO Reviews (user_id, review_rating, review_description, review_date, movie_id)
+VALUES 
+(1, 4, 'Great movie!', NOW(), 293660),
+(1, 5, 'Amazing!', NOW(), 533535);
+
+INSERT INTO "Group" (group_name, group_owner, group_icon, group_description, group_favourite_movie)
+VALUES 
+('Test Group 1', 1, 'group_icon1', 'This is test group 1.', 293660),
+('Test Group 2', 2, 'group_icon2', 'This is test group 2.', 533535);
