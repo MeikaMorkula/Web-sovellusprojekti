@@ -69,7 +69,7 @@ function Search() {
         breakLabel="..."
         nextLabel=">>"
         onPageChange={(event) => {
-          SearchMovies(title, language, year, page);
+          Search(currentTitle, currentLanguage, currentYear);
           setPage(event.selected + 1);
         }}
         pageRangeDisplayed={5}
@@ -90,7 +90,7 @@ function Search() {
             setCurrentTitle(title); //Pitää aikaisemmat tiedot ja käyttää niitä uuden sivun ladatessa.
             setCurrentLanguage(language);
             setCurrentYear(year);
-          Search(title, language, year, page);
+          Search(currentTitle, currentLanguage, currentYear);
         }}
       >
         Search
