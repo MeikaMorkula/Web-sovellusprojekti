@@ -34,7 +34,9 @@ export async function addFavourite(body) {
 
 export async function deleteFavourite(id) {
   try {
-    const res = await fetch(API_URL + `/favourite/deleteFavourite` + id);
+    const res = await fetch(API_URL + `/favourite/deleteFavourite` + id, {
+      method: "DELETE",
+    });
     const data = await res.json();
     return data;
   } catch (error) {
@@ -75,3 +77,12 @@ export async function addReview(review) {
   }
 }
 
+export async function fetchGroup() {
+  try {
+    const res = await fetch(API_URL + `/group/getGroups`);
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    return null;
+  }
+}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { searchMovieById } from "./TMDB_api_calls.js";
-import  { fetchFavourite, fetchReviews, addReview, deleteFavourite } from "./database_api_calls.js";
+import  { fetchFavourite, fetchReviews, addReview, deleteFavourite, addFavourite } from "./database_api_calls.js";
 
 export default function Movie() {
   const POSTER_URL = "https://image.tmdb.org/t/p/w500";
@@ -35,11 +35,15 @@ export default function Movie() {
   const Favourite = () => { 
      if (favouriteStatus.movie_id === parseInt(urlInfo.id)) {
       return <button onClick={() => {
-        console.log(favouriteStatus.favourite_id);
         deleteFavourite(favouriteStatus.favourite_id);
       }}>Remove from favourites</button>;
     } else {
-      return <button>Add to favourites</button>;
+      return <button onClick={() => {
+        
+       addFavourite(
+        {movie_id: urlInfo.id, username: "testuser1", user_id: "1"}
+      );
+       }}>Add to favourites</button>
     }
   };
 
@@ -48,13 +52,13 @@ export default function Movie() {
     return (
       <div>
         <h3>Add your review!</h3>
-        <label for="review_description">Review text</label>
+        <label>Review text</label>
         <input
           name="review_description"
           type="text"
           id="review_description"
         ></input>
-        <label for="review_rating">Review rating</label>
+        <label>Review rating</label>
         <input
           type="text"
           id="review_rating"

@@ -72,3 +72,8 @@ INSERT INTO Reviews (user_id, review_rating, review_description, review_date, mo
 VALUES 
 (1, 4, 'Great movie!', NOW(), 293660),
 (1, 5, 'Amazing!', NOW(), 533535);
+
+INSERT INTO "Group" (group_name, group_owner, group_icon, group_description, group_favourite_movie)
+VALUES 
+('Test Group 1', 1, 'group_icon1', 'This is test group 1.', 293660),
+('Test Group 2', 2, 'group_icon2', 'This is test group 2.', 533535);
