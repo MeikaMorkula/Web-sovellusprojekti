@@ -7,18 +7,18 @@ import { useNavigate } from "react-router-dom";
 
 
 // you can search up posters with "https://image.tmdb.org/t/p/w200/POSTER_PATH
- let title = "";
-  let language = "";
-  let year = "";
-  let genre = "";
-  const BASE_URL = "https://image.tmdb.org/t/p/w200";
+let title = "";
+let language = "";
+let year = "";
+const BASE_URL = "https://image.tmdb.org/t/p/w200";
 
 function Search() {
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
-  const [genres, ] = useState([]);
-  const [selectedGenre, setSelectedGenre] = useState("");
+  const [currentTitle, setCurrentTitle] = useState("");
+  const [currentLanguage, setCurrentLanguage] = useState("");
+  const [currentYear, setCurrentYear] = useState("");
 
   const Movies = () => {
     const navigate = useNavigate();
@@ -35,7 +35,6 @@ function Search() {
                 <p>Title: {movie.title}</p>
                 <p>ID: {movie.id}</p>
                 <p>Release: {movie.release_date}</p>
-                <p>Genre: {movie.genre}</p>
               </div>
             ))}
           </div>
@@ -44,7 +43,9 @@ function Search() {
     );
   };
 
-  const SearchMovies = (title, language, year, page) => {
+  
+
+  const Search = (title, language, year) => {
     const tempTitle = "" + title;
     const tempLanguage = "&language=" + language;
     const tempYear = "&primary_release_year=" + year;
@@ -57,21 +58,18 @@ function Search() {
   };
 
   useEffect(() => {
-    searchGenres()
-      .then((genreData) => {
-        setGenres(genreData.genres);
-      })
-      .catch((error) => console.error(error));
-  }, []);
+    Search(currentTitle, currentLanguage, currentYear); //tiedot mitä käyttää uudella sivulla.
+  }, [page]);
 
   return (
     <div className={styles.Container}>
       <h1>Movies</h1>
       <ReactPaginate
+        className={styles.pagination}
         breakLabel="..."
         nextLabel=">>"
         onPageChange={(event) => {
-          SearchMovies(title, language, year, page);
+          Search(currentTitle, currentLanguage, currentYear);
           setPage(event.selected + 1);
         }}
         pageRangeDisplayed={5}
@@ -79,36 +77,20 @@ function Search() {
         previousLabel="<<"
         renderOnZeroPageCount={null}
       />
-      <input
-        className={styles.searchInput}
-        type="text"
-        id="input_title"
-      ></input>
-      <input
-        className={styles.searchInput}
-        type="text"
-        id="input_language"
-        defaultValue="en-US"
-      ></input>
-      <input className={styles.searchInput} type="text" id="input_year"></input>
-      <select
-        value={selectedGenre}
-        onChange={(e) => setSelectedGenre(e.target.value)}
-        className={styles.dropdown}
-        id="input_genre"
-      >
-        <option value="">Genre</option>
-        {genres &&
-          genres.map((genre) => <option value={genre.id}>{genre.name}</option>)}
-      </select>
+      <input className={styles.searchInput} type="text" id="input_title" placeholder="Title"></input>
+      <input className={styles.searchInput}type="text" id="input_language" defaultValue="en-US" placeholder="Language (Example: en-US)"></input>
+      <input className={styles.searchInput} type="text" id="input_year" placeholder="Year"></input>
       <button
         className={styles.searchButton}
         onClick={(event) => {
           (title = input_title.value),
             (language = input_language.value),
             (year = input_year.value);
-          (genre = input_genre.value);
-          SearchMovies(title, language, year, page);
+
+            setCurrentTitle(title); //Pitää aikaisemmat tiedot ja käyttää niitä uuden sivun ladatessa.
+            setCurrentLanguage(language);
+            setCurrentYear(year);
+          Search(currentTitle, currentLanguage, currentYear);
         }}
       >
         Search

@@ -5,10 +5,14 @@ import  { fetchFavourite, fetchReviews, addReview, deleteFavourite, addFavourite
 
 export default function Movie() {
   const POSTER_URL = "https://image.tmdb.org/t/p/w500";
+  const ORIGINAL_POSTER_URL = "https://image.tmdb.org/t/p/original"; //Original poster on hyvä laatuisempi.
   const [movie, setMovies] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [favouriteStatus, setFavouriteStatus] = useState([]);
   let urlInfo = useParams();
+
+  const [coolLarge, setCoolLarge] = useState(false);
+  const [coolImg, setCoolImg] = useState("");
 
   // could be a seperate component but easier to change in here for now
   const styles = {
@@ -29,7 +33,44 @@ export default function Movie() {
     img: {
       width: "100%",
       objectFit: "cover",
+      cursor: "pointer",
     },
+     cool: {
+      display: coolLarge ? "block":"none",
+      position: "fixed",
+      left: 0,
+      top: 0,
+      width: "100%",
+      height: "100%",
+    },
+    coolContent: {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: coolLarge ?"translate(-50%, -50%) scale(1)": "translate(-50%, -50%)scale(0.5)",
+      transition: "transform 0.2s ease",
+      maxWidth: "90%",
+      maxHeight: "90%", //100% koko rikkoo osittain toiminnan.
+      borderRadius: "6px",
+    },
+    close: {
+      position: "absolute",
+      top: "0px",
+      right: "430px",
+      color: "red",
+      fontSize: "40px",
+      cursor: "pointer",
+    }, 
+
+  };
+
+  const largeCool = (imgSrc) => {
+    setCoolImg(imgSrc);
+    setCoolLarge(true);
+  };
+
+  const closeCool = () => {
+    setCoolLarge(false);
   };
 
   const Favourite = () => { 
@@ -103,6 +144,7 @@ export default function Movie() {
               style={styles.img}
               src={`${POSTER_URL}${movie.poster_path}`}
               alt={movie.title}
+              onClick={() => largeCool(`${ORIGINAL_POSTER_URL}${movie.poster_path}`)}
             ></img>
           </div>
 
@@ -125,6 +167,16 @@ export default function Movie() {
           <br></br>
           <Reviews />
         </div>
+        <div style={styles.cool} onClick={closeCool}>
+          <span style={styles.close} onClick={closeCool}>
+            &times;
+          </span>
+          <img
+            style={styles.coolContent}
+            src={coolImg}
+          />
+        </div>
+        
       </div>
     );
   };

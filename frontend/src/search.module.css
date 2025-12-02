@@ -63,3 +63,9 @@
     transform: scale(1.1);
     cursor:pointer;
 }
+
+.pagination {
+    display: flex;
+    list-style-type: none;
+    gap: 30px;
+}
