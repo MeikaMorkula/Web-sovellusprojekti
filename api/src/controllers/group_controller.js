@@ -1,0 +1,61 @@
+import { getAll, getOne, addOne, deleteOne, addGroupPicture, addGroupFavouriteMovie } from "../models/group_model.js";
+
+export async function getGroups(req, res, next) {
+  try {
+    const response = await getAll(req.params.id);
+    res.json(response);
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function getGroup(req, res, next) {
+  try {
+    const group = await getOne(req.params.id);
+    if (!group) {
+      return res.status(404).json({ error: "Group not found" });
+    }
+    res.json(group);
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function addGroup(req, res, next) {
+  try {
+    const response = await addOne(req.body);
+    res.json(response);
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function deleteGroup(req, res, next) { 
+    try {
+    const group = await deleteOne(req.params.id);
+    if (!group) {
+      return res.status(404).json({ error: "Group not found" });
+    }
+    res.json(group);
+    } catch (err) {
+    next(err);
+  }
+}
+
+export async function uploadGroupPicture(req, res, next) {
+  try {
+    const response = await addGroupPicture(req.file.path, req.params.id);
+    res.json(response);
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function uploadGroupFavouriteMovie(req, res, next) {
+  try {
+    const response = await addGroupFavouriteMovie(req.body.movie_id, req.params.id);
+    res.json(response);
+  } catch (err) {
+    next(err);
+  }
+}
