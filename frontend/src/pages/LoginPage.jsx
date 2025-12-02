@@ -9,17 +9,18 @@ export default function LoginPage() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const res = await fetch(`http://localhost:3001/login`, {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
       body: JSON.stringify({ username, password }),
     });
 
-    const data = await res.json();
-    console.log("login response:", data);
 
     if (res.ok) {
+      //todo: muuta turvallisemmaksi
+      //localStorage.setItem("accessToken", data.accessToken);
+
       alert("Login successful");
       //kun kirjautuminen onnistuu mennään kotisivulle
       navigate("/home") 

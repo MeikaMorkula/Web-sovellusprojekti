@@ -17,10 +17,8 @@ function Search() {
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
-  const [genres, setGenres] = useState([]);
+  const [genres, ] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState("");
- 
-
 
   const Movies = () => {
     const navigate = useNavigate();
@@ -29,26 +27,17 @@ function Search() {
         <main className={styles.main}>
           <h1>Movies</h1>
           <div className={styles.movieBox}>
-            {movies &&
-              movies.map((movie) => (
-                <div
-                  key={movie.id}
-                  className={styles.movieCard}
-                  onClick={() => navigate(`/movie/${movie.id}`)}
-                >
-                  <img
-                    className={styles.poster}
-                    src={`${BASE_URL}${movie.poster_path}`}
-                    width="200"
-                    height="280"
-                    alt={movie.title}
-                  />
-                  <p>Title: {movie.title}</p>
-                  <p>ID: {movie.id}</p>
-                  <p>Release: {movie.release_date}</p>
-                  <p>Genre: {movie.genre}</p>
-                </div>
-              ))}
+            {movies && movies.map(movie => (
+              <div key={movie.id} className={styles.movieCard}
+                onClick={() => navigate(`/movie/${movie.id}`)}>
+                <img className={styles.poster}
+                  src={`${BASE_URL}${movie.poster_path}`} alt={movie.title}/> {/*Koko pitää jotenkin saada jokaiselle posterille sama, tuli aika stretched kuva.*/}
+                <p>Title: {movie.title}</p>
+                <p>ID: {movie.id}</p>
+                <p>Release: {movie.release_date}</p>
+                <p>Genre: {movie.genre}</p>
+              </div>
+            ))}
           </div>
         </main>
       </div>

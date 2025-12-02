@@ -1,8 +1,7 @@
 import { verifyAccessToken } from "../utils/jwt.js";
 
 export function authenticateToken(req, res, next) {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1]; // "Bearer TOKEN"
+  const token = req.cookies.accessToken; // lukee tokenit headereitten sijasta
 
 
   if (!token) {
@@ -17,12 +16,12 @@ export function authenticateToken(req, res, next) {
 
   req.user = decoded;
 
-  const Identity = req.params.id;
-
-  //muutetaan molemmat stringeiksi vertailua varten
-  if (String(req.user.id) !== String(Identity)) {
+  if (
+    req.baseUrl.startsWith("/user") &&
+    req.params.id !== undefined && 
+    Number(req.user.id) !== Number(req.params.id)
+  ) {
     return res.status(403).json({ error:"Unauthorized" });
   }
-
   next();
 }

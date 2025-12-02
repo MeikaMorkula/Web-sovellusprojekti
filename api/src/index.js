@@ -37,6 +37,9 @@ app.use("/favourite", favouriteRouter);
 app.use("/review", reviewRouter);
 app.use("/group", groupRouter);
 
+//muut ei pääse nyt muuttatmaan dataa toisilta käyttäjiltä
+app.use("/user", authenticateToken, userRouter);
+
 app.listen(port, () => {
   console.log(`Server is listening port ${port}`);
 });

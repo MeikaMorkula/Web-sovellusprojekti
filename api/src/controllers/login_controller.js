@@ -29,6 +29,14 @@ export async function login(req, res, next) {
     // Tallenna refresh token tietokantaan
     await saveRefreshToken(user.id, refreshToken);
 
+    // httponly acccesstoken cookie
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Strict",
+      maxAge: 15 * 60 * 1000 //15 minuuttia
+    })
+
     // Aseta refresh token HTTP-only cookieen
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true, // Ei JavaScript-pääsyä
@@ -37,9 +45,10 @@ export async function login(req, res, next) {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 päivää
     });
 
+
+
     res.json({
-      message: "Login successful",
-      accessToken,
+      message: "Login successful"
     });
   } catch (err) {
     next(err);
