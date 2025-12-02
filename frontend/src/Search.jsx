@@ -10,14 +10,14 @@ const BASE_URL = "https://image.tmdb.org/t/p/w200";
 let title = "";
 let language = "";
 let year = "";
-let genre ="";
 
 function Search() {
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
-  const [genres, ] = useState([]);
-  const [selectedGenre, setSelectedGenre] = useState("");
+  const [currentTitle, setCurrentTitle] = useState("");
+  const [currentLanguage, setCurrentLanguage] = useState("");
+  const [currentYear, setCurrentYear] = useState("");
 
   const Movies = () => {
     const navigate = useNavigate();
@@ -34,7 +34,6 @@ function Search() {
                 <p>Title: {movie.title}</p>
                 <p>ID: {movie.id}</p>
                 <p>Release: {movie.release_date}</p>
-                <p>Genre: {movie.genre}</p>
               </div>
             ))}
           </div>
@@ -43,13 +42,14 @@ function Search() {
     );
   };
 
-  const Search = (title, language, year, genre) => {
+  
+
+  const Search = (title, language, year) => {
     const tempTitle = "" + title;
     const tempLanguage = "&language=" + language;
     const tempYear = "&primary_release_year=" + year;
     const tempPage = "&page=" + page;
-    const tempGenre = "&genre=" + genre;
-    searchMovies(tempTitle, tempLanguage, tempYear, tempGenre, tempPage)
+    searchMovies(tempTitle, tempLanguage, tempYear, tempPage)
       .then((json) => {
         setMovies(json.results), setPageCount(json.total_pages);
       })
@@ -57,13 +57,14 @@ function Search() {
   };
 
   useEffect(() => {
-    Search();
+    Search(currentTitle, currentLanguage, currentYear); //tiedot mitä käyttää uudella sivulla.
   }, [page]);
 
   return (
     <div className={styles.Container}>
       <h1>Movies</h1>
       <ReactPaginate
+        className={styles.pagination}
         breakLabel="..."
         nextLabel=">>"
         onPageChange={(event) => {
@@ -74,26 +75,20 @@ function Search() {
         previousLabel="<<"
         renderOnZeroPageCount={null}
       />
-      <input className={styles.searchInput} type="text" id="input_title"></input>
-      <input className={styles.searchInput}type="text" id="input_language" defaultValue="en-US"></input>
-      <input className={styles.searchInput} type="text" id="input_year"></input>
-      <select value={selectedGenre}
-          onChange={(e) => setSelectedGenre(e.target.value)}
-          className={styles.dropdown} id="input_genre">
-          <option value="">Genre</option>
-          {genres &&
-              genres.map((genre) => (
-                <option value={genre.id}>{genre.name}</option>
-              ))}
-        </select> 
+      <input className={styles.searchInput} type="text" id="input_title" placeholder="Title"></input>
+      <input className={styles.searchInput}type="text" id="input_language" defaultValue="en-US" placeholder="Language (Example: en-US)"></input>
+      <input className={styles.searchInput} type="text" id="input_year" placeholder="Year"></input>
       <button
         className={styles.searchButton}
         onClick={(event) => {
           (title = input_title.value),
             (language = input_language.value),
             (year = input_year.value);
-            (genre = input_genre.value);
-          Search(title, language, year, genre, page);
+
+            setCurrentTitle(title); //Pitää aikaisemmat tiedot ja käyttää niitä uuden sivun ladatessa.
+            setCurrentLanguage(language);
+            setCurrentYear(year);
+          Search(title, language, year, page);
         }}
       >
         Search
