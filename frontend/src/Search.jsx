@@ -94,6 +94,18 @@ function Search() {
         Search
       </button>
       <Movies />
+      <ReactPaginate
+        className={styles.pagination}
+        breakLabel="..."
+        nextLabel=">>"
+        onPageChange={(event) => {
+          setPage(event.selected + 1);
+        }}
+        pageRangeDisplayed={5}
+        pageCount={pageCount}
+        previousLabel="<<"
+        renderOnZeroPageCount={null}
+      />
     </div>
   );
 }
