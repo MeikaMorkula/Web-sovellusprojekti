@@ -1,4 +1,7 @@
+import bcrypt from "bcrypt"
+
 import {
+  updateUserPassword,
   getAllUsers,
   getOneUser,
   addOneUser,
@@ -9,6 +12,25 @@ import {
 } from "../models/user_model.js";
 
 import { upload } from "../middleware/upload.js";
+
+export async function updatePassword(req, res, next) {
+  try {
+    const userId = Number(req.params.id);
+    if (req.user.id !== userId) {
+      return res.status(403).json({ error: "You cannot change someone else's password" });
+    }
+    const { oldPassword, newPassword } = req.body;
+    const user = await getOneUser(userId);
+    const matches = await bcrypt.compare(oldPassword, user.password);
+    if (!matches) {
+      return res.status(401).json({ error: "Old password is incorrect" });
+    }
+    await updateUserPassword(userId, newPassword);
+    res.json({ message: "Password updated successfully" });
+  } catch (err) {
+    next(err);
+  }
+}
 
 export async function getUsers(req, res, next) {
   try {
