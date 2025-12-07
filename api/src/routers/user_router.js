@@ -13,12 +13,14 @@ const userRouter = Router();
 
 userRouter.post("/register/", addUser);
 
+
+
+//Tämän alle suojatut routet
+
 //saa sen käyttäjän käyttämättä "id"
 userRouter.get("/me", authenticateToken, async (req, res) => {
   res.json({ id: req.user.id });
 });
-
-//Tämän alle suojatut routet
 userRouter.get("/:id", authenticateToken, getUser);
 userRouter.put("/:id", authenticateToken, updateUser);
 userRouter.delete("/:id", authenticateToken, deleteUser);
