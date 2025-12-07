@@ -68,4 +68,5 @@
     display: flex;
     list-style-type: none;
     gap: 30px;
+    cursor: pointer;
 }
