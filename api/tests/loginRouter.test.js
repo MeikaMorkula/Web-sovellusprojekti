@@ -22,36 +22,58 @@ describe("Login Router testit", () => {
     expect(res.body.message).toBe("Login successful");
   });
 
-  test("1) POST /logout tulisi palauttaa 200", async () =>
-{
+  test("1) POST /logout tulisi palauttaa 200", async () => {
     const res = await request(apiUrl).post("/logout").expect(200);
-     expect(res.status).toBe(200);
+    expect(res.status).toBe(200);
     expect(res.body.message).toBe("Logout successful");
-})
+  });
 
-test("2) POST /Login väärällä tunnuksella tulisi palauttaa 401", async ()=>
-{
+  test("2) POST /Login väärällä tunnuksella tulisi palauttaa 401", async () => {
     const falseTestUser = {
       username: "testuser1",
       password: "testpwd3",
     };
 
-    const res = await request(apiUrl).post("/login").send(falseTestUser).expect(401);
+    const res = await request(apiUrl)
+      .post("/login")
+      .send(falseTestUser)
+      .expect(401);
 
     expect(res.status).toBe(401);
     expect(res.body.error).toBe("Invalid username or password");
-})
+  });
 
-test("3) POST /Login puuttuvilla tiedoilla tulisi palauttaa 400 ", async ()=>
-{
+  test("3) POST /Login puuttuvilla tiedoilla tulisi palauttaa 400 ", async () => {
     const missingInfo = {
-        username: "testuser1",
-        password:""
-    }
+      username: "testuser1",
+      password: "",
+    };
 
-    const res = await request(apiUrl).post("/login").send(missingInfo).expect(400);
+    const res = await request(apiUrl)
+      .post("/login")
+      .send(missingInfo)
+      .expect(400);
 
     expect(res.status).toBe(400);
     expect(res.body.error).toBe("Username and password are required");
-})
+  });
+
+  test("4) POST /Register puuttuvilla tiedoilla tulisi palauttaa 400", async () => {
+    const testUser = {
+      //Date.now uniikkia  käyttäjäniemä varten
+      username: `testuser${Date.now()}`,
+      password: "",
+      refresh_token: "",
+      profile_picture: "profile_pic.png",
+      profile_description: "This is a test user",
+      favourite_movie: 1,
+    };
+
+    const res = await request(apiUrl)
+      .post("/register")
+      .send(testUser)
+      .expect(400);
+
+      expect(res.body.error).toBe("Username and password are required")
+  });
 });

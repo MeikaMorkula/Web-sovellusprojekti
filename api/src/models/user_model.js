@@ -38,7 +38,6 @@ export async function updateOneUser(id, user) {
   if (!existing) return null;
 
 
-  //tämä on vaan testiä, ei oikeasti kannatta vaihtaa salasanaa esim lempielokuvan päivityksessä
   const updated = {
     username: user.username ?? existing.username,
     refresh_token: user.refresh_token ?? existing.refresh_token,

@@ -27,7 +27,7 @@ describe("User router tests", () => {
         favourite_movie: 1,
       };
       const res = await request(apiUrl)
-        .post("/user/register")
+        .post("/register")
         .send(testUser)
         .expect(201);
 
@@ -38,12 +38,13 @@ describe("User router tests", () => {
       expect(res.body.username).toBe(testUser.username);
     });
 
-    test("DELETE /user/:id tulisi poistaa luotu käyttäjä", async () => {
+    test("1)DELETE /user/:id tulisi poistaa luotu käyttäjä", async () => {
       const fetchuserId = await request(apiUrl)
         .get("/user/me")
-        .set("Cookie", `accessToken=${newUserToken}`).expect(200);
-        
-        const userId =  fetchuserId.body.id;
+        .set("Cookie", `accessToken=${newUserToken}`)
+        .expect(200);
+
+      const userId = fetchuserId.body.id;
 
       const res = await request(apiUrl)
         .delete(`/user/${userId}`)
@@ -62,7 +63,7 @@ describe("User router tests", () => {
     });
   });
 
-  test("1) GET /:id palauttaa listan (200 + object)", async () => {
+  test("2) GET /:id palauttaa listan (200 + object)", async () => {
     const token = generateAccessToken(1);
     const res = await request(apiUrl)
       .get("/user/1")
@@ -72,4 +73,45 @@ describe("User router tests", () => {
     expect(res.status).toBe(200);
     expect(typeof res.body).toBe("object");
   });
+
+  test("3) GET /:id ilman tokenia palauttaa 401 Unauthorized", async () => {
+    const token = "";
+    const res = await request(apiUrl)
+      .get("/user/1")
+      .set("Cookie", `accessToken=${token}`)
+      .expect(401);
+
+    expect(res.status).toBe(401);
+  });
+
+  test("5) GET /:toisen käyttäjän id palauttaa 403 forbidden", async () => {
+    const token = generateAccessToken(1);
+    const res = await request(apiUrl)
+      .get("/user/2")
+      .set("Cookie", `accessToken=${token}`)
+      .expect(403);
+
+    expect(res.status).toBe(403);
+  });
+
+  test("6) GET /:null tulisi palauttaa 404 not found", async () => {
+    const token = generateAccessToken(1);
+    const res = await request(apiUrl)
+      .get("/user/")
+      .set("Cookie", `accessToken=${token}`)
+      .expect(404);
+
+    expect(res.status).toBe(404);
+  });
+
+  test("7) GET /:id väärällä tokenilla palauttaa 403 forbidden", async () => {
+    const token = generateAccessToken(9)
+    const res = await request(apiUrl)
+      .get("/user/1")
+      .set("Cookie", `accessToken=${token}`)
+      .expect(403);
+
+    expect(res.status).toBe(403);
+  });
+
 });
