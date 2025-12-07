@@ -13,6 +13,10 @@ import { authenticateToken } from "../middleware/auth.js";
 const userRouter = Router();
 
 
+
+
+//Tämän alle suojatut routet
+
 //saa sen käyttäjän käyttämättä "id"
 userRouter.get("/me", authenticateToken, async (req, res) => {
   res.json({ id: req.user.id });
