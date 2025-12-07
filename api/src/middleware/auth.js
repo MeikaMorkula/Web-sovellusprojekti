@@ -16,11 +16,7 @@ export function authenticateToken(req, res, next) {
 
   req.user = decoded;
 
-  if (
-    req.baseUrl.startsWith("/user") &&
-    req.params.id !== undefined && 
-    Number(req.user.id) !== Number(req.params.id)
-  ) {
+  if (req.params.id && Number(req.params.id) !== Number(req.user.id)) {
     return res.status(403).json({ error:"Unauthorized" });
   }
   next();

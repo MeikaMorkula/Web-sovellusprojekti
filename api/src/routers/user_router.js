@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  updatePassword,
   getUsers,
   getUser,
   addUser,
@@ -11,7 +12,6 @@ import {
 import { authenticateToken } from "../middleware/auth.js";
 const userRouter = Router();
 
-userRouter.post("/register/", addUser);
 
 
 
@@ -21,6 +21,10 @@ userRouter.post("/register/", addUser);
 userRouter.get("/me", authenticateToken, async (req, res) => {
   res.json({ id: req.user.id });
 });
+
+userRouter.put("/:id/password", authenticateToken, updatePassword);
+
+//Tämän alle suojatut routet
 userRouter.get("/:id", authenticateToken, getUser);
 userRouter.put("/:id", authenticateToken, updateUser);
 userRouter.delete("/:id", authenticateToken, deleteUser);
