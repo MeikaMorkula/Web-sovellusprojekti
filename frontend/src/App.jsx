@@ -8,6 +8,7 @@ import LoginPage from "./pages/LoginPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import Movie from "./movie.jsx";
 import Groups from "./pages/Groups.jsx";
+import Group from "./pages/Group.jsx";
 import NewReleases from "./newReleases.jsx"
 
 import SettingsPage from "./pages/SettingsPage.jsx"
@@ -34,8 +35,8 @@ function App() {
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/register" element={<Register />} />
 
-         <Route path="/groups" element={<Groups />} />
-
+        <Route path="/groups" element={<Groups />} />
+        <Route path="/group/:id" element={<Group />} />
       </Routes>
 
     </Router>

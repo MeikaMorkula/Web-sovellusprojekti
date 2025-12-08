@@ -56,6 +56,14 @@ export async function deleteOne(id) {
   return result.rows;
 }
 
+export async function getGroupIcon(id) {
+  const result = await pool.query(
+    `SELECT group_icon FROM "Group" WHERE group_id = $1;`,
+    [id]
+  );
+  return result.rows[0];
+}
+
 export async function addGroupPicture(iconpath, id) {
   const result = await pool.query(
     `UPDATE "Group" SET group_icon = $1 WHERE group_id = $2;`,
@@ -71,3 +79,5 @@ export async function addGroupFavouriteMovie(movie_id, id) {
   );
   return result;
 }
+
+

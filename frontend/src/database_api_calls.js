@@ -23,7 +23,11 @@ export async function addFavourite(body) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ movie_id: body.movie_id, username: body.username, user_id: body.user_id }),
+      body: JSON.stringify({
+        movie_id: body.movie_id,
+        username: body.username,
+        user_id: body.user_id,
+      }),
     });
     const data = await res.json();
     return data;
@@ -43,7 +47,6 @@ export async function deleteFavourite(id) {
     return null;
   }
 }
-
 
 export async function fetchReviews(movie_id) {
   try {
@@ -77,9 +80,19 @@ export async function addReview(review) {
   }
 }
 
-export async function fetchGroup() {
+export async function fetchGroups() {
   try {
     const res = await fetch(API_URL + `/group/getGroups`);
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function fetchGroup(id) {
+  try {
+    const res = await fetch(API_URL + `/group/getGroup/` + id);
     const data = await res.json();
     return data;
   } catch (error) {
