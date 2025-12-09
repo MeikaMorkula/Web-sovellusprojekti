@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { newMovies } from "./TMDB_api_calls.js";
-import styles from "./newReleases.module.css";
+import styles from "./styles/newReleases.module.css";
 import { useNavigate } from "react-router-dom"
 
 const BASE_URL = "https://image.tmdb.org/t/p/w200";

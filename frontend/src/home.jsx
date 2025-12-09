@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { trendingMovies } from "./TMDB_api_calls.js";
-import styles from "./home.module.css";
+import styles from "./styles/home.module.css";
 import { useNavigate } from "react-router-dom"
 
 const BASE_URL = "https://image.tmdb.org/t/p/w200"; //postereille

@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import "./App.css";
-import Home from './home.js';
+import Home from './home.jsx';
 import Search from './Search.jsx';
 import LoginPage from "./pages/LoginPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { searchMovies, searchGenres } from "./TMDB_api_calls.js";
 import "./App.css";
 import ReactPaginate from "react-paginate";
-import styles from "./search.module.css"
+import styles from "./styles/search.module.css"
 import { useNavigate } from "react-router-dom"
 
 const BASE_URL = "https://image.tmdb.org/t/p/w200";
