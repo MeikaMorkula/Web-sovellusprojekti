@@ -83,8 +83,8 @@ export default function Movie() {
 
   const Movies = () => {
     return (
-      <div style={styles.container} key={movie.id}>
-        <div style={styles.side}>
+      <div className={styles.container} key={movie.id}>
+        <div ClassName={styles.side}>
           <p>Star rating component</p>
           <p>{movie.vote_average} / 10</p>
           <div>
