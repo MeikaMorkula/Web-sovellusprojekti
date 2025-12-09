@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { searchMovies, searchGenres } from "./TMDB_api_calls.js";
 import "./App.css";
 import ReactPaginate from "react-paginate";
-import styles from "./styles/search.module.css"
+import styles from "./styles/search.module.css";
 import { useNavigate } from "react-router-dom"
 
-const BASE_URL = "https://image.tmdb.org/t/p/w200";
 // you can search up posters with "https://image.tmdb.org/t/p/w200/POSTER_PATH
 let title = "";
 let language = "";
 let year = "";
+const BASE_URL = "https://image.tmdb.org/t/p/w200";
 
 function Search() {
   const [movies, setMovies] = useState([]);
@@ -21,8 +21,8 @@ function Search() {
 
   const Movies = () => {
     const navigate = useNavigate();
-      return (
-        <div className={styles.Container}>
+    return (
+      <div className={styles.Container}>
         <main className={styles.main}>
           <h1>Movies</h1>
           <div className={styles.movieBox}>
@@ -68,6 +68,7 @@ function Search() {
         breakLabel="..."
         nextLabel=">>"
         onPageChange={(event) => {
+          Search(currentTitle, currentLanguage, currentYear);
           setPage(event.selected + 1);
         }}
         pageRangeDisplayed={5}
@@ -88,7 +89,7 @@ function Search() {
             setCurrentTitle(title); //Pitää aikaisemmat tiedot ja käyttää niitä uuden sivun ladatessa.
             setCurrentLanguage(language);
             setCurrentYear(year);
-          Search(title, language, year, page);
+          Search(currentTitle, currentLanguage, currentYear);
         }}
       >
         Search

@@ -34,27 +34,39 @@ export async function addOneUser(user) {
 
 export async function updateOneUser(id, user) {
   console.log("update:" + id);
+  const existing = await getOneUser(id);
+  if (!existing) return null;
 
-  //tämä on vaan testiä, ei oikeasti kannatta vaihtaa salasanaa esim lempielokuvan päivityksessä
 
-  const hashedPassword = await bcrypt.hash(user.password, SALT_ROUNDS);
+  const updated = {
+    username: user.username ?? existing.username,
+    refresh_token: user.refresh_token ?? existing.refresh_token,
+    profile_picture: user.profile_picture ?? existing.profile_picture,
+    profile_description: user.profile_description ?? existing.profile_description,
+    favourite_movie: user.favourite_movie ?? existing.favourite_movie,
+  };
+
   const result = await pool.query(
     `UPDATE "User"
-    SET username = $1, password = $2, refresh_token = $3, profile_picture = $4, profile_description = $5, favourite_movie = $6
-    WHERE user_id = $7;`,
+      SET username = $1,
+      refresh_token = $2,
+      profile_picture = $3,
+      profile_description = $4,
+      favourite_movie = $5
+      WHERE user_id = $6
+      RETURNING *`,
     [
-      user.username,
-      hashedPassword,
-      user.refresh_token,
-      user.profile_picture,
-      user.profile_description,
-      user.favourite_movie,
+      updated.username,
+      updated.refresh_token,
+      updated.profile_picture,
+      updated.profile_description,
+      updated.favourite_movie,
       id,
     ]
   );
-  return result.rows;
-}
 
+  return result.rows[0];
+}
 export async function deleteOneUser(id) {
 
   //poistetaan käyttäjän omistamat ryhmät kun käyttäjä poistetaan
@@ -65,7 +77,7 @@ export async function deleteOneUser(id) {
   const result = await pool.query(`DELETE FROM "User" WHERE user_id = $1 RETURNING *;`, [
     id,
   ]);
-  return result.rows[0];;
+  return result.rows[0];
 }
 
 export async function addUserProfilePicture(id, pfpPath) {
@@ -82,4 +94,13 @@ export async function getUserProfilePicture(id) {
     [id]
   );
   return result.rows[0];
+}
+
+export async function updateUserPassword(id, newPassword) {
+  const hashed = await bcrypt.hash(newPassword, SALT_ROUNDS);
+
+  return pool.query(
+    `UPDATE "User" SET password = $1 WHERE user_id = $2`,
+    [hashed, id]
+  );
 }

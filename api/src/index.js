@@ -7,6 +7,9 @@ import path from "path";
 import userRouter from "./routers/user_router.js";
 import { authenticateToken } from "./middleware/auth.js";
 import loginRouter from "./routers/login_router.js";
+import favouriteRouter from "./routers/favourites_router.js";
+import reviewRouter from "./routers/reviews_router.js";
+import groupRouter from "./routers/group_router.js";
 
 const app = express();
 const port = process.env.PORT;
@@ -29,9 +32,17 @@ app.use(
 //app.use("/book", bookRouter);
 
 app.use("", loginRouter);
+app.use("/user", userRouter);
+app.use("/favourite", favouriteRouter);
+app.use("/review", reviewRouter);
+app.use("/group", groupRouter);
+
 //muut ei pääse nyt muuttatmaan dataa toisilta käyttäjiltä
-app.use("/user", authenticateToken, userRouter);
+app.use("/user" , userRouter);
 
 app.listen(port, () => {
   console.log(`Server is listening port ${port}`);
 });
+
+
+export default app;
