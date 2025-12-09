@@ -3,7 +3,7 @@ import { searchMovies, searchGenres } from "./TMDB_api_calls.js";
 import "./App.css";
 import ReactPaginate from "react-paginate";
 import styles from "./styles/search.module.css";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
 // you can search up posters with "https://image.tmdb.org/t/p/w200/POSTER_PATH
 let title = "";
