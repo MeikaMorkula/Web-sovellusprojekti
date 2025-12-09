@@ -10,6 +10,8 @@ import Movie from "./movie.jsx";
 import Groups from "./pages/Groups.jsx";
 import NewReleases from "./newReleases.jsx"
 import AbsoluteNavBar from "./components/AbsoluteNavBar.js";
+import CreateGroup from "./pages/CreateGroup.jsx";
+import JoinGroup from "./pages/JoinGroup.jsx"
 
 function App() {
   
@@ -25,7 +27,10 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/newReleases" element={<NewReleases />} />
         <Route path="/movie/:id" element={<Movie />} />
-         <Route path="/groups" element={<Groups />} />
+        <Route path="/groups" element={<Groups />} />
+        <Route path="/creategroup" element={<CreateGroup />} />
+        <Route path="/joingroup" element={<JoinGroup />} />
+
       </Routes>
 
     </Router>
