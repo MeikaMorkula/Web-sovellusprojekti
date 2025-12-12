@@ -76,6 +76,8 @@ function Search() {
         previousLabel="<<"
         renderOnZeroPageCount={null}
       />
+      <div className={styles.searchContainer}>
+      <aside className={styles.sideBar}>
       <input className={styles.searchInput} type="text" id="input_title" placeholder="Title"></input>
       <input className={styles.searchInput}type="text" id="input_language" defaultValue="en-US" placeholder="Language (Example: en-US)"></input>
       <input className={styles.searchInput} type="text" id="input_year" placeholder="Year"></input>
@@ -94,7 +96,9 @@ function Search() {
       >
         Search
       </button>
+      </aside>
       <Movies />
+      </div>
       <ReactPaginate
         className={styles.pagination}
         breakLabel="..."

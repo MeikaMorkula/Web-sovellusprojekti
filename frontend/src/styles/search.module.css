@@ -3,6 +3,7 @@
     background-color: white;
     min-height: 100vh;
     position: relative;
+    display: flex 1;
 }
 .searchSection {
     text-align: center;
@@ -15,7 +16,7 @@
 }
 .searchButton {
     padding: 10px 20px;
-    margin-left: 10px;
+    margin-left: 25%;
     cursor: pointer;
 }
 .movieCard {
@@ -25,7 +26,7 @@
 }
 .movieBox {
     display: grid;
-    gap: 30px;
+    gap: 90px;
     margin-top: 30px;
     grid-template-columns: repeat(3, 1fr);
 }
@@ -34,7 +35,7 @@
     margin-top: 50px;
 }
 .poster {
-    transition: transform 0.2 ease;
+    transition: transform 0.2s ease;
 }
 .poster:hover {
     transform: scale(1.1);
@@ -45,4 +46,12 @@
     list-style-type: none;
     gap: 30px;
     cursor: pointer;
+}
+.sideBar {
+    width: 250px;
+    padding: 20px;
+    background-color: #f2f2f2;
+}
+.searchContainer {
+    display: flex;
 }
