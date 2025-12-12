@@ -80,4 +80,20 @@ export async function addGroupFavouriteMovie(movie_id, id) {
   return result;
 }
 
+export async function addToGroup(body) {
+    const result = await pool.query(
+      'INSERT INTO User_Groups (user_id, group_id) VALUES($1, $2) RETURNING *;',
+    [body.user_id, body.group_id]
+  );
+  return result;
+}
+
+export async function requestToGroupJoin(body) {
+    const result = await pool.query(
+      'INSERT INTO Group_Request (user_id, group_id) VALUES($1, $2) RETURNING *;',
+    [body.user_id, body.group_id]
+  );
+  return result;
+}
+
 

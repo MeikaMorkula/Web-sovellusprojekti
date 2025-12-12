@@ -28,10 +28,6 @@ app.use(
   "/profile-pictures",
   express.static(path.join(__dirname, "..", "public", "profile-pictures"))
 );
-app.use(
-  "/group_icon",
-  express.static(path.join(__dirname, "..", "public", "group_icon"))
-);
 
 //app.use("/book", bookRouter);
 

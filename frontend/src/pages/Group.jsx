@@ -39,16 +39,17 @@ export default function Group() {
   const Group = () => {
     return (
       <div style={styles.container}>
-       <div key={group.group_id} style={styles.side}>
-          <img style={styles.img} 
-          src={`http://localhost:3001/group_icon/${group.group_icon}`} alt="group icon">
-
-          </img>
+        <div key={group.group_id} style={styles.side}>
+          <img
+            style={styles.img}
+            src={`http://localhost:3001/group_icon/${group.group_icon}`}
+            alt="group icon"
+          ></img>
           <h2>{group.group_name}</h2>
         </div>
-         <div style={styles.main}>
+        <div style={styles.main}>
           <p>{group.group_description}</p>
-        </div> 
+        </div>
       </div>
     );
   };

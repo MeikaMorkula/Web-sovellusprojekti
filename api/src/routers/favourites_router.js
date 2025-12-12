@@ -4,7 +4,7 @@ import { authenticateToken } from "../middleware/auth.js";
 
 const favouriteRouter = Router();
 
-favouriteRouter.get("/getFavourites", authenticateToken, getFavourites);
+favouriteRouter.get("/getFavourites:id", getFavourites);
 favouriteRouter.post("/getFavourite", getFavourite);
 favouriteRouter.post("/addFavourite", addFavourite);
 favouriteRouter.delete("/deleteFavourite:id", deleteFavourite);
