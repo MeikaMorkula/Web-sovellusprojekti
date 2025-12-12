@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { searchMovies, searchGenres } from "./TMDB_api_calls.js";
 import "./App.css";
 import ReactPaginate from "react-paginate";
-import styles from "./search.module.css";
+import styles from "./styles/search.module.css";
 import { useNavigate } from "react-router-dom";
-
 
 // you can search up posters with "https://image.tmdb.org/t/p/w200/POSTER_PATH
 let title = "";
@@ -96,6 +95,18 @@ function Search() {
         Search
       </button>
       <Movies />
+      <ReactPaginate
+        className={styles.pagination}
+        breakLabel="..."
+        nextLabel=">>"
+        onPageChange={(event) => {
+          setPage(event.selected + 1);
+        }}
+        pageRangeDisplayed={5}
+        pageCount={pageCount}
+        previousLabel="<<"
+        renderOnZeroPageCount={null}
+      />
     </div>
   );
 }

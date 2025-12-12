@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "./App.css";
-import Home from "./home.js";
 import Search from "./Search.jsx";
+import Home from './home.jsx';
 import LoginPage from "./pages/LoginPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import Movie from "./movie.jsx";
