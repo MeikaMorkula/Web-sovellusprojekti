@@ -18,6 +18,8 @@ export default function Movie() {
   const [movie, setMovies] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [favouriteStatus, setFavouriteStatus] = useState([]);
+  const [me, setMe] = useState(null);
+
 
   const [reviewDescription, setReviewDescription] = useState("");
   const [reviewRating, setReviewRating] = useState(2.5);
@@ -35,30 +37,41 @@ export default function Movie() {
     setCoolLarge(false);
   };
 
-  const Favourite = () => {
-    if (favouriteStatus.movie_id === parseInt(urlInfo.id)) {
-      return (
-        <button
-          onClick={() => {
-            deleteFavourite(favouriteStatus.favourite_id);
-          }}
-        >
-          Remove from favourites
-        </button>
-      );
+  useEffect(() => {
+    fetch("http://localhost:3001/user/me", {
+      credentials: "include",
+    })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((meData) => {
+        if (!meData) return null;
+  
+        return fetch(`http://localhost:3001/user/${meData.id}`, {
+          credentials: "include",
+        });
+      })
+      .then((res) => (res ? res.json() : null))
+      .then((profile) => {
+        if (profile) setMe(profile);
+      })
+      .catch(() => {});
+  }, []);
+
+  const Favourite = () => { 
+     if (!me) return;
+     
+     if (favouriteStatus.movie_id === parseInt(urlInfo.id)) {
+      return <button onClick={() => {
+        deleteFavourite(favouriteStatus.favourite_id);
+      }}>Remove from favourites</button>;
     } else {
-      return (
-        <button
-          onClick={() => {
-            addFavourite({
-              movie_id: urlInfo.id,
-              username: "testuser1",
-              user_id: "1",
-            });
-          }}
-        >
-          Add to favourites
-        </button>
+      return <button disabled={!me} onClick={() => {
+        console.log("ADDING FAV:", me);
+       addFavourite(
+        {
+          user_id: me.user_id ?? me.id,
+          movie_id: urlInfo.id, 
+          username: me.username, 
+          }
       );
     }
   };
