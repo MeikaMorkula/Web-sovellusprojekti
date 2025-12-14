@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -16,17 +16,24 @@ import { Link, useNavigate } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import { userLoggedIn } from "../utils/loggedIn.js";
 const pages = ["Home", "Search", "Groups", "Ratings", "NewReleases"];
+
 const settings = [
   { name: "Profile", icon: <AccountCircleIcon /> },
-  { name: "Account", icon: <SettingsIcon /> },
+  { name: "Settings", icon: <SettingsIcon /> },
   { name: "Logout", icon: <ExitToAppIcon /> },
 ];
 
 function AbsoluteNavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [loggedIn, setLoggedIn] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    userLoggedIn().then(setLoggedIn);
+  }, []);
 
   const handleLogOut = () => {
     fetch(`${process.env.REACT_APP_API_URL}/logout`, {
@@ -38,6 +45,7 @@ function AbsoluteNavBar() {
     })
       .then((response) => {
         if (response.ok) {
+          setLoggedIn(false);
           navigate("/login");
         } else {
           alert("logout fialed");
@@ -57,7 +65,6 @@ function AbsoluteNavBar() {
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-    console.log("the hell");
   };
 
   const handleCloseUserMenu = () => {
@@ -69,7 +76,6 @@ function AbsoluteNavBar() {
     <AppBar position="static" sx={{ background: navcolor, color: textcolor }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -157,74 +163,72 @@ function AbsoluteNavBar() {
             ))}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
-                  {setting.name === "Logout" ? (
-                    <Button
-                      onClick={(e) => {
-                        e.stopPropagation(),
-                          handleLogOut(),
-                          console.log("beans");
-                      }}
-                      sx={{
-                        width: "100%",
-                        transform: "none",
-                        padding: 0,
-                        display: "flex",
-                        justifyContent: "flex-start",
-                        alignItems: "center",
-                        color: "inherit",
-                      }}
-                    >
-                      {setting.icon}
-                      <Typography sx={{ textAlign: "center" }}>
-                        {setting.name}
-                      </Typography>
-                    </Button>
-                  ) : (
-                    <Button
-                      component={Link}
-                      to={`/${setting.name.toLowerCase()}`}
-                      sx={{
-                        width: "100%",
-                        transform: "none",
-                        padding: 0,
-                        display: "flex",
-                        justifyContent: "flex-start",
-                        alignItems: "center",
-                        color: "inherit",
-                      }}
-                    >
-                      {setting.icon}
-                      <Typography sx={{ textAlign: "center" }}>
-                        {setting.name}
-                      </Typography>
-                    </Button>
-                  )}
-                </MenuItem>
-              ))}
-            </Menu>
+            {loggedIn ? (
+              <>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar alt="User avatar" />
+                  </IconButton>
+                </Tooltip>
+
+                <Menu
+                  anchorEl={anchorElUser}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "right",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                >
+                  {settings.map((setting) => (
+                    <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
+                      {setting.name === "Logout" ? (
+                        <Button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleLogOut();
+                          }}
+                          sx={{
+                            width: "100%",
+                            justifyContent: "flex-start",
+                            color: "inherit",
+                          }}
+                        >
+                          {setting.icon}
+                          <Typography>{setting.name}</Typography>
+                        </Button>
+                      ) : (
+                        <Button
+                          component={Link}
+                          to={`/${setting.name.toLowerCase()}`}
+                          sx={{
+                            width: "100%",
+                            justifyContent: "flex-start",
+                            color: "inherit",
+                          }}
+                        >
+                          {setting.icon}
+                          <Typography>{setting.name}</Typography>
+                        </Button>
+                      )}
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </>
+            ) : (
+              <Button
+                component={Link}
+                to="/login"
+                variant="contained"
+                sx={{ backgroundColor: "green" }}
+              >
+                Login
+              </Button>
+            )}
           </Box>
         </Toolbar>
       </Container>

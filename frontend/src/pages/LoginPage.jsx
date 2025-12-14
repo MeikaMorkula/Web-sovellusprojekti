@@ -21,9 +21,11 @@ export default function LoginPage() {
       //todo: muuta turvallisemmaksi
       //localStorage.setItem("accessToken", data.accessToken);
 
-      alert("Login successful");
       //kun kirjautuminen onnistuu mennään kotisivulle
       navigate("/home") 
+
+      //brute force päivitetään navbar
+      window.location.reload();
       
     } else {
       alert("login failed. wrong username or pwd");
