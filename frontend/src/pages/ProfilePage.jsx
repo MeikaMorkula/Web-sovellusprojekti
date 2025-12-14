@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Favourites from "./Favourites";
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState(null);
@@ -82,6 +83,12 @@ export default function ProfilePage() {
       <ul>
         <li>No groups yet</li>
       </ul>
+
+      <h3 style={{ marginTop: "40px" }}>
+        
+      </h3>
+
+      <Favourites user_id={profile.user_id || profile.id} />
     </div>
   );
 }

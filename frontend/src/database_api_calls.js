@@ -18,7 +18,7 @@ export async function fetchFavourite(movie_id, user_id) {
 
 export async function fetchFavourites(user_id) {
   try {
-    const res = await fetch(API_URL + `/favourite/getFavourites` + user_id, {
+    const res = await fetch(API_URL + `/favourite/getFavourites/` + user_id, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -35,6 +35,7 @@ export async function addFavourite(body) {
   try {
     const res = await fetch(API_URL + `/favourite/addFavourite`, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
