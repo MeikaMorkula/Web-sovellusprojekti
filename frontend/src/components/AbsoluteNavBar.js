@@ -16,7 +16,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-const pages = ["Home", "Search", "Groups", "Ratings", "NewReleases"];
+const pages = ["Home", "Search", "Groups", "Reviews", "NewReleases"];
 const settings = [
   { name: "Profile", icon: <AccountCircleIcon /> },
   { name: "Account", icon: <SettingsIcon /> },

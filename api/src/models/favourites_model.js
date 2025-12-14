@@ -18,8 +18,8 @@ export async function getOne(favourite) {
 
 export async function addOne(favourite) {
   const result = await pool.query(
-    "INSERT INTO Favourites (user_id, movie_id , username) VALUES($1,$2,$3);",
-    [favourite.user_id, favourite.movie_id, favourite.username]
+    "INSERT INTO Favourites (user_id, movie_id) VALUES($1,$2);",
+    [favourite.user_id, favourite.movie_id]
   );
   return result.rows;
 }
