@@ -56,6 +56,14 @@ export async function deleteOne(id) {
   return result.rows;
 }
 
+export async function getGroupIcon(id) {
+  const result = await pool.query(
+    `SELECT group_icon FROM "Group" WHERE group_id = $1;`,
+    [id]
+  );
+  return result.rows[0];
+}
+
 export async function addGroupPicture(iconpath, id) {
   const result = await pool.query(
     `UPDATE "Group" SET group_icon = $1 WHERE group_id = $2;`,
@@ -71,3 +79,21 @@ export async function addGroupFavouriteMovie(movie_id, id) {
   );
   return result;
 }
+
+export async function addToGroup(body) {
+    const result = await pool.query(
+      'INSERT INTO User_Groups (user_id, group_id) VALUES($1, $2) RETURNING *;',
+    [body.user_id, body.group_id]
+  );
+  return result;
+}
+
+export async function requestToGroupJoin(body) {
+    const result = await pool.query(
+      'INSERT INTO Group_Request (user_id, group_id) VALUES($1, $2) RETURNING *;',
+    [body.user_id, body.group_id]
+  );
+  return result;
+}
+
+
