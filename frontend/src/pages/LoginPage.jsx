@@ -37,6 +37,7 @@ export default function LoginPage() {
       <h2>Log in</h2>
 
       <input
+        defaultValue='username'
         placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
@@ -44,6 +45,7 @@ export default function LoginPage() {
       <br />
 
       <input
+        defaultValue='password'
         type="password"
         placeholder="Password"
         value={password}

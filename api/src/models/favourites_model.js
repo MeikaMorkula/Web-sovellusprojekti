@@ -1,7 +1,10 @@
 import pool from "../database.js";
 
-export async function getAll() {
-  const result = await pool.query("SELECT * FROM Favourites");
+export async function getAll(id) {
+  const result = await pool.query(
+    "SELECT * FROM Favourites WHERE user_id = $1;",
+    [id]
+  );
   return result.rows;
 }
 
@@ -15,7 +18,7 @@ export async function getOne(favourite) {
 
 export async function addOne(favourite) {
   const result = await pool.query(
-    "INSERT INTO Favourites (user_id, movie_id , username) VALUES($1,$2,$3)",
+    "INSERT INTO Favourites (user_id, movie_id , username) VALUES($1,$2,$3);",
     [favourite.user_id, favourite.movie_id, favourite.username]
   );
   return result.rows;
@@ -24,7 +27,7 @@ export async function addOne(favourite) {
 export async function deleteOne(id) {
   console.log("delete:" + id);
   const result = await pool.query(
-    "DELETE FROM Favourites WHERE favourite_id = $1",
+    "DELETE FROM Favourites WHERE favourite_id = $1;",
     [id]
   );
   return result.rows;

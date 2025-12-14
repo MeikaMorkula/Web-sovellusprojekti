@@ -16,6 +16,21 @@ export async function fetchFavourite(movie_id, user_id) {
   }
 }
 
+export async function fetchFavourites(user_id) {
+  try {
+    const res = await fetch(API_URL + `/favourite/getFavourites` + user_id, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    return null;
+  }
+}
+
 export async function addFavourite(body) {
   try {
     const res = await fetch(API_URL + `/favourite/addFavourite`, {
@@ -23,7 +38,11 @@ export async function addFavourite(body) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ movie_id: body.movie_id, username: body.username, user_id: body.user_id }),
+      body: JSON.stringify({
+        movie_id: body.movie_id,
+        username: body.username,
+        user_id: body.user_id,
+      }),
     });
     const data = await res.json();
     return data;
@@ -43,7 +62,6 @@ export async function deleteFavourite(id) {
     return null;
   }
 }
-
 
 export async function fetchReviews(movie_id) {
   try {
@@ -77,9 +95,38 @@ export async function addReview(review) {
   }
 }
 
-export async function fetchGroup() {
+export async function fetchGroups() {
   try {
     const res = await fetch(API_URL + `/group/getGroups`);
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function fetchGroup(id) {
+  try {
+    const res = await fetch(API_URL + `/group/getGroup/` + id);
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function requestGroupJoin(user_id, group_id) {
+  try {
+    const res = await fetch(API_URL + `/group/requestGroupJoin`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: user_id,
+        group_id: group_id,
+      }),
+    });
     const data = await res.json();
     return data;
   } catch (error) {

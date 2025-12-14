@@ -2,7 +2,7 @@ import { getAll, getOne, addOne, deleteOne } from "../models/favourites_model.js
 
 export async function getFavourites(req, res, next) {
   try {
-    const favourites = await getAll();
+    const favourites = await getAll(req.params.id);
     res.json(favourites);
   } catch (err) {
     next(err);
