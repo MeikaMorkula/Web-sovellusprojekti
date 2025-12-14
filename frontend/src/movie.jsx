@@ -1,8 +1,16 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { searchMovieById } from "./TMDB_api_calls.js";
-import  { fetchFavourite, fetchReviews, addReview, deleteFavourite, addFavourite } from "./database_api_calls.js";
+import {
+  fetchFavourite,
+  fetchReviews,
+  addReview,
+  deleteFavourite,
+  addFavourite,
+} from "./database_api_calls.js";
 import styles from "./styles/movie.module.css";
+import AbsoluteRating from "./components/AbsoluteRating.js";
+import Reviews from"./components/Reviews.jsx"
 
 export default function Movie() {
   const POSTER_URL = "https://image.tmdb.org/t/p/w500";
@@ -10,6 +18,9 @@ export default function Movie() {
   const [movie, setMovies] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [favouriteStatus, setFavouriteStatus] = useState([]);
+
+  const [reviewDescription, setReviewDescription] = useState("");
+  const [reviewRating, setReviewRating] = useState(2.5);
   let urlInfo = useParams();
 
   const [coolLarge, setCoolLarge] = useState(false);
@@ -24,69 +35,46 @@ export default function Movie() {
     setCoolLarge(false);
   };
 
-  const Favourite = () => { 
-     if (favouriteStatus.movie_id === parseInt(urlInfo.id)) {
-      return <button onClick={() => {
-        deleteFavourite(favouriteStatus.favourite_id);
-      }}>Remove from favourites</button>;
-    } else {
-      return <button onClick={() => {
-        
-       addFavourite(
-        {movie_id: urlInfo.id, username: "testuser1", user_id: "1"}
+  const Favourite = () => {
+    if (favouriteStatus.movie_id === parseInt(urlInfo.id)) {
+      return (
+        <button
+          onClick={() => {
+            deleteFavourite(favouriteStatus.favourite_id);
+          }}
+        >
+          Remove from favourites
+        </button>
       );
-       }}>Add to favourites</button>
+    } else {
+      return (
+        <button
+          onClick={() => {
+            addFavourite({
+              movie_id: urlInfo.id,
+              username: "testuser1",
+              user_id: "1",
+            });
+          }}
+        >
+          Add to favourites
+        </button>
+      );
     }
   };
 
-  const Reviews = () => {
-    
-    return (
-      <div>
-        <h3>Add your review!</h3>
-        <label>Review text</label>
-        <input
-          name="review_description"
-          type="text"
-          id="review_description"
-        ></input>
-        <label>Review rating</label>
-        <input
-          type="text"
-          id="review_rating"
-        ></input>
-        <button onClick={() => {
-          const review = {
-            review_description: review_description.value,
-            review_rating: review_rating.value,
-            user_id: 1,
-            movie_id: parseInt(urlInfo.id),
-          };
-          addReview(review);
-        }}>Submit Review</button>
-        
-        <h3>Reviews Section</h3>
-        {reviews.length > 0 ? (
-            reviews.map((review) => 
-              <div key={review.review_id}>
-                <p>{review.user_id}</p>
-                <p>{review.review_description}</p>
-                <p>{review.review_rating}</p>
-              </div>)
-            ) : (
-              <p>No reviews available.</p>
-          )
-        }
-      </div>
-    );
-  }
+  
 
   const Movies = () => {
     return (
       <div className={styles.container} key={movie.id}>
         <div ClassName={styles.side}>
-          <p>Star rating component</p>
-          <p>{movie.vote_average} / 10</p>
+          <AbsoluteRating
+            value={movie.vote_average / 2}
+            readOnly
+            precision={0.1}
+          />
+          {movie.vote_average / 2} / 5
           <div>
             <Favourite />
           </div>
@@ -95,10 +83,11 @@ export default function Movie() {
               className={styles.img}
               src={`${POSTER_URL}${movie.poster_path}`}
               alt={movie.title}
-              onClick={() => largeCool(`${ORIGINAL_POSTER_URL}${movie.poster_path}`)}
+              onClick={() =>
+                largeCool(`${ORIGINAL_POSTER_URL}${movie.poster_path}`)
+              }
             ></img>
           </div>
-
           <ul>
             {movie.genres &&
               movie.genres.map((genre) => <li key={genre.id}>{genre.name}</li>)}
@@ -116,19 +105,24 @@ export default function Movie() {
           <h2>{movie.title}</h2>
           <p>{movie.overview}</p>
           <br></br>
-          <Reviews />
+          <Reviews
+            movieId={parseInt(urlInfo.id)}
+            reviews={reviews}
+            addReviewCallback={addReview}
+          />
         </div>
-        <div className={`${styles.cool} ${coolLarge ? styles.show : ""}`} onClick={closeCool}>
-        <span className={styles.close} onClick={closeCool}>
-          &times;
-        </span>
-        <img className={styles.coolContent} src={coolImg} />
-      </div>
+        <div
+          className={`${styles.cool} ${coolLarge ? styles.show : ""}`}
+          onClick={closeCool}
+        >
+          <span className={styles.close} onClick={closeCool}>
+            &times;
+          </span>
+          <img className={styles.coolContent} src={coolImg} />
+        </div>
       </div>
     );
   };
-
- 
 
   const Search = (movie_id) => {
     searchMovieById(movie_id)
