@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { searchMovies, searchGenres } from "./TMDB_api_calls.js";
+import { searchMovies, } from "./TMDB_api_calls.js";
 import "./App.css";
 import ReactPaginate from "react-paginate";
 import styles from "./styles/search.module.css";
@@ -57,8 +57,10 @@ function Search() {
   };
 
   useEffect(() => {
-    Search(currentTitle, currentLanguage, currentYear); //tiedot mitä käyttää uudella sivulla.
-  }, [page]);
+    if (currentTitle || currentLanguage || currentYear) {
+      Search(currentTitle, currentLanguage, currentYear); //tiedot mitä käyttää uudella sivulla, jos joku current osioista on true.
+    }
+  }, [currentTitle, currentLanguage, currentYear, page]);
 
   return (
     <div className={styles.Container}>
@@ -68,8 +70,7 @@ function Search() {
         breakLabel="..."
         nextLabel=">>"
         onPageChange={(event) => {
-          Search(currentTitle, currentLanguage, currentYear);
-          setPage(event.selected + 1);
+          setPage(event.selected + 1); //search tapahtuu nyt useEffect.
         }}
         pageRangeDisplayed={5}
         pageCount={pageCount}
@@ -87,11 +88,11 @@ function Search() {
           (title = input_title.value),
             (language = input_language.value),
             (year = input_year.value);
+            setPage(1);
 
             setCurrentTitle(title); //Pitää aikaisemmat tiedot ja käyttää niitä uuden sivun ladatessa.
             setCurrentLanguage(language);
             setCurrentYear(year);
-          Search(currentTitle, currentLanguage, currentYear);
         }}
       >
         Search
