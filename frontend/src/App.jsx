@@ -12,6 +12,7 @@ import NewReleases from "./newReleases.jsx";
 import Favourites from "./pages/Favourites.jsx";
 import SettingsPage from "./pages/SettingsPage.jsx";
 import Register from "./pages/Register.jsx";
+import Reviews from "./pages/Reviews.jsx";
 
 import AbsoluteNavBar from "./components/AbsoluteNavBar.js";
 
@@ -33,6 +34,7 @@ function App() {
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/register" element={<Register />} />
 
+          <Route path="/reviews" element={<Reviews />} />
           <Route path="/groups" element={<Groups />} />
           <Route path="/group/:id" element={<Group />} />
           <Route path="/favourites/:id" element={<Favourites />} />
