@@ -11,7 +11,7 @@ import {
 } from "./database_api_calls.js";
 import styles from "./styles/movie.module.css";
 import AbsoluteRating from "./components/AbsoluteRating.js";
-import Reviews from"./components/Reviews.jsx"
+import Reviews from "./components/Reviews.jsx";
 
 export default function Movie() {
   const POSTER_URL = "https://image.tmdb.org/t/p/w500";
@@ -90,7 +90,7 @@ export default function Movie() {
       .then((res) => (res.ok ? res.json() : null))
       .then((meData) => {
         if (!meData) return null;
-  
+
         return fetch(`http://localhost:3001/user/${meData.id}`, {
           credentials: "include",
         });
@@ -102,22 +102,34 @@ export default function Movie() {
       .catch(() => {});
   }, []);
 
-  const Favourite = () => { 
-     if (!me) return;
-     
-     if (favouriteStatus.movie_id === parseInt(urlInfo.id)) {
-      return <button onClick={() => {
-        deleteFavourite(favouriteStatus.favourite_id);
-      }}>Remove from favourites</button>;
+  const Favourite = () => {
+    if (!me) return;
+
+    if (favouriteStatus.movie_id === parseInt(urlInfo.id)) {
+      return (
+        <button
+          onClick={() => {
+            deleteFavourite(favouriteStatus.favourite_id);
+          }}
+        >
+          Remove from favourites
+        </button>
+      );
     } else {
-      return <button disabled={!me} onClick={() => {
-        console.log("ADDING FAV:", me);
-       addFavourite(
-        {
-          user_id: me.user_id ?? me.id,
-          movie_id: urlInfo.id, 
-          username: me.username, 
-          }
+      return (
+        <button
+          disabled={!me}
+          onClick={() => {
+            console.log("ADDING FAV:", me);
+            addFavourite({
+              user_id: me.user_id ?? me.id,
+              movie_id: urlInfo.id,
+              username: me.username,
+            });
+          }}
+        >
+          {" "}
+        </button>
       );
     }
   };
