@@ -106,6 +106,7 @@ function Search() {
 
       <CustomButton
         text="Search"
+      />
       <div className={styles.searchContainer}>
       <aside className={styles.sideBar}>
       <input className={styles.searchInput} type="text" id="input_title" placeholder="Title"></input>
@@ -125,6 +126,7 @@ function Search() {
         }}
         color="success"
       />
+      </aside>
       <Movies />
       </div>
       <ReactPaginate
