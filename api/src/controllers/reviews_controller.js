@@ -1,13 +1,23 @@
-import { getAll, addOne, deleteOne } from "../models/reviews_model.js";
+import { getAll, addOne, deleteOne, getAllFromId } from "../models/reviews_model.js";
 
 export async function getReviews(req, res, next) {
   try {
-    const review = await getAll(req.params.id);
+    const review = await getAll();
     res.json(review);
   } catch (err) {
     next(err);
   }
 }
+
+export async function getReviewsFromId(req, res, next) {
+  try {
+    const review = await getAllFromId(req.params.id);
+    res.json(review);
+  } catch (err) {
+    next(err);
+  }
+}
+
 
 export async function addReview(req, res, next) {
   try {

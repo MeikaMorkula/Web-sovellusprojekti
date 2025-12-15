@@ -1,5 +1,24 @@
 const API_URL = process.env.REACT_APP_API_URL;
 
+export async function fetchUserData() {
+  try {
+    const meRes = await fetch("http://localhost:3001/user/me", {
+      credentials: "include",
+    });
+
+    const meData = await meRes.json();
+
+    const profileRes = await fetch(`http://localhost:3001/user/${meData.id}`, {
+      credentials: "include",
+    });
+
+    const data = await profileRes.json();
+    return data;
+  } catch (error) {
+    return null;
+  }
+}
+
 export async function fetchFavourite(movie_id, user_id) {
   try {
     const res = await fetch(API_URL + `/favourite/getFavourite`, {
@@ -74,6 +93,16 @@ export async function fetchReviews(movie_id) {
   }
 }
 
+export async function fetchAllReviews() {
+  try {
+    const res = await fetch(API_URL + `/review/getReviews`);
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    return null;
+  }
+}
+
 export async function addReview(review) {
   try {
     const res = await fetch(API_URL + `/review/addReview`, {
@@ -83,9 +112,12 @@ export async function addReview(review) {
       },
       body: JSON.stringify({
         review_rating: review.review_rating,
+        username: review.username,
         user_id: review.user_id,
         review_description: review.review_description,
         movie_id: review.movie_id,
+        poster_path: review.poster_path,
+        movie_name: review.movie_name
       }),
     });
     console.log("Review added");
