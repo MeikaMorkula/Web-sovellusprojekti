@@ -137,7 +137,7 @@ export default function Movie() {
   const Movies = () => {
     return (
       <div className={styles.container} key={movie.id}>
-        <div ClassName={styles.side}>
+        <div className={styles.side}>
           <AbsoluteRating
             value={movie.vote_average / 2}
             readOnly
