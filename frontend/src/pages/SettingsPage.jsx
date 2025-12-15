@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import CustomButton from "../components/CustomButton.js";
 
 export default function SettingsPage() {
   const [userId, setUserId] = useState(null);
@@ -144,7 +145,13 @@ export default function SettingsPage() {
   return (
     <div style={{ display: "flex", width: "100%", height: "100%" }}>
       {/* vasen  */}
-      <div style={{ width: "33.33%", padding: "20px", borderRight: "1px solid #ccc" }}>
+      <div
+        style={{
+          width: "33.33%",
+          padding: "20px",
+          borderRight: "1px solid #ccc",
+        }}
+      >
         <div className="w-[150px] h-[150px] border border-gray-400 flex justify-center items-center">
           PROFILE PIC
         </div>
@@ -160,18 +167,30 @@ export default function SettingsPage() {
           onChange={handleUpload}
         />
 
-        <button onClick={() => document.getElementById("pfpInput").click()}>
-          Change profile picture
-        </button>
+        <CustomButton
+          color="success"
+          text="Change profile picture"
+          onClick={() => document.getElementById("pfpInput").click()}
+        />
 
         <br />
         <br />
 
-        <button onClick={handleDelete}>Delete account</button>
+        <CustomButton
+          color="error"
+          text="Delete account"
+          onClick={handleDelete}
+        />
       </div>
 
       {/* keski */}
-      <div style={{ width: "33.33%", padding: "20px", borderRight: "1px solid #ccc" }}>
+      <div
+        style={{
+          width: "33.33%",
+          padding: "20px",
+          borderRight: "1px solid #ccc",
+        }}
+      >
         <h3>Change username</h3>
         <input
           value={username}
@@ -179,7 +198,11 @@ export default function SettingsPage() {
           className="border p-1"
         />
         <br />
-        <button onClick={handleUsername}>Update username</button>
+        <CustomButton
+          color="success"
+          text="Update username"
+          onClick={handleUsername}
+        />
 
         <br />
         <br />
@@ -219,7 +242,11 @@ export default function SettingsPage() {
 
         <br />
         <br />
-        <button onClick={handlePassword}>Change password</button>
+        <CustomButton
+          text="Change password"
+          onClick={handlePassword}
+          color="success"
+        />
       </div>
 
       {/*oikea puoli */}
@@ -232,7 +259,11 @@ export default function SettingsPage() {
         />
         <br />
         <br />
-        <button onClick={handleBio}>Update profile text</button>
+        <CustomButton
+          text="Update profile text"
+          onClick={handleBio}
+          color="success"
+        />
       </div>
     </div>
   );

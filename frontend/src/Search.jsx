@@ -4,6 +4,7 @@ import "./App.css";
 import ReactPaginate from "react-paginate";
 import styles from "./styles/search.module.css";
 import { useNavigate } from "react-router-dom";
+import CustomButton from "./components/CustomButton.js";
 
 // you can search up posters with "https://image.tmdb.org/t/p/w200/POSTER_PATH
 let title = "";
@@ -26,23 +27,29 @@ function Search() {
         <main className={styles.main}>
           <h1>Movies</h1>
           <div className={styles.movieBox}>
-            {movies && movies.map(movie => (
-              <div key={movie.id} className={styles.movieCard}
-                onClick={() => navigate(`/movie/${movie.id}`)}>
-                <img className={styles.poster}
-                  src={`${BASE_URL}${movie.poster_path}`} alt={movie.title}/> {/*Koko pitää jotenkin saada jokaiselle posterille sama, tuli aika stretched kuva.*/}
-                <p>Title: {movie.title}</p>
-                <p>ID: {movie.id}</p>
-                <p>Release: {movie.release_date}</p>
-              </div>
-            ))}
+            {movies &&
+              movies.map((movie) => (
+                <div
+                  key={movie.id}
+                  className={styles.movieCard}
+                  onClick={() => navigate(`/movie/${movie.id}`)}
+                >
+                  <img
+                    className={styles.poster}
+                    src={`${BASE_URL}${movie.poster_path}`}
+                    alt={movie.title}
+                  />{" "}
+                  {/*Koko pitää jotenkin saada jokaiselle posterille sama, tuli aika stretched kuva.*/}
+                  <p>Title: {movie.title}</p>
+                  <p>ID: {movie.id}</p>
+                  <p>Release: {movie.release_date}</p>
+                </div>
+              ))}
           </div>
         </main>
       </div>
     );
   };
-
-  
 
   const Search = (title, language, year) => {
     const tempTitle = "" + title;
@@ -77,6 +84,28 @@ function Search() {
         previousLabel="<<"
         renderOnZeroPageCount={null}
       />
+      <input
+        className={styles.searchInput}
+        type="text"
+        id="input_title"
+        placeholder="Title"
+      ></input>
+      <input
+        className={styles.searchInput}
+        type="text"
+        id="input_language"
+        defaultValue="en-US"
+        placeholder="Language (Example: en-US)"
+      ></input>
+      <input
+        className={styles.searchInput}
+        type="text"
+        id="input_year"
+        placeholder="Year"
+      ></input>
+
+      <CustomButton
+        text="Search"
       <div className={styles.searchContainer}>
       <aside className={styles.sideBar}>
       <input className={styles.searchInput} type="text" id="input_title" placeholder="Title"></input>
@@ -94,10 +123,8 @@ function Search() {
             setCurrentLanguage(language);
             setCurrentYear(year);
         }}
-      >
-        Search
-      </button>
-      </aside>
+        color="success"
+      />
       <Movies />
       </div>
       <ReactPaginate

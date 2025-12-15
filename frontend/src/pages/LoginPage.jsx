@@ -21,9 +21,11 @@ export default function LoginPage() {
       //todo: muuta turvallisemmaksi
       //localStorage.setItem("accessToken", data.accessToken);
 
-      alert("Login successful");
       //kun kirjautuminen onnistuu mennään kotisivulle
       navigate("/home") 
+
+      //brute force päivitetään navbar
+      window.location.reload();
       
     } else {
       alert("login failed. wrong username or pwd");
@@ -53,6 +55,22 @@ export default function LoginPage() {
 
       <CustomButton text="LogIn" type="submit" color='success'></CustomButton>
 
+      <div style={{ marginTop: "15px" }}>
+        <button
+          type="button"
+          onClick={() => navigate("/register")}
+          style={{
+            background: "none",
+            border: "none",
+            color: "blue",
+            cursor: "pointer",
+            textDecoration: "underline",
+            padding: 0,
+          }}
+        >
+          No account? Register here.
+        </button>
+      </div>
     </form>
   );
 }
