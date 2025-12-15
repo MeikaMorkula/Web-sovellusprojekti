@@ -20,22 +20,41 @@ export default function Reviews() {
         {reviews.length > 0 ? (
           reviews.map((review) => (
             <div key={review.review_id} className={styles.review}>
-              <img
-                src={`${POSTER_URL}${review.poster_path}`}
-                alt={review.movie_name}
-                className={styles.img}
-                onClick={() => navigate(`/movie/${review.movie_id}`)}
-              ></img>
-              <h2 className={styles.box}>{review.movie_name}</h2>
-              <h2 className={styles.box}>{review.review_rating}</h2>
-              <h4
-                className={styles.box}
-                // Link to favourites list / profile
-                //onClick={() => navigate(`/profile/${review.user_id}`)}
-              >
-                {review.username}
-              </h4>
-              <p className={styles.review_description}>{review.review_description}</p>
+              <table>
+                <tr>
+                  <th>
+                    <h4
+                      className={styles.topBox}
+                      // Link to favourites list / profile
+                      //onClick={() => navigate(`/profile/${review.user_id}`)}
+                    >
+                      {review.username}
+                    </h4>
+                  </th>
+                  <th>
+                    <h2 className={styles.topBox}>{review.review_rating}</h2>
+                  </th>
+                  <th>
+                    <h2 className={styles.review_description}>{review.movie_name}</h2>
+                  </th>
+                </tr>
+                <tr>
+                  <td><p className={styles.bottomBox}>profile picture</p></td>
+                  <td>
+                    <img
+                      src={`${POSTER_URL}${review.poster_path}`}
+                      alt={review.movie_name}
+                      className={styles.img}
+                      onClick={() => navigate(`/movie/${review.movie_id}`)}
+                    ></img>
+                  </td>
+                  <td>
+                    <p className={styles.review_description}>
+                      {review.review_description}
+                    </p>
+                  </td>
+                </tr>
+              </table>
             </div>
           ))
         ) : (
@@ -47,7 +66,6 @@ export default function Reviews() {
 
   useEffect(() => {
     fetchAllReviews().then((data) => {
-      console.log(data);
       setReviews(data);
       setPageCount(data.total_pages);
     });
