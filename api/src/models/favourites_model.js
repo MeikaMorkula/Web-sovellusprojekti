@@ -32,3 +32,10 @@ export async function deleteOne(id) {
   );
   return result.rows;
 }
+
+export async function getByUsername(username) {
+  const result = await pool.query(
+    "SELECT * FROM Favourites WHERE username = $1;",[username]
+  );
+  return result.rows;
+}
