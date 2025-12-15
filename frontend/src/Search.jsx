@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { searchMovies, } from "./TMDB_api_calls.js";
+import { searchMovies, getLanguages } from "./TMDB_api_calls.js";
 import "./App.css";
 import ReactPaginate from "react-paginate";
 import styles from "./styles/search.module.css";
 import { useNavigate } from "react-router-dom";
-import CustomButton from "./components/CustomButton.js";
+import SearchButton from "./components/SearchButton.js";
 
 // you can search up posters with "https://image.tmdb.org/t/p/w200/POSTER_PATH
 let title = "";
@@ -19,6 +19,10 @@ function Search() {
   const [currentTitle, setCurrentTitle] = useState("");
   const [currentLanguage, setCurrentLanguage] = useState("");
   const [currentYear, setCurrentYear] = useState("");
+  const [languages, setLanguages] = useState([]);
+  const [selectedLanguage, setSelectedLanguage] = useState("en-US");
+
+
 
   const Movies = () => {
     const navigate = useNavigate();
@@ -69,6 +73,14 @@ function Search() {
     }
   }, [currentTitle, currentLanguage, currentYear, page]);
 
+  useEffect(() => {
+  const fetchLanguages = async () => {
+    const data = await getLanguages();
+    setLanguages(data);
+  };
+  fetchLanguages();
+  }, []);
+
   return (
     <div className={styles.Container}>
       <h1>Movies</h1>
@@ -86,26 +98,34 @@ function Search() {
       />
       <div className={styles.searchContainer}>
       <aside className={styles.sideBar}>
-      <input className={styles.searchInput} 
+        
+      <input 
+        className={styles.searchInput} 
         type="text" 
         id="input_title" 
         placeholder="Title">
       </input>
 
-      <input className={styles.searchInput}
-        type="text" 
-        id="input_language" 
-        defaultValue="en-US" 
-        placeholder="Language (Example: en-US)">
-      </input>
+      <select 
+        className={styles.dropdown}
+        id="input_language"
+        value={selectedLanguage}
+        onChange={(e) => setSelectedLanguage(e.target.value)}>
+      {languages.map(option => (
+        <option key={option.tag} value={option.tag}>
+          {option.language}-{option.region}
+        </option>
+      ))}
+      </select>
 
-      <input className={styles.searchInput} 
+      <input 
+      className={styles.searchInput} 
       type="text" 
       id="input_year" 
       placeholder="Year">
       </input>
 
-      <CustomButton
+      <SearchButton
         text="Search"
         className={styles.searchButton}
         onClick={(event) => {

@@ -16,6 +16,9 @@
 .movieCard {
     width: 180px;
     text-align: center;
+    border: 3px solid;
+    border-color: #8F8f8f;
+    border-radius: 9px;
 }
 .poster {
     width: 100%;
