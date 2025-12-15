@@ -84,35 +84,29 @@ function Search() {
         previousLabel="<<"
         renderOnZeroPageCount={null}
       />
-      <input
-        className={styles.searchInput}
-        type="text"
-        id="input_title"
-        placeholder="Title"
-      ></input>
-      <input
-        className={styles.searchInput}
-        type="text"
-        id="input_language"
-        defaultValue="en-US"
-        placeholder="Language (Example: en-US)"
-      ></input>
-      <input
-        className={styles.searchInput}
-        type="text"
-        id="input_year"
-        placeholder="Year"
-      ></input>
+      <div className={styles.searchContainer}>
+      <aside className={styles.sideBar}>
+      <input className={styles.searchInput} 
+        type="text" 
+        id="input_title" 
+        placeholder="Title">
+      </input>
+
+      <input className={styles.searchInput}
+        type="text" 
+        id="input_language" 
+        defaultValue="en-US" 
+        placeholder="Language (Example: en-US)">
+      </input>
+
+      <input className={styles.searchInput} 
+      type="text" 
+      id="input_year" 
+      placeholder="Year">
+      </input>
 
       <CustomButton
         text="Search"
-      />
-      <div className={styles.searchContainer}>
-      <aside className={styles.sideBar}>
-      <input className={styles.searchInput} type="text" id="input_title" placeholder="Title"></input>
-      <input className={styles.searchInput}type="text" id="input_language" defaultValue="en-US" placeholder="Language (Example: en-US)"></input>
-      <input className={styles.searchInput} type="text" id="input_year" placeholder="Year"></input>
-      <button
         className={styles.searchButton}
         onClick={(event) => {
           (title = input_title.value),
