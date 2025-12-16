@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { fetchAllReviews } from "../database_api_calls.js";
 import { searchMovieById } from "../TMDB_api_calls.js";
 import CustomButton from "../components/CustomButton.js";
+import AbsoluteRating from "../components/AbsoluteRating.js";
 import ReactPaginate from "react-paginate";
 import styles from "../styles/reviews.module.css";
 import { useNavigate } from "react-router-dom";
@@ -32,14 +33,24 @@ export default function Reviews() {
                     </h4>
                   </th>
                   <th>
-                    <h2 className={styles.topBox}>{review.review_rating}</h2>
+                    <h2 className={styles.topBox}>
+                      <AbsoluteRating
+                        value={review.review_rating}
+                        readOnly
+                        precision={1}
+                      />
+                    </h2>
                   </th>
                   <th>
-                    <h2 className={styles.review_description}>{review.movie_name}</h2>
+                    <h2 className={styles.review_description}>
+                      {review.movie_name}
+                    </h2>
                   </th>
                 </tr>
                 <tr>
-                  <td><p className={styles.bottomBox}>profile picture</p></td>
+                  <td>
+                    <p className={styles.bottomBox}>profile picture</p>
+                  </td>
                   <td>
                     <img
                       src={`${POSTER_URL}${review.poster_path}`}

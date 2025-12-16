@@ -12,7 +12,7 @@
 }
 .topBox {
   width: 80px;
-  padding: 4px;
+  padding: 6px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,6 +29,7 @@
   align-items: center;
   display: flex;
   padding: 4px;
+  padding-left: 8px;
 }
 .img {
   cursor: pointer;
