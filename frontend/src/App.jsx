@@ -13,6 +13,7 @@ import Favourites from "./pages/Favourites.jsx";
 import SettingsPage from "./pages/SettingsPage.jsx";
 import Register from "./pages/Register.jsx";
 import Reviews from "./pages/Reviews.jsx";
+import CreateGroup from "./pages/CreateGroup.jsx";
 
 import AbsoluteNavBar from "./components/AbsoluteNavBar.js";
 
@@ -38,6 +39,7 @@ function App() {
           <Route path="/groups" element={<Groups />} />
           <Route path="/group/:id" element={<Group />} />
           <Route path="/favourites/:id" element={<Favourites />} />
+          <Route path="/creategroup" element={<CreateGroup />}/>
         </Routes>
       </Router>
     </div>
