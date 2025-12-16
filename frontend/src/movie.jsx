@@ -71,7 +71,6 @@ export default function Movie() {
                 movie_name: movie.title,
                 username: userData.username,
               };
-              console.log(review);
               addReview(review)
                 .then(() => {
                   window.location.reload();
@@ -88,7 +87,12 @@ export default function Movie() {
             <div key={review.review_id} className={styles.reviewCard}>
               <p>User: {review.username}</p>
               <p>Comment: {review.review_description}</p>
-              <p>Rating: {review.review_rating}</p>
+              <p>Rating: {review.review_rating} </p>
+              <AbsoluteRating
+                value={review.review_rating}
+                readOnly
+                precision={1}
+              />
             </div>
           ))
         ) : (
