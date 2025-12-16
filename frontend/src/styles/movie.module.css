@@ -53,3 +53,16 @@
   font-size: 40px;
   cursor: pointer;
 }
+
+    .reviewCard {
+        width: 200px;
+        border: 3px solid;
+        border-color: #8F8f8f;
+        border-radius: 9px;
+    }
+    .writtenReviewInput {
+        width: 300px
+    }
+    .reviewRatingInput {
+        width: 50px
+    }

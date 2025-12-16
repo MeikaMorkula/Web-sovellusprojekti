@@ -13,6 +13,7 @@ import styles from "./styles/movie.module.css";
 import AbsoluteRating from "./components/AbsoluteRating.js";
 import FavouriteButton from "./components/FavouriteButton.js";
 import Reviews from "./components/Reviews.jsx";
+import CustomButton from "./components/CustomButton.js";
 
 export default function Movie() {
   const POSTER_URL = "https://image.tmdb.org/t/p/w500";
@@ -80,7 +81,7 @@ export default function Movie() {
   const Movies = () => {
     return (
       <div className={styles.container} key={movie.id}>
-        <div ClassName={styles.side}>
+        <div className={styles.side}>
           <AbsoluteRating
             value={movie.vote_average / 2}
             readOnly
@@ -151,6 +152,7 @@ export default function Movie() {
   };
 
   useEffect(() => {
+    if (!me) return;
     fetchUserData().then((data) => {
       setUserData(data);
     })

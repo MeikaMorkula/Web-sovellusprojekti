@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { fetchAllReviews } from "../database_api_calls.js";
 import { searchMovieById } from "../TMDB_api_calls.js";
 import CustomButton from "../components/CustomButton.js";
+import AbsoluteRating from "../components/AbsoluteRating.js";
 import ReactPaginate from "react-paginate";
 import styles from "../styles/reviews.module.css";
 import { useNavigate } from "react-router-dom";
@@ -33,7 +34,11 @@ export default function Reviews() {
                   </th>
                   <th>
                     <span className={styles.topBox}>
-                      {review.review_rating}
+                      <AbsoluteRating
+                        value={review.review_rating}
+                        readOnly
+                        precision={0.1}
+                      />
                     </span>
                   </th>
                   <th>

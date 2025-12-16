@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { searchMovies, searchGenres } from "./TMDB_api_calls.js";
+import { searchMovies, getLanguages } from "./TMDB_api_calls.js";
 import "./App.css";
 import ReactPaginate from "react-paginate";
 import styles from "./styles/search.module.css";
 import { useNavigate } from "react-router-dom";
-import CustomButton from "./components/CustomButton.js";
+import SearchButton from "./components/SearchButton.js";
 
 // you can search up posters with "https://image.tmdb.org/t/p/w200/POSTER_PATH
 let title = "";
@@ -19,6 +19,10 @@ function Search() {
   const [currentTitle, setCurrentTitle] = useState("");
   const [currentLanguage, setCurrentLanguage] = useState("");
   const [currentYear, setCurrentYear] = useState("");
+  const [languages, setLanguages] = useState([]);
+  const [selectedLanguage, setSelectedLanguage] = useState("en-US");
+
+
 
   const Movies = () => {
     const navigate = useNavigate();
@@ -64,8 +68,18 @@ function Search() {
   };
 
   useEffect(() => {
-    Search(currentTitle, currentLanguage, currentYear); //tiedot mitä käyttää uudella sivulla.
-  }, [page]);
+    if (currentTitle || currentLanguage || currentYear) {
+      Search(currentTitle, currentLanguage, currentYear); //tiedot mitä käyttää uudella sivulla, jos joku current osioista on true.
+    }
+  }, [currentTitle, currentLanguage, currentYear, page]);
+
+  useEffect(() => {
+  const fetchLanguages = async () => {
+    const data = await getLanguages();
+    setLanguages(data);
+  };
+  fetchLanguages();
+  }, []);
 
   return (
     <div className={styles.Container}>
@@ -75,49 +89,60 @@ function Search() {
         breakLabel="..."
         nextLabel=">>"
         onPageChange={(event) => {
-          Search(currentTitle, currentLanguage, currentYear);
-          setPage(event.selected + 1);
+          setPage(event.selected + 1); //search tapahtuu nyt useEffect.
         }}
         pageRangeDisplayed={5}
         pageCount={pageCount}
         previousLabel="<<"
         renderOnZeroPageCount={null}
       />
-      <input
-        className={styles.searchInput}
-        type="text"
-        id="input_title"
-        placeholder="Title"
-      ></input>
-      <input
-        className={styles.searchInput}
-        type="text"
-        id="input_language"
-        defaultValue="en-US"
-        placeholder="Language (Example: en-US)"
-      ></input>
-      <input
-        className={styles.searchInput}
-        type="text"
-        id="input_year"
-        placeholder="Year"
-      ></input>
+      <div className={styles.searchContainer}>
+      <aside className={styles.sideBar}>
+        
+      <input 
+        className={styles.searchInput} 
+        type="text" 
+        id="input_title" 
+        placeholder="Title">
+      </input>
 
-      <CustomButton
+      <select 
+        className={styles.dropdown}
+        id="input_language"
+        value={selectedLanguage}
+        onChange={(e) => setSelectedLanguage(e.target.value)}>
+      {languages.map(option => (
+        <option key={option.tag} value={option.tag}>
+          {option.language}-{option.region}
+        </option>
+      ))}
+      </select>
+
+      <input 
+      className={styles.searchInput} 
+      type="text" 
+      id="input_year" 
+      placeholder="Year">
+      </input>
+
+      <SearchButton
         text="Search"
+        className={styles.searchButton}
         onClick={(event) => {
           (title = input_title.value),
             (language = input_language.value),
             (year = input_year.value);
+            setPage(1);
 
-          setCurrentTitle(title); //Pitää aikaisemmat tiedot ja käyttää niitä uuden sivun ladatessa.
-          setCurrentLanguage(language);
-          setCurrentYear(year);
-          Search(currentTitle, currentLanguage, currentYear);
+            setCurrentTitle(title); //Pitää aikaisemmat tiedot ja käyttää niitä uuden sivun ladatessa.
+            setCurrentLanguage(language);
+            setCurrentYear(year);
         }}
         color="success"
       />
+      </aside>
       <Movies />
+      </div>
       <ReactPaginate
         className={styles.pagination}
         breakLabel="..."

@@ -35,6 +35,26 @@ export default function SettingsPage() {
     load();
   }, []);
 
+  const handleLogOut = () => {
+    fetch(`${process.env.REACT_APP_API_URL}/logout`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    })
+      .then((response) => {
+        if (response.ok) {
+          setLoggedIn(false);
+          navigate("/login");
+        } else {
+          alert("logout fialed");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   async function handleUpload(e) {
     if (!userId) return;
     const file = e.target.files[0];
@@ -134,6 +154,9 @@ export default function SettingsPage() {
       if (res.ok) {
         alert("Account deleted");
         window.location.href = "/";
+        //brute force päivitetään navbar
+        window.location.reload();
+        handleLogOut();
       } else {
         alert("Failed to delete account");
       }

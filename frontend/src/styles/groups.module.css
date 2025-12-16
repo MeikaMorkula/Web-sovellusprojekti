@@ -1,0 +1,37 @@
+.Container {
+    font-family: Arial, sans-serif;
+    background-color: white;
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+}
+.groupsBox {
+    display: grid;
+    gap: 30px;
+    margin-top: 30px;
+    grid-template-columns: repeat(4, 1fr);
+}
+.groupsCard {
+    width: 180px;
+    text-align: center;
+}
+.description {
+    text-align: center;
+    border: 3px solid;
+    border-color: #8F8f8f;
+}
+@media (max-width: 1100px) {
+  .groupsBox {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 750px) {
+  .groupsBox {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 450px) {
+  .groupsBox {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

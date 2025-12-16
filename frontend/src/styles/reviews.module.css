@@ -8,6 +8,8 @@
   display: flex;
   flex-direction: row;
   text-align: center;
+  border: 3px solid;
+  border-color: #8F8f8f;
 }
 .topBox {
   padding: 4px;
@@ -23,6 +25,7 @@
   text-align: justify;
   display: flex;
   padding: 4px;
+  padding-left: 8px;
 }
 .img {
   cursor: pointer;
