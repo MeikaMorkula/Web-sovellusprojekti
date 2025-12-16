@@ -38,7 +38,7 @@ export default function Movie() {
     setCoolLarge(false);
   };
 
-  const Reviews = () => {
+  const ReviewsVITTU = () => {
     return (
       <div>
         <h3>Add your review!</h3>
@@ -114,9 +114,9 @@ export default function Movie() {
   }, []);
 
   const Favourite = () => {
-    if (!me) return;
+    if (!me) return null;
 
-    if (favouriteStatus.movie_id === parseInt(urlInfo.id)) {
+    if (favouriteStatus && favouriteStatus.movie_id) {
       return (
         <button
           onClick={() => {
@@ -129,17 +129,18 @@ export default function Movie() {
     } else {
       return (
         <button
-          disabled={!me}
           onClick={() => {
-            console.log("ADDING FAV:", me);
             addFavourite({
               user_id: me.user_id ?? me.id,
               movie_id: urlInfo.id,
-              username: me.username,
+              username: userData.username,
+            }).then((data) => {
+              alert("Added to favourites");
+              setFavouriteStatus(data);
             });
           }}
         >
-          {" "}
+          Add to favourites
         </button>
       );
     }
@@ -185,7 +186,7 @@ export default function Movie() {
           <h2>{movie.title}</h2>
           <p>{movie.overview}</p>
           <br></br>
-          <Reviews
+          <ReviewsVITTU
             movieId={parseInt(urlInfo.id)}
             reviews={reviews}
             addReviewCallback={addReview}
@@ -213,11 +214,12 @@ export default function Movie() {
   };
 
   useEffect(() => {
+    if (!me) return;
     fetchUserData().then((data) => {
       setUserData(data);
     });
     Search(urlInfo.id);
-    fetchFavourite(urlInfo.id, 1)
+    fetchFavourite(urlInfo.id, me.id)
       .then((data) => {
         console.log(data);
         setFavouriteStatus(data);
@@ -230,7 +232,7 @@ export default function Movie() {
         setReviews(data);
       })
       .catch((error) => console.error(error));
-  }, []);
+  }, [me]);
 
   return (
     <div>
