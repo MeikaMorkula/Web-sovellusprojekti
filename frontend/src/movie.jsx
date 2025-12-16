@@ -152,7 +152,6 @@ export default function Movie() {
   };
 
   useEffect(() => {
-    if (!me) return;
     fetchUserData().then((data) => {
       setUserData(data);
     })
