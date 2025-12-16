@@ -4,8 +4,8 @@ import { getReviews, getReviewsFromId, addReview, deleteReview } from "../contro
 const reviewRouter = Router();
 
 reviewRouter.get("/getReviews", getReviews);
-reviewRouter.get("/getReviews/:id", getReviewsFromId);
+reviewRouter.get("/getReviews:id", getReviewsFromId);
 reviewRouter.post("/addReview",  addReview);
-reviewRouter.delete("/deleteReview/:id", deleteReview);
+reviewRouter.delete("/deleteReview:id", deleteReview);
 
 export default reviewRouter;
