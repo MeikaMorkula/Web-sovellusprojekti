@@ -11,6 +11,7 @@ import {
 } from "./database_api_calls.js";
 import styles from "./styles/movie.module.css";
 import AbsoluteRating from "./components/AbsoluteRating.js";
+import FavouriteButton from "./components/FavouriteButton.js";
 import Reviews from "./components/Reviews.jsx";
 import CustomButton from "./components/CustomButton.js";
 
@@ -21,9 +22,7 @@ export default function Movie() {
   const [reviews, setReviews] = useState([]);
   const [favouriteStatus, setFavouriteStatus] = useState([]);
   const [userData, setUserData] = useState([]);
-  const [me, setMe] = useState(null);
-  const [reviewDescription, setReviewDescription] = useState("");
-  const [reviewRating, setReviewRating] = useState(2.5);
+  const [clicked, setClicked] = useState(true);
   let urlInfo = useParams();
 
   const [coolLarge, setCoolLarge] = useState(false);
@@ -38,120 +37,45 @@ export default function Movie() {
     setCoolLarge(false);
   };
 
-  const ReviewsV = () => {
-    return (
-      <div>
-        <h3>Add your review!</h3>
-        <div>
-          <p>Review text:</p>
-          <textarea
-            rows="4"
-            className={styles.writtenReviewInput}
-            name="review_description"
-            type="text"
-            id="review_description"
-          ></textarea>
-        </div>
-        <div>
-          <label>Review rating:</label>
-          <input
-            className={styles.reviewRatingInput}
-            type="text"
-            id="review_rating"
-          ></input>
-          <CustomButton
-            text="Submit Review"
-            onClick={() => {
-              const review = {
-                review_description: review_description.value,
-                review_rating: review_rating.value,
-                user_id: userData.user_id,
-                movie_id: urlInfo.id,
-                poster_path: movie.poster_path,
-                movie_name: movie.title,
-                username: userData.username,
-              };
-              addReview(review)
-                .then(() => {
-                  window.location.reload();
-                })
-                .catch((error) => {
-                  console.error("Failed to add review:", error);
-                });
-            }}
-          ></CustomButton>
-        </div>
-        <h3>Reviews Section</h3>
-        {reviews.length > 0 ? (
-          reviews.map((review) => (
-            <div key={review.review_id} className={styles.reviewCard}>
-              <p>User: {review.username}</p>
-              <p>Comment: {review.review_description}</p>
-              <p>Rating: {review.review_rating} </p>
-              <AbsoluteRating
-                value={review.review_rating}
-                readOnly
-                precision={1}
-              />
-            </div>
-          ))
-        ) : (
-          <p>No reviews available.</p>
-        )}
-      </div>
-    );
-  };
-
-  useEffect(() => {
-    fetch("http://localhost:3001/user/me", {
-      credentials: "include",
-    })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((meData) => {
-        if (!meData) return null;
-
-        return fetch(`http://localhost:3001/user/${meData.id}`, {
-          credentials: "include",
-        });
-      })
-      .then((res) => (res ? res.json() : null))
-      .then((profile) => {
-        if (profile) setMe(profile);
-      })
-      .catch(() => {});
-  }, []);
-
   const Favourite = () => {
-    if (!me) return null;
+    if (!userData) return;
 
-    if (favouriteStatus && favouriteStatus.movie_id) {
-      return (
-        <button
-          onClick={() => {
-            deleteFavourite(favouriteStatus.favourite_id);
-          }}
-        >
-          Remove from favourites
-        </button>
-      );
-    } else {
-      return (
-        <button
-          onClick={() => {
-            addFavourite({
-              user_id: me.user_id ?? me.id,
-              movie_id: urlInfo.id,
-              username: userData.username,
-            }).then((data) => {
-              alert("Added to favourites");
-              setFavouriteStatus(data);
-            });
-          }}
-        >
-          Add to favourites
-        </button>
-      );
-    }
+    const handleClick = () => {
+      if (clicked == false) {
+        console.log("delete");
+        deleteFavourite(favouriteStatus.favourite_id);
+      } else if (clicked == true) {
+        console.log("ADDING FAV:", userData);
+        addFavourite({
+          user_id: userData.user_id,
+          movie_id: urlInfo.id,
+          username: userData.username,
+          poster_path: movie.poster_path,
+          movie_name: movie.title,
+        });
+        fetchFavourite(urlInfo.id, userData.user_id)
+        .then((data) => {
+          setFavouriteStatus(data);
+          if (!data) {
+            setClicked(false);
+          }
+        })
+        .catch((error) => console.error(error));
+      }
+      setClicked(!clicked);
+      
+    };
+
+    return (
+      <button
+        onClick={() => {
+          handleClick();
+        }}
+      >
+        <FavouriteButton 
+        />
+      </button>
+    );
   };
 
   const Movies = () => {
@@ -194,8 +118,14 @@ export default function Movie() {
           <h2>{movie.title}</h2>
           <p>{movie.overview}</p>
           <br></br>
-          <ReviewsV
-            movieId={parseInt(urlInfo.id)}
+          <Reviews
+            body={{
+              user_id: userData.user_id,
+              movie_id: urlInfo.id,
+              poster_path: movie.poster_path,
+              movie_name: movie.title,
+              username: userData.username,
+            }}
             reviews={reviews}
             addReviewCallback={addReview}
           />
@@ -225,22 +155,23 @@ export default function Movie() {
     if (!me) return;
     fetchUserData().then((data) => {
       setUserData(data);
-    });
+    })
+    .catch((error) => console.error(error));
     Search(urlInfo.id);
-    fetchFavourite(urlInfo.id, me.id)
-      .then((data) => {
-        console.log(data);
-        setFavouriteStatus(data);
-      })
-      .catch((error) => console.error(error));
-
     fetchReviews(urlInfo.id)
       .then((data) => {
-        console.log(data);
         setReviews(data);
       })
       .catch((error) => console.error(error));
-  }, [me]);
+    fetchFavourite(urlInfo.id, userData.user_id)
+        .then((data) => {
+          setFavouriteStatus(data);
+          if (!data) {
+            setClicked(false);
+          }
+        })
+        .catch((error) => console.error(error));
+  }, []);
 
   return (
     <div>

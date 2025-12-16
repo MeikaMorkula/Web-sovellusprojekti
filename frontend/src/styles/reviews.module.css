@@ -1,3 +1,4 @@
+
 .container {
   display: flex;
   flex-direction: column;
@@ -11,30 +12,23 @@
   border-color: #8F8f8f;
 }
 .topBox {
-  width: 80px;
-  padding: 6px;
+  padding: 4px;
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 .bottomBox {
-  width: 80px;
-  height: 120px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .review_description {
-  text-align: start;
-  align-items: center;
+  text-align: justify;
   display: flex;
   padding: 4px;
   padding-left: 8px;
 }
 .img {
   cursor: pointer;
-  width: 80px;
-  height: 120px;
   padding: 4px;
 }
 .pagination {

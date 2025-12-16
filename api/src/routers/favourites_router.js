@@ -1,5 +1,11 @@
 import { Router } from "express";
-import { getFavourites, getFavourite, addFavourite, deleteFavourite, getFavouritesByUsername } from "../controllers/favourites_controller.js";
+import {
+  getFavourites,
+  getFavourite,
+  addFavourite,
+  deleteFavourite,
+  getFavouritesByUsername,
+} from "../controllers/favourites_controller.js";
 import { authenticateToken } from "../middleware/auth.js";
 
 const favouriteRouter = Router();

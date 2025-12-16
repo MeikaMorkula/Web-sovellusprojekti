@@ -23,16 +23,16 @@ export async function getFavourite(req, res, next) {
 }
 
 export async function addFavourite(req, res, next) {
-  const { user_id, movie_id, username } = req.body;
-  if (!user_id || !movie_id || !username) {
-    console.log("missing field: ", {user_id,movie_id,username})
+  const { user_id, movie_id, poster_path, movie_name} = req.body;
+  if (!user_id || !movie_id || !poster_path || !movie_name) {
+    console.log("missing field: ", {user_id,movie_id, poster_path, movie_name})
     return res.status(400).json({
       error: "Missing required fields",
       received: req.body,
     });
   }
   try {
-    const response = await addOne({ user_id, movie_id, username });
+    const response = await addOne(req.body);
     res.json(response);
   } catch (err) {
     next(err);
