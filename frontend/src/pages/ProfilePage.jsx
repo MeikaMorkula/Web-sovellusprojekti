@@ -39,6 +39,7 @@ export default function ProfilePage() {
 
   return (
     <div>
+      <div style={{padding: "20px"}}>
       <h2>Profile</h2>
 
       <div
@@ -87,7 +88,7 @@ export default function ProfilePage() {
       <h3 style={{ marginTop: "40px" }}>
         
       </h3>
-
+      </div>
       <Favourites user_id={profile.user_id || profile.id} />
     </div>
   );

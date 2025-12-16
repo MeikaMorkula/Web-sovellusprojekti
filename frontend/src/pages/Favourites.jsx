@@ -4,6 +4,8 @@ import { fetchFavourites } from "../database_api_calls.js";
 import { searchMovieById } from "../TMDB_api_calls.js";
 import CustomButton from "../components/CustomButton.js";
 import ReactPaginate from "react-paginate";
+import styles from "../styles/favourites.module.css"
+import { useNavigate } from "react-router-dom"
 
 export default function Favourites({user_id}) {
   const [favourites, setFavourites] = useState([]);
@@ -12,13 +14,10 @@ export default function Favourites({user_id}) {
   const [movieData, setMovieData] = useState([]);
   const params = useParams();
   const resolvedUserId = user_id ?? params.id;
+  const navigate = useNavigate();
 
   const style = {
-    pagination: {
-      display: "flex",
-      liststyletype: "none",
-      gap: "30px",
-    },
+    
   };
   const POSTER_URL = "https://image.tmdb.org/t/p/w342";
 
@@ -39,8 +38,10 @@ export default function Favourites({user_id}) {
             <div key={fav.favourite_id} style={{ textAlign: "center" }}>
               <img
                 src={`${POSTER_URL}${movie.poster_path}`}
+                className={styles.poster}
                 alt={movie.title}
                 style={{ width: "100%", borderRadius: "8px" }}
+                onClick={() => navigate(`/movie/${movie.id}`)}
               />
               <h4 style={{ margin: "10px 0 4px" }}>{movie.title}</h4>
               <p style={{ margin: 0, opacity: 0.7 }}>
@@ -117,7 +118,7 @@ useEffect(() => {
         </h2>
       )}
       <ReactPaginate
-        className={style.pagination}
+        className={styles.pagination}
         breakLabel="..."
         nextLabel=">>"
         onPageChange={(event) => {

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import AbsoluteRating from "./AbsoluteRating.js";
 import styles from "../styles/reviews.module.css";
+import CustomButton from "./CustomButton.js";
 
 export default function Reviews({ body, reviews, addReviewCallback }) {
   const [reviewDescription, setReviewDescription] = useState("");
@@ -8,16 +9,19 @@ export default function Reviews({ body, reviews, addReviewCallback }) {
 
   return (
     <div>
+      <div>
       <h3>Add your review!</h3>
       <AbsoluteRating value={reviewRating} onChange={setReviewRating} />
       <br></br>
-      <input
+      <textarea
+        rows="4"
         type="text"
         value={reviewDescription}
         onChange={(e) => setReviewDescription(e.target.value)}
       />
-      
-      <button
+      </div>
+      <CustomButton
+      text="Submit Review"
         onClick={() => {
           addReviewCallback({
             review_description: reviewDescription,
@@ -32,8 +36,8 @@ export default function Reviews({ body, reviews, addReviewCallback }) {
           setReviewRating(2.5);
         }}
       >
-        Submit Review
-      </button>
+        
+      </CustomButton>
 
       <h3>Reviews Section</h3>
       <div className={styles.Container}>
