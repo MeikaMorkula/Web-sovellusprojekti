@@ -79,4 +79,29 @@ const newMovies = async () => {
   return response;
 };
 
-export { searchMovieById, searchMovies, searchGenres, trendingMovies, newMovies };
+const getLanguages = async () => {
+  try {
+    const response = await fetch(
+      BASE_URL + "/configuration/primary_translations", 
+      options
+    );
+    const data = await response.json();
+    console.log("api request");
+    const languages = data.map(tag => {
+      const [langCode, regionCode] = tag.split("-"); //yhdistää langCode ja regionCode (en-US) iso_639_1.
+      return {
+        language: langCode,
+        region: regionCode || null,
+        tag: tag
+      };
+    });
+    return languages;
+    
+  } 
+  catch(error){console.error(error);
+  return([])
+  }
+};
+
+
+export { searchMovieById, searchMovies, searchGenres, trendingMovies, newMovies, getLanguages };

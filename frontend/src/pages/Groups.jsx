@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { fetchGroups, requestGroupJoin } from "../database_api_calls.js";
 import CustomButton from "../components/CustomButton.js";
 import { useNavigate } from "react-router-dom";
+import styles from "../styles/groups.module.css";
 
 export default function Groups() {
   const [groups, setGroup] = useState([]);
@@ -27,10 +28,11 @@ export default function Groups() {
   const Groups = () => {
     const navigate = useNavigate();
     return (
-      <div>
+      <div className={styles.container}>
+        <div className={styles.groupsBox}>
         {groups.map((group) => (
-          
-          <div key={group.group_id}>
+          <div>
+          <div key={group.group_id} className={styles.groupsCard}>
             <img
               src={`http://localhost:3001/profile-pictures/${group.group_icon}`}
               alt="group icon"
@@ -38,17 +40,23 @@ export default function Groups() {
             ></img>
             <h2>{group.group_name}</h2>
             <p>Owner ID: {group.group_owner}</p>
+            <div className={styles.description}>
             <p>Description: {group.group_description}</p>
-            <button
+            </div>
+            <CustomButton
+            text="request to join"
+            color="success"
               onClick={() =>
                 requestGroupJoin(userID.id, group.group_id).then((data) => {
                 })
               }
             >
-              request to join
-            </button>
+              
+            </CustomButton>
+          </div>
           </div>
         ))}
+        </div>
       </div>
     );
   };

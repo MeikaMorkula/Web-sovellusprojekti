@@ -7,6 +7,8 @@
   display: flex;
   flex-direction: row;
   text-align: center;
+  border: 3px solid;
+  border-color: #8F8f8f;
 }
 .topBox {
   width: 80px;

@@ -12,6 +12,7 @@ import {
 import styles from "./styles/movie.module.css";
 import AbsoluteRating from "./components/AbsoluteRating.js";
 import Reviews from "./components/Reviews.jsx";
+import CustomButton from "./components/CustomButton.js";
 
 export default function Movie() {
   const POSTER_URL = "https://image.tmdb.org/t/p/w500";
@@ -41,15 +42,25 @@ export default function Movie() {
     return (
       <div>
         <h3>Add your review!</h3>
-        <label>Review text</label>
-        <input
+        <div>
+        <p>Review text:</p>
+        <textarea
+          rows="4"
+          className={styles.writtenReviewInput}
           name="review_description"
           type="text"
           id="review_description"
+        ></textarea>
+        </div>
+        <div>
+        <label>Review rating:</label>
+        <input 
+          className={styles.reviewRatingInput}
+          type="text" 
+          id="review_rating"
         ></input>
-        <label>Review rating</label>
-        <input type="text" id="review_rating"></input>
-        <button
+        <CustomButton
+        text="Submit Review"
           onClick={() => {
             const review = {
               review_description: review_description.value,
@@ -64,16 +75,16 @@ export default function Movie() {
             addReview(review);
           }}
         >
-          Submit Review
-        </button>
-
+          
+        </CustomButton>
+        </div>
         <h3>Reviews Section</h3>
         {reviews.length > 0 ? (
           reviews.map((review) => (
-            <div key={review.review_id}>
-              <p>{review.user_id}</p>
-              <p>{review.review_description}</p>
-              <p>{review.review_rating}</p>
+            <div key={review.review_id} className={styles.reviewCard}>
+              <p>User:{review.user_id}</p>
+              <p>Comment:{review.review_description}</p>
+              <p>Rating:{review.review_rating}</p>
             </div>
           ))
         ) : (
@@ -137,7 +148,7 @@ export default function Movie() {
   const Movies = () => {
     return (
       <div className={styles.container} key={movie.id}>
-        <div ClassName={styles.side}>
+        <div className={styles.side}>
           <AbsoluteRating
             value={movie.vote_average / 2}
             readOnly
