@@ -38,7 +38,7 @@ export default function Movie() {
     setCoolLarge(false);
   };
 
-  const ReviewsVITTU = () => {
+  const ReviewsV = () => {
     return (
       <div>
         <h3>Add your review!</h3>
@@ -186,7 +186,7 @@ export default function Movie() {
           <h2>{movie.title}</h2>
           <p>{movie.overview}</p>
           <br></br>
-          <ReviewsVITTU
+          <ReviewsV
             movieId={parseInt(urlInfo.id)}
             reviews={reviews}
             addReviewCallback={addReview}
