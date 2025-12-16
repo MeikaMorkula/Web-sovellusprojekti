@@ -43,48 +43,52 @@ export default function Movie() {
       <div>
         <h3>Add your review!</h3>
         <div>
-        <p>Review text:</p>
-        <textarea
-          rows="4"
-          className={styles.writtenReviewInput}
-          name="review_description"
-          type="text"
-          id="review_description"
-        ></textarea>
+          <p>Review text:</p>
+          <textarea
+            rows="4"
+            className={styles.writtenReviewInput}
+            name="review_description"
+            type="text"
+            id="review_description"
+          ></textarea>
         </div>
         <div>
-        <label>Review rating:</label>
-        <input 
-          className={styles.reviewRatingInput}
-          type="text" 
-          id="review_rating"
-        ></input>
-        <CustomButton
-        text="Submit Review"
-          onClick={() => {
-            const review = {
-              review_description: review_description.value,
-              review_rating: review_rating.value,
-              user_id: userData.user_id,
-              movie_id: urlInfo.id,
-              poster_path: movie.poster_path,
-              movie_name: movie.title,
-              username: userData.username,
-            };
-            console.log(review);
-            addReview(review);
-          }}
-        >
-          
-        </CustomButton>
+          <label>Review rating:</label>
+          <input
+            className={styles.reviewRatingInput}
+            type="text"
+            id="review_rating"
+          ></input>
+          <CustomButton
+            text="Submit Review"
+            onClick={() => {
+              const review = {
+                review_description: review_description.value,
+                review_rating: review_rating.value,
+                user_id: userData.user_id,
+                movie_id: urlInfo.id,
+                poster_path: movie.poster_path,
+                movie_name: movie.title,
+                username: userData.username,
+              };
+              console.log(review);
+              addReview(review)
+                .then(() => {
+                  window.location.reload();
+                })
+                .catch((error) => {
+                  console.error("Failed to add review:", error);
+                });
+            }}
+          ></CustomButton>
         </div>
         <h3>Reviews Section</h3>
         {reviews.length > 0 ? (
           reviews.map((review) => (
             <div key={review.review_id} className={styles.reviewCard}>
-              <p>User:{review.user_id}</p>
-              <p>Comment:{review.review_description}</p>
-              <p>Rating:{review.review_rating}</p>
+              <p>User: {review.username}</p>
+              <p>Comment: {review.review_description}</p>
+              <p>Rating: {review.review_rating}</p>
             </div>
           ))
         ) : (
