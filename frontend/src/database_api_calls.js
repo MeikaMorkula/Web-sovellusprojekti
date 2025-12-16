@@ -11,7 +11,7 @@ export async function fetchUserData() {
     const profileRes = await fetch(`http://localhost:3001/user/${meData.id}`, {
       credentials: "include",
     });
-
+    
     const data = await profileRes.json();
     return data;
   } catch (error) {
@@ -62,6 +62,8 @@ export async function addFavourite(body) {
         movie_id: body.movie_id,
         username: body.username,
         user_id: body.user_id,
+        poster_path: body.poster_path,
+        movie_name: body.movie_name,
       }),
     });
     const data = await res.json();
@@ -73,7 +75,7 @@ export async function addFavourite(body) {
 
 export async function deleteFavourite(id) {
   try {
-    const res = await fetch(API_URL + `/favourite/deleteFavourite` + id, {
+    const res = await fetch(API_URL + `/favourite/deleteFavourite/` + id, {
       method: "DELETE",
     });
     const data = await res.json();

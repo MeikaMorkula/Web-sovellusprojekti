@@ -11,7 +11,7 @@ export default function Reviews() {
   const [page, setPage] = useState(1);
   const [pageCount, setPageCount] = useState(0);
 
-  const POSTER_URL = "https://image.tmdb.org/t/p/w200";
+  const POSTER_URL = "https://image.tmdb.org/t/p/w92";
 
   const Reviews = () => {
     const navigate = useNavigate();
@@ -23,23 +23,27 @@ export default function Reviews() {
               <table>
                 <tr>
                   <th>
-                    <h4
+                    <span
                       className={styles.topBox}
                       // Link to favourites list / profile
                       //onClick={() => navigate(`/profile/${review.user_id}`)}
                     >
                       {review.username}
-                    </h4>
+                    </span>
                   </th>
                   <th>
-                    <h2 className={styles.topBox}>{review.review_rating}</h2>
+                    <span className={styles.topBox}>
+                      {review.review_rating}
+                    </span>
                   </th>
                   <th>
-                    <h2 className={styles.review_description}>{review.movie_name}</h2>
+                    <span className={styles.topBox}>{review.movie_name}</span>
                   </th>
                 </tr>
                 <tr>
-                  <td><p className={styles.bottomBox}>profile picture</p></td>
+                  <td>
+                    <span className={styles.bottomBox}>profile picture</span>
+                  </td>
                   <td>
                     <img
                       src={`${POSTER_URL}${review.poster_path}`}
@@ -49,9 +53,9 @@ export default function Reviews() {
                     ></img>
                   </td>
                   <td>
-                    <p className={styles.review_description}>
+                    <span className={styles.review_description}>
                       {review.review_description}
-                    </p>
+                    </span>
                   </td>
                 </tr>
               </table>
