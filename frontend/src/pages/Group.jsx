@@ -7,6 +7,7 @@ import {
   removeGroupRequest,
 } from "../database_api_calls.js";
 import CustomButton from "../components/CustomButton.js";
+import defaultUser from "./defaultuser.png";
 
 export default function Group() {
   const [group, setGroup] = useState([]);
@@ -50,9 +51,13 @@ export default function Group() {
     return (
       <div style={styles.container}>
         <div key={group.group_id} style={styles.side}>
-          <img
-            style={styles.img}
-            src={`http://localhost:3001/group_icon/${group.group_icon}`}
+        <img
+          style={styles.img}
+          src={
+            group.group_icon
+              ? `http://localhost:3001/${group.group_icon.replace("public/", "")}`
+              : defaultUser
+            }
             alt="group icon"
           ></img>
           <h2>{group.group_name}</h2>
