@@ -64,3 +64,6 @@
     .reviewRatingInput {
         width: 50px
     }
+    .ratingText {
+      color: white;
+    }

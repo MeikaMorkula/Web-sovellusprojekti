@@ -86,12 +86,13 @@ export default function Movie() {
     return (
       <div className={styles.container} key={movie.id}>
         <div className={styles.side}>
+          <div className={styles.ratingText}>
           <AbsoluteRating
             value={movie.vote_average / 2}
             readOnly
             precision={0.1}
           />
-          {movie.vote_average / 2} / 5
+          {movie.vote_average / 2} / 5</div>
           <div>
             <Favourite />
           </div>
