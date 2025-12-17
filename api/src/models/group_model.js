@@ -90,7 +90,7 @@ export async function addToGroup(body) {
 
 export async function requestToGroupJoin(body) {
     const result = await pool.query(
-      'INSERT INTO Group_Request (user_id, group_id) VALUES($1, $2) RETURNING *;',
+      'INSERT INTO group_request (user_id, group_id) VALUES ($1, $2)',
     [body.user_id, body.group_id]
   );
   return result;
