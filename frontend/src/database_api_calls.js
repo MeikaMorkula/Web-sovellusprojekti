@@ -21,7 +21,7 @@ export async function fetchUserData() {
 
 export async function fetchFavourite(movie_id, user_id) {
   try {
-    const res = await fetch(API_URL + `/favourite/getFavourite`, {
+    const res = await fetch(API_URL + `/favourite/getFavourite/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -77,6 +77,7 @@ export async function deleteFavourite(id) {
   try {
     const res = await fetch(API_URL + `/favourite/deleteFavourite/` + id, {
       method: "DELETE",
+      credentials: "include",
     });
     const data = await res.json();
     return data;
@@ -87,7 +88,7 @@ export async function deleteFavourite(id) {
 
 export async function fetchReviews(movie_id) {
   try {
-    const res = await fetch(API_URL + `/review/getReviews` + movie_id);
+    const res = await fetch(API_URL + `/review/getReviews/` + movie_id);
     const data = await res.json();
     return data;
   } catch (error) {
@@ -112,6 +113,7 @@ export async function addReview(review) {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify({
         review_rating: review.review_rating,
         username: review.username,
@@ -157,10 +159,64 @@ export async function requestGroupJoin(user_id, group_id) {
       headers: {
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify({
         user_id: user_id,
         group_id: group_id,
       }),
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function fetchGroupRequests(group_id) {
+  try {
+    const res = await fetch(API_URL + `/group/getGroupRequests/` + group_id, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function addToGroup(user_id, group_id) {
+  try {
+    const res = await fetch(API_URL + `/group/addUserToGroup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        user_id: user_id,
+        group_id: group_id,
+      }),
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    return null;
+  }
+}
+
+
+export async function removeGroupRequest(id) {
+  try {
+    const res = await fetch(API_URL + `/group/removeGroupRequest/` + id, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
     });
     const data = await res.json();
     return data;

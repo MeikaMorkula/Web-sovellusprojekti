@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchGroup } from "../database_api_calls.js";
+import {
+  fetchGroup,
+  fetchGroupRequests,
+  addToGroup,
+  removeGroupRequest,
+} from "../database_api_calls.js";
 import CustomButton from "../components/CustomButton.js";
 
 export default function Group() {
   const [group, setGroup] = useState([]);
+  const [groupRequests, setGroupRequests] = useState([]);
   const { id } = useParams();
 
   const styles = {
@@ -34,6 +40,10 @@ export default function Group() {
       console.log(data);
       setGroup(data);
     });
+    fetchGroupRequests(id).then((data) => {
+      console.log(data);
+      setGroupRequests(data);
+    });
   };
 
   const Group = () => {
@@ -49,6 +59,27 @@ export default function Group() {
         </div>
         <div style={styles.main}>
           <p>{group.group_description}</p>
+          {groupRequests.length > 0 ? (
+            groupRequests.map((request) => (
+              <div key={request.request_id}>
+                <h5>User ID: {request.user_id}</h5>
+                <button
+                  onClick={() => {
+                    addToGroup(request.user_id, group.group_id);
+                  }}
+                >
+                  Add to the group
+                </button>
+                <button
+                  onClick={() => {
+                    removeGroupRequest(request.request_id);
+                  }}
+                >Deny</button>
+              </div>
+            ))
+          ) : (
+            <p>No reviews available.</p>
+          )}
         </div>
       </div>
     );
