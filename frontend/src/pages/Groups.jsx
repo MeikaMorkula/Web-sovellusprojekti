@@ -36,7 +36,7 @@ export default function Groups() {
             <img
               src={
                 group.group_icon
-                ? `http://localhost:3001/${group.group_icon.replace("public/", "")}`
+                ? `http://localhost:3001/profile-pictures/${group.group_icon.replace("public/", "")}`
                 : defaultUser }
               alt="group icon"
               onClick={() => navigate(`/group/${group.group_id}`)}

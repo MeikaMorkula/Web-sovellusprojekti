@@ -25,9 +25,9 @@ export default function CreateGroup() {
     loadUser();
   }, []);
 
-  const handleCreate = async () => {
+ const handleCreate = async () => {
     if (!userId) return;
-
+    console.log(iconFile);
     const groupRes = await fetch("http://localhost:3001/group/addGroup", {
       method: "POST",
       credentials: "include",
@@ -45,17 +45,17 @@ export default function CreateGroup() {
       const fd = new FormData();
       fd.append("profilePicture", iconFile);
 
-      await fetch(
-        `http://localhost:3001/group/uploadGroupPicture/${newGroup.group_id}`,
-        {
-          method: "POST",
-          credentials: "include",
-          body: fd,
-        }
-      );
+      const res = await fetch(`http://localhost:3001/group/${userId}/uploads`, {
+        method: "PUT",
+        credentials: "include",
+        body: fd,
+        
+      });
+      const data = await res.json();
+      console.log(data);
     }
     alert("Group created successfully");
-    window.location.href = "http://localhost:3000";
+   
   };
 
   return (
@@ -85,6 +85,7 @@ export default function CreateGroup() {
         <input
           id="groupIconInput"
           type="file"
+          name="profilePicture"
           accept="image/*"
           style={{ display: "none" }}
           onChange={(e) => setIconFile(e.target.files[0])}

@@ -9,7 +9,7 @@ import {
   fetchGroupIcon,
   requestGroupJoin,
   addUserToGroup,
-  getUserGroups
+  getUserGroups,
   fetchGroupRequests,
   removeGroupRequest,
 } from "../controllers/group_controller.js";
@@ -21,20 +21,13 @@ groupRouter.get("/getGroups", getGroups);
 groupRouter.get("/getGroup/:id", getGroup);
 groupRouter.post("/addGroup", addGroup);
 groupRouter.delete("/deleteGroup/:id", deleteGroup);
-groupRouter.post("/uploadGroupPicture/:id", uploadGroupPicture);
+groupRouter.put("/:id/uploads", uploadGroupPicture);
 groupRouter.get("/getGroupIcon/:id", fetchGroupIcon);
 groupRouter.post("/uploadGroupFavouriteMovie/:id", uploadGroupFavouriteMovie);
 groupRouter.post("/requestGroupJoin", requestGroupJoin);
 groupRouter.post("/addUserToGroup", addUserToGroup);
 groupRouter.get("/user/:id/groups", getUserGroups);
-groupRouter.post("/addGroup", authenticateToken, addGroup);
-groupRouter.delete("/deleteGroup/:id", authenticateToken, deleteGroup);
-groupRouter.post("/uploadGroupPicture/:id", authenticateToken, uploadGroupPicture);
-groupRouter.get("/getGroupIcon/:id", authenticateToken, fetchGroupIcon);
-groupRouter.post("/uploadGroupFavouriteMovie/:id", authenticateToken, uploadGroupFavouriteMovie);
 
-groupRouter.post("/requestGroupJoin", authenticateToken, requestGroupJoin);
-groupRouter.post("/addUserToGroup", addUserToGroup);
 groupRouter.post("/getGroupRequests/:id", fetchGroupRequests);
 groupRouter.delete("/removeGroupRequest/:id", removeGroupRequest);
 
