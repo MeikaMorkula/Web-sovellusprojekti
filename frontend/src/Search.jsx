@@ -87,13 +87,13 @@ function Search() {
       <ReactPaginate
         className={styles.pagination}
         breakLabel="..."
-        nextLabel=">>"
+        nextLabel="&#8594;"
         onPageChange={(event) => {
           setPage(event.selected + 1); //search tapahtuu nyt useEffect.
         }}
         pageRangeDisplayed={5}
         pageCount={pageCount}
-        previousLabel="<<"
+        previousLabel="&#8592;"
         renderOnZeroPageCount={null}
       />
       <div className={styles.searchContainer}>

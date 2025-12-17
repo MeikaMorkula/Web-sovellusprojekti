@@ -39,28 +39,37 @@ export default function Movie() {
 
   const Favourite = () => {
     if (!userData) return;
-    if (favouriteStatus.user_id === userData.user_id) {setClicked(false);}
-    const handleClick = () => {
-      if (clicked == false) {
-        console.log("delete");
-        deleteFavourite(favouriteStatus.favourite_id);
-      } else if (clicked == true) {
-        console.log("ADDING FAV:", userData);
-        addFavourite({
-          user_id: userData.user_id,
-          movie_id: urlInfo.id,
-          username: userData.username,
-          poster_path: movie.poster_path,
-          movie_name: movie.title,
-        });
-      }
-      setClicked(!clicked);
-      fetchFavourite(urlInfo.id, userData.user_id)
-        .then((data) => {
-          setFavouriteStatus(data);
-        })
-        .catch((error) => console.error(error));
-    };
+    if (favouriteStatus.user_id === parseInt(userData.user_id)) {
+      return (
+        <button
+          onClick={() => {
+            console.log("delete favourite");
+            deleteFavourite(favouriteStatus.favourite_id);
+          }}
+        >
+          Remove
+          <FavouriteButton />
+        </button>
+      );
+    } else {
+      return (
+        <button
+          onClick={() => {
+            console.log("ADDING FAV:", userData);
+            addFavourite({
+              user_id: userData.user_id,
+              movie_id: urlInfo.id,
+              username: userData.username,
+              poster_path: movie.poster_path,
+              movie_name: movie.title,
+            });
+          }}
+        >
+          Add
+          <FavouriteButton />
+        </button>
+      );
+    }
 
     return (
       <button
@@ -68,8 +77,7 @@ export default function Movie() {
           handleClick();
         }}
       >
-        <FavouriteButton 
-        />
+        <FavouriteButton />
       </button>
     );
   };
@@ -148,15 +156,14 @@ export default function Movie() {
   };
 
   useEffect(() => {
-    fetchUserData().then((data) => {
-      setUserData(data);
-      fetchFavourite(urlInfo.id, data.user_id)
-        .then((data) => {
+    fetchUserData()
+      .then((data) => {
+        setUserData(data);
+        fetchFavourite(urlInfo.id, data.user_id).then((data) => {
           setFavouriteStatus(data);
-        })
-        .catch((error) => console.error(error));
-    })
-    .catch((error) => console.error(error));
+        });
+      })
+      .catch((error) => console.error(error));
 
     Search(urlInfo.id);
 
