@@ -10,18 +10,18 @@ export default function Reviews({ body, reviews, addReviewCallback }) {
   return (
     <div>
       <div>
-      <h3>Add your review!</h3>
-      <AbsoluteRating value={reviewRating} onChange={setReviewRating} />
-      <br></br>
-      <textarea
-        rows="4"
-        type="text"
-        value={reviewDescription}
-        onChange={(e) => setReviewDescription(e.target.value)}
-      />
+        <h3>Add your review!</h3>
+        <AbsoluteRating value={reviewRating} onChange={setReviewRating} />
+        <br></br>
+        <textarea
+          rows="4"
+          type="text"
+          value={reviewDescription}
+          onChange={(e) => setReviewDescription(e.target.value)}
+        />
       </div>
       <CustomButton
-      text="Submit Review"
+        text="Submit Review"
         onClick={() => {
           addReviewCallback({
             review_description: reviewDescription,
@@ -31,13 +31,17 @@ export default function Reviews({ body, reviews, addReviewCallback }) {
             poster_path: body.poster_path,
             movie_name: body.movie_name,
             username: body.username,
-          });
+          })
+            .then(() => {
+              window.location.reload();
+            })
+            .catch((error) => {
+              console.error("Failed to add review:", error);
+            });
           setReviewDescription("");
           setReviewRating(2.5);
         }}
-      >
-        
-      </CustomButton>
+      ></CustomButton>
 
       <h3>Reviews Section</h3>
       <div className={styles.Container}>

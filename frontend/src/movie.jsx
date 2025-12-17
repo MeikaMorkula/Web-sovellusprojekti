@@ -39,32 +39,37 @@ export default function Movie() {
 
   const Favourite = () => {
     if (!userData) return;
-
-    const handleClick = () => {
-      if (clicked == false) {
-        console.log("delete");
-        deleteFavourite(favouriteStatus.favourite_id);
-      } else if (clicked == true) {
-        console.log("ADDING FAV:", userData);
-        addFavourite({
-          user_id: userData.user_id,
-          movie_id: urlInfo.id,
-          username: userData.username,
-          poster_path: movie.poster_path,
-          movie_name: movie.title,
-        });
-        fetchFavourite(urlInfo.id, userData.user_id)
-        .then((data) => {
-          setFavouriteStatus(data);
-          if (!data) {
-            setClicked(false);
-          }
-        })
-        .catch((error) => console.error(error));
-      }
-      setClicked(!clicked);
-      
-    };
+    if (favouriteStatus.user_id === parseInt(userData.user_id)) {
+      return (
+        <button
+          onClick={() => {
+            console.log("delete favourite");
+            deleteFavourite(favouriteStatus.favourite_id);
+          }}
+        >
+          Remove
+          <FavouriteButton />
+        </button>
+      );
+    } else {
+      return (
+        <button
+          onClick={() => {
+            console.log("ADDING FAV:", userData);
+            addFavourite({
+              user_id: userData.user_id,
+              movie_id: urlInfo.id,
+              username: userData.username,
+              poster_path: movie.poster_path,
+              movie_name: movie.title,
+            });
+          }}
+        >
+          Add
+          <FavouriteButton />
+        </button>
+      );
+    }
 
     return (
       <button
@@ -72,8 +77,7 @@ export default function Movie() {
           handleClick();
         }}
       >
-        <FavouriteButton 
-        />
+        <FavouriteButton />
       </button>
     );
   };
@@ -82,12 +86,13 @@ export default function Movie() {
     return (
       <div className={styles.container} key={movie.id}>
         <div className={styles.side}>
+          <div className={styles.ratingText}>
           <AbsoluteRating
             value={movie.vote_average / 2}
             readOnly
             precision={0.1}
           />
-          {movie.vote_average / 2} / 5
+          {movie.vote_average / 2} / 5</div>
           <div>
             <Favourite />
           </div>
@@ -152,24 +157,22 @@ export default function Movie() {
   };
 
   useEffect(() => {
-    fetchUserData().then((data) => {
-      setUserData(data);
-    })
-    .catch((error) => console.error(error));
+    fetchUserData()
+      .then((data) => {
+        setUserData(data);
+        fetchFavourite(urlInfo.id, data.user_id).then((data) => {
+          setFavouriteStatus(data);
+        });
+      })
+      .catch((error) => console.error(error));
+
     Search(urlInfo.id);
+
     fetchReviews(urlInfo.id)
       .then((data) => {
         setReviews(data);
       })
       .catch((error) => console.error(error));
-    fetchFavourite(urlInfo.id, userData.user_id)
-        .then((data) => {
-          setFavouriteStatus(data);
-          if (!data) {
-            setClicked(false);
-          }
-        })
-        .catch((error) => console.error(error));
   }, []);
 
   return (

@@ -91,7 +91,7 @@ export async function addToGroup(body) {
 
 export async function requestToGroupJoin(body) {
     const result = await pool.query(
-      'INSERT INTO Group_Request (user_id, group_id) VALUES($1, $2) RETURNING *;',
+      'INSERT INTO group_request (user_id, group_id) VALUES ($1, $2)',
     [body.user_id, body.group_id]
   );
   return result;
@@ -107,3 +107,19 @@ export async function getGroupsByUserId(userId) {
   );
   return result.rows;
 }
+export async function getGroupRequests(id) {
+    const result = await pool.query(
+      'SELECT * FROM Group_Request WHERE group_id = $1;',
+    [id]
+  );
+  return result.rows;
+}
+
+export async function deleteGroupRequest(id) {
+    const result = await pool.query(
+      'DELETE FROM Group_Request WHERE request_id = $1 RETURNING *;',
+    [id]
+  );
+  return result.rows;
+}
+

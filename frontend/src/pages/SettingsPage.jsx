@@ -176,7 +176,7 @@ export default function SettingsPage() {
         }}
       >
         <div className="w-[150px] h-[150px] border border-gray-400 flex justify-center items-center">
-          PROFILE PIC
+          <h3>PROFILE PIC</h3>
         </div>
 
         <br />
@@ -233,7 +233,13 @@ export default function SettingsPage() {
 
         <h3>Change password</h3>
 
-        <label>New password:</label>
+        <label
+          style={{
+            color: "white",
+          }}
+        >
+          New password:{" "}
+        </label>
         <input
           type="password"
           value={newPassword}
@@ -244,7 +250,13 @@ export default function SettingsPage() {
         <br />
         <br />
 
-        <label>Old password:</label>
+        <label
+          style={{
+            color: "white",
+          }}
+        >
+          Old password:{" "}
+        </label>
         <input
           type="password"
           value={oldPassword}
@@ -254,8 +266,13 @@ export default function SettingsPage() {
 
         <br />
         <br />
-
-        <label>Old password again:</label>
+        <label
+          style={{
+            color: "white",
+          }}
+        >
+          Old password again:
+        </label>
         <input
           type="password"
           value={confirmOld}

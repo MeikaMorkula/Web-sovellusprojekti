@@ -2,14 +2,19 @@
 .container {
   display: flex;
   flex-direction: column;
+  
 }
 .review {
   width: 100%;
   display: flex;
   flex-direction: row;
   text-align: center;
-  border: 3px solid;
-  border-color: #8F8f8f;
+  border-radius: 14px;
+  padding:20px;
+  color: #eaeaea;
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 .topBox {
   padding: 4px;
@@ -32,6 +37,8 @@
   padding: 4px;
 }
 .pagination {
+  color: white;
+  font-size: 30px;
   display: flex;
   list-style-type: none;
   gap: 30px;

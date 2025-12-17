@@ -4,12 +4,10 @@
 }
 .side {
   flex: 20%;
-  background-color: #f1f1f1;
   padding: 20px;
 }
 .main {
   flex: 80%;
-  background-color: #ffffff;
   padding: 20px;
 }
 .img {
@@ -65,4 +63,7 @@
     }
     .reviewRatingInput {
         width: 50px
+    }
+    .ratingText {
+      color: white;
     }

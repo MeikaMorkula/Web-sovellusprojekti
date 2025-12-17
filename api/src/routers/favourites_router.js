@@ -12,7 +12,7 @@ const favouriteRouter = Router();
 
 favouriteRouter.get("/getFavourites/:id", getFavourites);
 favouriteRouter.post("/getFavourite", getFavourite);
-favouriteRouter.post("/addFavourite", addFavourite);
+favouriteRouter.post("/addFavourite", authenticateToken, addFavourite);
 favouriteRouter.delete("/deleteFavourite/:id", deleteFavourite);
 favouriteRouter.get("/public/:username", getFavouritesByUsername);
 

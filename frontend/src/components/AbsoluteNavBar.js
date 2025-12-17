@@ -16,9 +16,16 @@ import { Link, useNavigate } from "react-router-dom";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import { styled } from "@mui/system";
 const pages = ["Home", "Search", "Groups", "Reviews", "NewReleases"];
 
 import { userLoggedIn } from "../utils/loggedIn.js";
+
+const CustomMenu = styled(Menu)(({ theme }) => ({
+  "& .MuiPaper-root": {
+    backgroundColor: "#1f1f1f",
+  },
+}));
 
 const settings = [
   { name: "Profile", icon: <AccountCircleIcon /> },
@@ -172,7 +179,7 @@ function AbsoluteNavBar() {
                   </IconButton>
                 </Tooltip>
 
-                <Menu
+                <CustomMenu
                   anchorEl={anchorElUser}
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
@@ -218,7 +225,7 @@ function AbsoluteNavBar() {
                       )}
                     </MenuItem>
                   ))}
-                </Menu>
+                </CustomMenu>
               </>
             ) : (
               <Button
