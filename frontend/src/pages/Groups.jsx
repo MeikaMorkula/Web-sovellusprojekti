@@ -48,6 +48,7 @@ export default function Groups() {
             color="success"
               onClick={() =>
                 requestGroupJoin(userID.id, group.group_id).then((data) => {
+                  alert("Group request sent");
                 })
               }
             >

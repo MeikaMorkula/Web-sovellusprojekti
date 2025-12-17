@@ -7,7 +7,9 @@ import {
   addGroupFavouriteMovie,
   getGroupIcon,
   requestToGroupJoin,
-  addToGroup
+  addToGroup,
+  getGroupRequests,
+  deleteGroupRequest,
 } from "../models/group_model.js";
 
 export async function getGroups(req, res, next) {
@@ -97,6 +99,24 @@ export async function requestGroupJoin(req, res, next) {
 export async function addUserToGroup(req, res, next) {
   try {
     const response = await addToGroup(req.body);
+    res.json(response);
+  } catch (err) {
+    next(err);
+  } 
+}
+
+export async function fetchGroupRequests(req, res, next) {
+  try {
+    const response = await getGroupRequests(req.params.id);
+    res.json(response);
+  } catch (err) {
+    next(err);
+  } 
+}
+
+export async function removeGroupRequest(req, res, next) {
+  try {
+    const response = await deleteGroupRequest(req.params.id);
     res.json(response);
   } catch (err) {
     next(err);

@@ -96,4 +96,19 @@ export async function requestToGroupJoin(body) {
   return result;
 }
 
+export async function getGroupRequests(id) {
+    const result = await pool.query(
+      'SELECT * FROM Group_Request WHERE group_id = $1;',
+    [id]
+  );
+  return result.rows;
+}
+
+export async function deleteGroupRequest(id) {
+    const result = await pool.query(
+      'DELETE FROM Group_Request WHERE request_id = $1 RETURNING *;',
+    [id]
+  );
+  return result.rows;
+}
 

@@ -39,7 +39,7 @@ export default function Movie() {
 
   const Favourite = () => {
     if (!userData) return;
-
+    if (favouriteStatus.user_id === userData.user_id) {setClicked(false);}
     const handleClick = () => {
       if (clicked == false) {
         console.log("delete");
@@ -53,17 +53,13 @@ export default function Movie() {
           poster_path: movie.poster_path,
           movie_name: movie.title,
         });
-        fetchFavourite(urlInfo.id, userData.user_id)
-        .then((data) => {
-          setFavouriteStatus(data);
-          if (!data) {
-            setClicked(false);
-          }
-        })
-        .catch((error) => console.error(error));
       }
       setClicked(!clicked);
-      
+      fetchFavourite(urlInfo.id, userData.user_id)
+        .then((data) => {
+          setFavouriteStatus(data);
+        })
+        .catch((error) => console.error(error));
     };
 
     return (
@@ -154,22 +150,21 @@ export default function Movie() {
   useEffect(() => {
     fetchUserData().then((data) => {
       setUserData(data);
+      fetchFavourite(urlInfo.id, data.user_id)
+        .then((data) => {
+          setFavouriteStatus(data);
+        })
+        .catch((error) => console.error(error));
     })
     .catch((error) => console.error(error));
+
     Search(urlInfo.id);
+
     fetchReviews(urlInfo.id)
       .then((data) => {
         setReviews(data);
       })
       .catch((error) => console.error(error));
-    fetchFavourite(urlInfo.id, userData.user_id)
-        .then((data) => {
-          setFavouriteStatus(data);
-          if (!data) {
-            setClicked(false);
-          }
-        })
-        .catch((error) => console.error(error));
   }, []);
 
   return (
