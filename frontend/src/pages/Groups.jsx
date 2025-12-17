@@ -30,6 +30,13 @@ export default function Groups() {
     const navigate = useNavigate();
     return (
       <div className={styles.container}>
+        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "20px" }}>
+           <CustomButton
+             text="Create group"
+             color="success"
+            onClick={() => navigate("/creategroup")}
+            />
+        </div>
         <div className={styles.groupsBox}>
         {groups.map((group) => (
           <div key={group.group_id} className={styles.groupsCard}>
