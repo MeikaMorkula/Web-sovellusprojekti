@@ -9,7 +9,7 @@ import {
   fetchGroupIcon,
   requestGroupJoin,
   addUserToGroup,
-  getUserGroups
+  getUserGroups,
   fetchGroupRequests,
   removeGroupRequest,
 } from "../controllers/group_controller.js";
