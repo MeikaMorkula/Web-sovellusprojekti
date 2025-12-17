@@ -102,3 +102,14 @@ export async function addUserToGroup(req, res, next) {
     next(err);
   } 
 }
+
+import { getGroupsByUserId } from "../models/group_model.js";
+
+export async function getUserGroups(req, res, next) {
+  try {
+    const groups = await getGroupsByUserId(req.params.id);
+    res.json(groups);
+  } catch (err) {
+    next(err);
+  }
+}

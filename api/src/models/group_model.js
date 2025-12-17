@@ -1,7 +1,8 @@
 import pool from "../database.js";
 
 export async function getAll() {
-  const result = await pool.query('SELECT * FROM "Group"');
+  const result = await pool.query(`SELECT g.*, u.username AS owner_username
+            FROM "Group" g JOIN "User" u ON g.group_owner = u.user_id;`);
   return result.rows;
 }
 
@@ -96,4 +97,13 @@ export async function requestToGroupJoin(body) {
   return result;
 }
 
-
+export async function getGroupsByUserId(userId) {
+  const result = await pool.query(
+    `SELECT g.*
+     FROM "Group" g
+     JOIN User_Groups ug ON ug.group_id = g.group_id
+     WHERE ug.user_id = $1`,
+    [userId]
+  );
+  return result.rows;
+}

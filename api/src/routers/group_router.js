@@ -8,7 +8,8 @@ import {
   uploadGroupFavouriteMovie,
   fetchGroupIcon,
   requestGroupJoin,
-  addUserToGroup
+  addUserToGroup,
+  getUserGroups
 } from "../controllers/group_controller.js";
 
 const groupRouter = Router();
@@ -22,6 +23,7 @@ groupRouter.get("/getGroupIcon/:id", fetchGroupIcon);
 groupRouter.post("/uploadGroupFavouriteMovie/:id", uploadGroupFavouriteMovie);
 groupRouter.post("/requestGroupJoin", requestGroupJoin);
 groupRouter.post("/addUserToGroup", addUserToGroup);
+groupRouter.get("/user/:id/groups", getUserGroups);
 
 
 export default groupRouter;

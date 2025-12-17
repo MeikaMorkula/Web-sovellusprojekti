@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Favourites from "./Favourites";
+import defaultUser from "./defaultuser.png";
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState(null);
   const [error, setError] = useState("");
+  const [groups, setGroups] = useState([]);
 
   useEffect(() => {
     async function loadProfile() {
@@ -29,6 +31,16 @@ export default function ProfilePage() {
 
       const data = await profileRes.json();
       setProfile(data);
+
+      const groupsRes = await fetch(`http://localhost:3001/group/user/${meData.id}/groups`, {
+        credentials: "include",
+      });
+      if (!groupsRes.ok) {
+        return;
+      }
+      const groupsData = await groupsRes.json();
+      setGroups(groupsData);
+      
     }
 
     loadProfile();
@@ -79,11 +91,33 @@ export default function ProfilePage() {
         {profile.favourite_movie || "(none)"}
       </p>
 
-      {/* eyhmät placeholder*/}
       <h3>Groups</h3>
-      <ul>
-        <li>No groups yet</li>
-      </ul>
+      {groups.length === 0 ? (
+        <p>No groups yet</p>
+      ) : (
+        <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
+          {groups.map((group) => (
+            <div key={group.group_id} style={{ width: "150px", textAlign: "center" }}>
+              <img
+                src={
+                  group.group_icon
+                    ? `http://localhost:3001/${group.group_icon.replace("public/", "")}`
+                    : defaultUser
+                }
+                alt="group icon"
+                onClick={() => navigate(`/group/${group.group_id}`)}
+                style={{
+                  width: "100%",
+                  height: "120px",
+                  objectFit: "cover",
+                  borderRadius: "8px",
+                }}
+              />
+              <p>{group.group_name}</p>
+            </div>
+          ))}
+        </div>
+      )}
 
       <h3 style={{ marginTop: "40px" }}>
         
