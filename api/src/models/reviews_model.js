@@ -1,12 +1,15 @@
 import pool from "../database.js";
 
 export async function getAll() {
-  const result = await pool.query("SELECT * FROM Reviews;");
+  const result = await pool.query(`SELECT reviews.*, u.profile_picture
+    FROM reviews JOIN "User" u ON reviews.user_id = u.user_id`);
   return result.rows;
 }
 
 export async function getAllFromId(id) {
-  const result = await pool.query("SELECT * FROM Reviews WHERE movie_id = $1;", 
+  const result = await pool.query(`SELECT reviews.*, u.profile_picture
+    FROM reviews JOIN "User" u ON reviews.user_id = u.user_id
+    WHERE reviews.movie_id = $1`, 
     [id]
   );
   return result.rows;

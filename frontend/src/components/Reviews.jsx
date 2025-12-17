@@ -3,6 +3,8 @@ import AbsoluteRating from "./AbsoluteRating.js";
 import styles from "../styles/reviews.module.css";
 import CustomButton from "./CustomButton.js";
 
+import defaultUser from "../pages/defaultuser.png";
+
 export default function Reviews({ body, reviews, addReviewCallback }) {
   const [reviewDescription, setReviewDescription] = useState("");
   const [reviewRating, setReviewRating] = useState(2.5);
@@ -67,7 +69,20 @@ export default function Reviews({ body, reviews, addReviewCallback }) {
                 </tr>
                 <tr>
                   <td>
-                    <span className={styles.bottomBox}>profile picture</span>
+                    <img
+                      src={
+                        review.profile_picture
+                          ? `http://localhost:3001/profile-pictures/${review.profile_picture}`
+                          : defaultUser
+                      }
+                      alt="Profile"
+                      style={{
+                        width: "48px",
+                        height: "48px",
+                        borderRadius: "50%",
+                        objectFit: "cover",
+                      }}
+                    />
                   </td>
                   <td>
                     <span className={styles.review_description}>
