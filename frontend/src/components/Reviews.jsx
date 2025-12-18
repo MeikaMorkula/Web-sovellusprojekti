@@ -3,6 +3,8 @@ import AbsoluteRating from "./AbsoluteRating.js";
 import styles from "../styles/reviews.module.css";
 import CustomButton from "./CustomButton.js";
 
+import defaultUser from "../pages/defaultuser.png";
+
 export default function Reviews({ body, reviews, addReviewCallback }) {
   const [reviewDescription, setReviewDescription] = useState("");
   const [reviewRating, setReviewRating] = useState(2.5);

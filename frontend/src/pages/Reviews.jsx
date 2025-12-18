@@ -7,6 +7,8 @@ import ReactPaginate from "react-paginate";
 import styles from "../styles/reviews.module.css";
 import { useNavigate } from "react-router-dom";
 
+import defaultUser from "./defaultuser.png";
+
 export default function Reviews() {
   const [reviews, setReviews] = useState([]);
   const [page, setPage] = useState(1);
@@ -49,7 +51,20 @@ export default function Reviews() {
                   </tr>
                   <tr>
                     <td>
-                      <span className={styles.bottomBox}>profile picture</span>
+                    <img
+                      src={
+                        review.profile_picture
+                          ? `http://localhost:3001/profile-pictures/${review.profile_picture}`
+                          : defaultUser
+                      }
+                      alt="Profile"
+                      style={{
+                        width: "48px",
+                        height: "48px",
+                        borderRadius: "50%",
+                        objectFit: "cover",
+                      }}
+                    />
                     </td>
                     <td>
                       <img

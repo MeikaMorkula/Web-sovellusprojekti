@@ -1,4 +1,8 @@
+Valmis ER
+<img width="726" height="801" alt="ERKaavio finalfinal drawio" src="https://github.com/user-attachments/assets/6beb449f-44e9-4375-95ff-1d336775f879" />
 
+
+Vanha ER
 <img width="726" height="711" alt="ERKaavio" src="https://github.com/user-attachments/assets/d41b6773-eb37-4905-88a5-407af5a699bc" />
 
 <h1>Docker Fullstack esimerkki</h1>
