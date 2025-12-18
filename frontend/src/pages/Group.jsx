@@ -68,8 +68,8 @@ export default function Group() {
                     request.user_id,
                     group.group_id,
                     request.username,
+                    request.request_id
                   );
-                  removeGroupRequest(request.request_id);
                   window.location.reload();
                 }}
               >

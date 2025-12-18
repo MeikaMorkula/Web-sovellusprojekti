@@ -208,6 +208,7 @@ export async function addToGroup(user_id, group_id, username, request_id) {
         request_id: request_id
       }),
     });
+    removeGroupRequest(request_id);
     const data = await res.json();
     return data;
   } catch (error) {
