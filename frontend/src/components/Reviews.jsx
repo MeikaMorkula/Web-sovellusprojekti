@@ -44,59 +44,6 @@ export default function Reviews({ body, reviews, addReviewCallback }) {
           setReviewRating(2.5);
         }}
       ></CustomButton>
-
-      <h3>Reviews Section</h3>
-      <div className={styles.Container}>
-        {reviews.length > 0 ? (
-          reviews.map((review) => (
-            <div key={review.review_id} className={styles.review}>
-              <table>
-                <tr>
-                  <th>
-                    <span
-                      className={styles.topBox}
-                      // Link to favourites list / profile
-                      //onClick={() => navigate(`/profile/${review.user_id}`)}
-                    >
-                      {review.username}
-                    </span>
-                  </th>
-                  <th>
-                    <span className={styles.topBox}>
-                      <AbsoluteRating value={review.review_rating} readOnly />
-                    </span>
-                  </th>
-                </tr>
-                <tr>
-                  <td>
-                    <img
-                      src={
-                        review.profile_picture
-                          ? `http://localhost:3001/profile-pictures/${review.profile_picture}`
-                          : defaultUser
-                      }
-                      alt="Profile"
-                      style={{
-                        width: "48px",
-                        height: "48px",
-                        borderRadius: "50%",
-                        objectFit: "cover",
-                      }}
-                    />
-                  </td>
-                  <td>
-                    <span className={styles.review_description}>
-                      {review.review_description}
-                    </span>
-                  </td>
-                </tr>
-              </table>
-            </div>
-          ))
-        ) : (
-          <p>No reviews available.</p>
-        )}
-      </div>
     </div>
   );
 }

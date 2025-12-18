@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Favourites from "./Favourites";
 import defaultUser from "./defaultuser.png";
+import { useNavigate } from "react-router-dom";
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState(null);
   const [error, setError] = useState("");
   const [groups, setGroups] = useState([]);
-
+  const navigate = useNavigate();
+  
   useEffect(() => {
     async function loadProfile() {
       const meRes = await fetch("http://localhost:3001/user/me", {
@@ -101,7 +103,7 @@ export default function ProfilePage() {
               <img
                 src={
                   group.group_icon
-                    ? `http://localhost:3001/${group.group_icon.replace("public/", "")}`
+                    ? `http://localhost:3001/profile-pictures/${group.group_icon.replace("public/", "")}`
                     : defaultUser
                 }
                 alt="group icon"

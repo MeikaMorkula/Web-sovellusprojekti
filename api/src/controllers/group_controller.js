@@ -10,7 +10,12 @@ import {
   addToGroup,
   getGroupRequests,
   deleteGroupRequest,
+  getGroupMembers,
+  removeUserFromGroup,
+  getGroupMember,
 } from "../models/group_model.js";
+
+import { upload } from "../middleware/upload.js";
 
 export async function getGroups(req, res, next) {
   try {
@@ -55,12 +60,23 @@ export async function deleteGroup(req, res, next) {
 }
 
 export async function uploadGroupPicture(req, res, next) {
-  try {
-    const response = await addGroupPicture(req.file.path, req.params.id);
-    res.json(response);
-  } catch (err) {
-    next(err);
-  }
+  upload(req, res, async (err) => {
+    if (err) {
+      return res.status(400).json({ error: err.message });
+    }
+
+    try {
+      const iconpath = req.file.filename;
+      const result = await addGroupPicture(iconpath, req.params.id);
+
+      res.json({
+        message: "File upload successfull",
+        file: req.file,
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
 }
 
 export async function fetchGroupIcon(req, res, next) {
@@ -127,6 +143,33 @@ export async function fetchGroupRequests(req, res, next) {
 export async function removeGroupRequest(req, res, next) {
   try {
     const response = await deleteGroupRequest(req.params.id);
+    res.json(response);
+  } catch (err) {
+    next(err);
+  } 
+}
+
+export async function fetchGroupMembers(req, res, next) {
+  try {
+    const response = await getGroupMembers(req.params.id);
+    res.json(response);
+  } catch (err) {
+    next(err);
+  } 
+}
+
+export async function removeFromGroup(req, res, next) {
+  try {
+    const response = await removeUserFromGroup(req.body);
+    res.json(response);
+  } catch (err) {
+    next(err);
+  } 
+}
+
+export async function fetchGroupMember(req, res, next) {
+  try {
+    const response = await getGroupMember(req.body);
     res.json(response);
   } catch (err) {
     next(err);
