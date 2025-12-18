@@ -55,7 +55,7 @@ export default function CreateGroup() {
       const fd = new FormData();
       fd.append("profilePicture", iconFile);
 
-      const res = await fetch(`http://localhost:3001/group/${userData.user_id}/uploads`, {
+      const res = await fetch(`http://localhost:3001/group/${newGroup.group_id}/uploads`, {
         method: "PUT",
         credentials: "include",
         body: fd,
