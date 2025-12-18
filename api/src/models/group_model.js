@@ -18,10 +18,11 @@ export async function addOne(group) {
   const group_favourite_movie = group.group_favourite_movie || null;
 
   const result = await pool.query(
-    'INSERT INTO "Group" (group_name, group_owner, group_icon, group_description, group_favourite_movie) VALUES($1, $2, $3, $4, $5) RETURNING *;',
+    'INSERT INTO "Group" (group_name, group_owner, owner_username, group_icon, group_description, group_favourite_movie) VALUES($1, $2, $3, $4, $5, $6) RETURNING *;',
     [
       group.group_name,
       group.group_owner,
+      group.owner_username,
       group_icon,
       group.group_description,
       group_favourite_movie,
@@ -83,16 +84,16 @@ export async function addGroupFavouriteMovie(movie_id, id) {
 
 export async function addToGroup(body) {
     const result = await pool.query(
-      'INSERT INTO User_Groups (user_id, group_id) VALUES($1, $2) RETURNING *;',
-    [body.user_id, body.group_id]
+      'INSERT INTO User_Groups (user_id, group_id, username) VALUES($1, $2, $3) RETURNING *;',
+    [body.user_id, body.group_id, body.username]
   );
   return result;
 }
 
 export async function requestToGroupJoin(body) {
     const result = await pool.query(
-      'INSERT INTO group_request (user_id, group_id) VALUES ($1, $2)',
-    [body.user_id, body.group_id]
+      'INSERT INTO group_request (user_id, group_id, username) VALUES ($1, $2, $3)',
+    [body.user_id, body.group_id, body.username]
   );
   return result;
 }
@@ -122,4 +123,29 @@ export async function deleteGroupRequest(id) {
   );
   return result.rows;
 }
+
+export async function getGroupMembers(id) {
+    const result = await pool.query(
+      'SELECT * FROM User_Groups WHERE group_id = $1;',
+    [id]
+  );
+  return result.rows;
+}
+
+export async function getGroupMember(body) {
+    const result = await pool.query(
+      'SELECT * FROM User_Groups WHERE (user_id = $1 AND group_id = $2);',
+    [body.user_id, body.group_id]
+  );
+  return result.rows;
+}
+
+export async function removeUserFromGroup(body) {
+    const result = await pool.query(
+      'DELETE FROM User_Groups WHERE (user_id = $1 AND group_id = $2);',
+    [body.user_id, body.group_id]
+  );
+  return result.rows;
+}
+
 

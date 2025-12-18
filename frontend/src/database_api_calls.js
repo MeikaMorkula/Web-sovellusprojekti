@@ -8,10 +8,14 @@ export async function fetchUserData() {
 
     const meData = await meRes.json();
 
+    if (meRes.status === 401) {
+      return meRes.status;
+    }
+
     const profileRes = await fetch(`http://localhost:3001/user/${meData.id}`, {
       credentials: "include",
     });
-    
+
     const data = await profileRes.json();
     return data;
   } catch (error) {
@@ -121,7 +125,7 @@ export async function addReview(review) {
         review_description: review.review_description,
         movie_id: review.movie_id,
         poster_path: review.poster_path,
-        movie_name: review.movie_name
+        movie_name: review.movie_name,
       }),
     });
     console.log("Review added");
@@ -152,7 +156,7 @@ export async function fetchGroup(id) {
   }
 }
 
-export async function requestGroupJoin(user_id, group_id) {
+export async function requestGroupJoin(user_id, group_id, username) {
   try {
     const res = await fetch(API_URL + `/group/requestGroupJoin`, {
       method: "POST",
@@ -163,6 +167,7 @@ export async function requestGroupJoin(user_id, group_id) {
       body: JSON.stringify({
         user_id: user_id,
         group_id: group_id,
+        username: username,
       }),
     });
     const data = await res.json();
@@ -188,7 +193,7 @@ export async function fetchGroupRequests(group_id) {
   }
 }
 
-export async function addToGroup(user_id, group_id) {
+export async function addToGroup(user_id, group_id, username, request_id) {
   try {
     const res = await fetch(API_URL + `/group/addUserToGroup`, {
       method: "POST",
@@ -199,6 +204,8 @@ export async function addToGroup(user_id, group_id) {
       body: JSON.stringify({
         user_id: user_id,
         group_id: group_id,
+        username: username,
+        request_id: request_id
       }),
     });
     const data = await res.json();
@@ -208,7 +215,6 @@ export async function addToGroup(user_id, group_id) {
   }
 }
 
-
 export async function removeGroupRequest(id) {
   try {
     const res = await fetch(API_URL + `/group/removeGroupRequest/` + id, {
@@ -217,6 +223,62 @@ export async function removeGroupRequest(id) {
         "Content-Type": "application/json",
       },
       credentials: "include",
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function fetchGroupMembers(id) {
+  try {
+    const res = await fetch(API_URL + `/group/fetchGroupMembers/` + id, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function removeUserFromGroup(user_id, group_id) {
+  try {
+    const res = await fetch(API_URL + `/group/removeFromGroup`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        user_id: user_id,
+        group_id: group_id,
+      })
+    });
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function fetchGroupMember(group_id, user_id) {
+  try {
+    const res = await fetch(API_URL + `/group/fetchGroupMember`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        user_id: user_id,
+        group_id: group_id,
+      })
     });
     const data = await res.json();
     return data;

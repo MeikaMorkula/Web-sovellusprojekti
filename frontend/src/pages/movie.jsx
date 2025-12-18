@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { searchMovieById } from "./TMDB_api_calls.js";
+import { searchMovieById } from "../TMDB_api_calls.js";
 import {
   fetchFavourite,
   fetchReviews,
@@ -8,12 +8,13 @@ import {
   deleteFavourite,
   addFavourite,
   fetchUserData,
-} from "./database_api_calls.js";
-import styles from "./styles/movie.module.css";
-import AbsoluteRating from "./components/AbsoluteRating.js";
-import FavouriteButton from "./components/FavouriteButton.js";
-import Reviews from "./components/Reviews.jsx";
-import CustomButton from "./components/CustomButton.js";
+} from "../database_api_calls.js";
+import styles from "../styles/movie.module.css";
+import reviewStyles from "../styles/reviews.module.css";
+import AbsoluteRating from "../components/AbsoluteRating.js";
+import FavouriteButton from "../components/FavouriteButton.js";
+import Reviews from "../components/Reviews.jsx";
+import CustomButton from "../components/CustomButton.js";
 
 export default function Movie() {
   const POSTER_URL = "https://image.tmdb.org/t/p/w500";
@@ -22,7 +23,6 @@ export default function Movie() {
   const [reviews, setReviews] = useState([]);
   const [favouriteStatus, setFavouriteStatus] = useState([]);
   const [userData, setUserData] = useState([]);
-  const [clicked, setClicked] = useState(true);
   let urlInfo = useParams();
 
   const [coolLarge, setCoolLarge] = useState(false);
@@ -38,13 +38,14 @@ export default function Movie() {
   };
 
   const Favourite = () => {
-    if (!userData) return;
+    if (userData === 401) return null;
     if (favouriteStatus.user_id === parseInt(userData.user_id)) {
       return (
         <button
           onClick={() => {
             console.log("delete favourite");
             deleteFavourite(favouriteStatus.favourite_id);
+            window.location.reload();
           }}
         >
           Remove
@@ -63,6 +64,7 @@ export default function Movie() {
               poster_path: movie.poster_path,
               movie_name: movie.title,
             });
+            window.location.reload();
           }}
         >
           Add
@@ -70,15 +72,22 @@ export default function Movie() {
         </button>
       );
     }
+  };
 
+  const ReviewFetch = () => {
+    if (userData === 401) return null;
     return (
-      <button
-        onClick={() => {
-          handleClick();
+      <Reviews
+        body={{
+          user_id: userData.user_id,
+          movie_id: urlInfo.id,
+          poster_path: movie.poster_path,
+          movie_name: movie.title,
+          username: userData.username,
         }}
-      >
-        <FavouriteButton />
-      </button>
+        reviews={reviews}
+        addReviewCallback={addReview}
+      />
     );
   };
 
@@ -87,12 +96,13 @@ export default function Movie() {
       <div className={styles.container} key={movie.id}>
         <div className={styles.side}>
           <div className={styles.ratingText}>
-          <AbsoluteRating
-            value={movie.vote_average / 2}
-            readOnly
-            precision={0.1}
-          />
-          {movie.vote_average / 2} / 5</div>
+            <AbsoluteRating
+              value={movie.vote_average / 2}
+              readOnly
+              precision={0.1}
+            />
+            {movie.vote_average / 2} / 5
+          </div>
           <div>
             <Favourite />
           </div>
@@ -123,17 +133,57 @@ export default function Movie() {
           <h2>{movie.title}</h2>
           <p>{movie.overview}</p>
           <br></br>
-          <Reviews
-            body={{
-              user_id: userData.user_id,
-              movie_id: urlInfo.id,
-              poster_path: movie.poster_path,
-              movie_name: movie.title,
-              username: userData.username,
-            }}
-            reviews={reviews}
-            addReviewCallback={addReview}
-          />
+          <ReviewFetch />
+          <h3>Reviews Section</h3>
+          <div className={reviewStyles.Container}>
+            {reviews.length > 0 ? (
+              reviews.map((review) => (
+                <div key={review.review_id} className={reviewStyles.review}>
+                  <table>
+                    <tr>
+                      <th>
+                        <span
+                          className={reviewStyles.topBox}
+                        >
+                          {review.username}
+                        </span>
+                      </th>
+                      <th>
+                        <span className={reviewStyles.topBox}>
+                          <AbsoluteRating
+                            value={review.review_rating}
+                            readOnly
+                          />
+                        </span>
+                      </th>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span className={reviewStyles.bottomBox}>
+                          <img
+                            src={`http://localhost:3001/profile-pictures/${userData.profile_picture}`}
+                            alt="Profile"
+                            style={{
+                              width: "100px",
+                              height: "100%",
+                              objectFit: "cover",
+                            }}
+                          />
+                        </span>
+                      </td>
+                      <td>
+                        <span className={reviewStyles.review_description}>
+                          {review.review_description}
+                        </span>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              ))
+            ) : (
+              <p>No reviews available.</p>
+            )}
+          </div>
         </div>
         <div
           className={`${styles.cool} ${coolLarge ? styles.show : ""}`}

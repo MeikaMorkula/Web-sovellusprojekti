@@ -10,6 +10,9 @@ import {
   addToGroup,
   getGroupRequests,
   deleteGroupRequest,
+  getGroupMembers,
+  removeUserFromGroup,
+  getGroupMember,
 } from "../models/group_model.js";
 
 import { upload } from "../middleware/upload.js";
@@ -140,6 +143,33 @@ export async function fetchGroupRequests(req, res, next) {
 export async function removeGroupRequest(req, res, next) {
   try {
     const response = await deleteGroupRequest(req.params.id);
+    res.json(response);
+  } catch (err) {
+    next(err);
+  } 
+}
+
+export async function fetchGroupMembers(req, res, next) {
+  try {
+    const response = await getGroupMembers(req.params.id);
+    res.json(response);
+  } catch (err) {
+    next(err);
+  } 
+}
+
+export async function removeFromGroup(req, res, next) {
+  try {
+    const response = await removeUserFromGroup(req.body);
+    res.json(response);
+  } catch (err) {
+    next(err);
+  } 
+}
+
+export async function fetchGroupMember(req, res, next) {
+  try {
+    const response = await getGroupMember(req.body);
     res.json(response);
   } catch (err) {
     next(err);

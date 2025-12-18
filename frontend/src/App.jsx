@@ -5,7 +5,7 @@ import Search from "./Search.jsx";
 import Home from './home.jsx';
 import LoginPage from "./pages/LoginPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
-import Movie from "./movie.jsx";
+import Movie from "./pages/movie.jsx";
 import Groups from "./pages/Groups.jsx";
 import Group from "./pages/Group.jsx";
 import NewReleases from "./newReleases.jsx";

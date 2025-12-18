@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 export default function CreateGroup() {
-  const [userId, setUserId] = useState(null);
+  const [userData, setUserData] = useState(null);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [iconFile, setIconFile] = useState(null);
@@ -12,30 +12,40 @@ export default function CreateGroup() {
         credentials: "include",
       });
 
+      const meData = await meRes.json();
+
       if (meRes.status === 401) {
         alert("You must be logged in.");
         window.location.href = "http://localhost:3000/login";
         return;
       }
 
-      const meData = await meRes.json();
-      setUserId(meData.id);
+      const profileRes = await fetch(
+        `http://localhost:3001/user/${meData.id}`,
+        {
+          credentials: "include",
+        }
+      );
+
+      const data = await profileRes.json();
+      setUserData(data);
     }
 
     loadUser();
   }, []);
 
- const handleCreate = async () => {
-    if (!userId) return;
-    console.log(iconFile);
+  const handleCreate = async () => {
+    if (!userData) return;
+  
     const groupRes = await fetch("http://localhost:3001/group/addGroup", {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         group_name: name,
-        group_owner: userId,
+        group_owner: userData.user_id,
         group_description: description,
+        owner_username: userData.username,
       }),
     });
 
@@ -45,17 +55,16 @@ export default function CreateGroup() {
       const fd = new FormData();
       fd.append("profilePicture", iconFile);
 
-      const res = await fetch(`http://localhost:3001/group/${userId}/uploads`, {
+      const res = await fetch(`http://localhost:3001/group/${userData.user_id}/uploads`, {
         method: "PUT",
         credentials: "include",
         body: fd,
         
       });
       const data = await res.json();
-      console.log(data);
     }
     alert("Group created successfully");
-   
+    window.location.href = "http://localhost:3000";
   };
 
   return (
@@ -93,10 +102,7 @@ export default function CreateGroup() {
 
         <label>
           Group name
-          <input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+          <input value={name} onChange={(e) => setName(e.target.value)} />
         </label>
 
         <label>

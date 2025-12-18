@@ -85,18 +85,6 @@ export default function Reviews() {
 
   return (
     <div>
-      <ReactPaginate
-        className={styles.pagination}
-        breakLabel="..."
-        nextLabel="&#8594;"
-        onPageChange={(event) => {
-          setPage(event.selected + 1);
-        }}
-        pageRangeDisplayed={5}
-        pageCount={pageCount}
-        previousLabel="&#8592;"
-        renderOnZeroPageCount={null}
-      />
       <Reviews />
     </div>
   );

@@ -6,8 +6,9 @@ import styles from "../styles/groups.module.css";
 import defaultUser from "./defaultuser.png";
 
 export default function Groups() {
+  const [userData, setUserData] = useState(null);
   const [groups, setGroup] = useState([]);
-  const [userID, setId] = useState(null);
+  const [error, setError] = useState("");
 
   const fetchGroupData = async () => {
     fetchGroups().then((data) => {
@@ -20,14 +21,29 @@ export default function Groups() {
         credentials: "include",
       });
 
+      if (meRes.status === 401) {
+        setError("You must be logged in to view groups.");
+        return;
+      }
+
       const meData = await meRes.json();
 
-    
-      setId(meData);
+      const profileRes = await fetch(
+        `http://localhost:3001/user/${meData.id}`,
+        {
+          credentials: "include",
+        }
+      );
+
+      const data = await profileRes.json();
+      setUserData(data);
   }
+
+
 
   const Groups = () => {
     const navigate = useNavigate();
+    if (error) return <p>{error}</p>;
     return (
       <div className={styles.container}>
         <div className={styles.groupsBox}>
@@ -60,7 +76,7 @@ export default function Groups() {
             text="request to join"
             color="success"
               onClick={() =>
-                requestGroupJoin(userID.id, group.group_id).then((data) => {
+                requestGroupJoin(userData.user_id, group.group_id, userData.username).then(() => {
                   alert("Group request sent");
                 })
               }

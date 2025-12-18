@@ -96,7 +96,7 @@ useEffect(() => {
     <div>
       {favourites.length > 0 && (
         <h2 style={{ marginBottom: "20px" }}>
-          {favourites[0].username}'s favourite movies
+             Favourite movies
           <button
             type="button"
             onClick={() => {
